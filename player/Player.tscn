@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://de271tm4kog24"]
+
+[ext_resource type="Script" path="res://src/Player.cs" id="1_dnad5"]
+[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="2_v2pqu"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_tvfjf"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1uw33"]
+radius = 12.0
+height = 50.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("moveComponent")]
+script = ExtResource("1_dnad5")
+moveComponent = NodePath("Move")
+
+[node name="Move" parent="." instance=ExtResource("2_v2pqu")]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(25, 50)
+mesh = SubResource("QuadMesh_tvfjf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1uw33")
+
+[node name="Camera2D" type="Camera2D" parent="."]
