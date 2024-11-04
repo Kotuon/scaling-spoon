@@ -17,6 +17,8 @@ public partial class Move : Component
     public float friction { get; set; } = 0.2f;
     [Export]
     public float acceleration { get; set; } = 0.25f;
+    [Export]
+    public float airControl { get; set; } = 0.5f;
 
     // Jumping
     //// Coyote Time
@@ -30,11 +32,10 @@ public partial class Move : Component
     public float jumpBufferTime { get; set; } = 0.1f;
     //// General
     [Export]
-    public float jumpSpeed { get; set; } = -500.0f;
+    public float jumpSpeed { get; set; } = -700.0f;
     private bool hasJumpInput = false;
 
     private bool _canMove { get; set; } = true;
-    public CharacterBase parent;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -82,13 +83,22 @@ public partial class Move : Component
         float inputDirection = Input.GetAxis("walk_left", "walk_right");
         if (inputDirection != 0.0f)
         {
+            float accelerationToUse = acceleration;
+            if (!parent.IsOnFloor())
+            {
+                accelerationToUse *= airControl;
+            }
             newVelocity.X = Mathf.Lerp(currVelocity.X,
                                        inputDirection * maxWalkSpeed,
-                                       acceleration);
+                                       accelerationToUse);
         }
         else if (parent.IsOnFloor())
         {
             newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, friction);
+        }
+        else
+        {
+            newVelocity.X = currVelocity.X;
         }
 
         parent.SetVelocity(newVelocity);
@@ -107,7 +117,6 @@ public partial class Move : Component
 
         if (Input.IsActionJustPressed("jump"))
         {
-            GD.Print("Jump");
             hasJumpInput = true;
             if (!newOnFloorResult)
             {
@@ -117,7 +126,6 @@ public partial class Move : Component
 
         if ((newOnFloorResult || canCoyoteJump) && hasJumpInput)
         {
-            GD.Print("Jump set velocity");
             hasJumpInput = false;
             canCoyoteJump = false;
 

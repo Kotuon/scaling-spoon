@@ -2,9 +2,11 @@ namespace Game.Component;
 
 using Godot;
 using System;
+using Game.Entity;
 
 public partial class Component : Node2D
 {
+    public CharacterBase parent;
     private bool _enabled = true;
     
     [Export]
