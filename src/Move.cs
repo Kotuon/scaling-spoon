@@ -32,7 +32,7 @@ public partial class Move : Component
     public float jumpBufferTime { get; set; } = 0.1f;
     //// General
     [Export]
-    public float jumpSpeed { get; set; } = -700.0f;
+    public float jumpSpeed { get; set; } = -1000.0f;
     private bool hasJumpInput = false;
 
     private bool _canMove { get; set; } = true;
@@ -76,8 +76,7 @@ public partial class Move : Component
         {
             newVelocity.Y =
                 currVelocity.Y +
-                parent.GetGravity().Y * (float)delta;
-
+                parent.gravity.Y * (float)delta;
         }
 
         float inputDirection = Input.GetAxis("walk_left", "walk_right");
@@ -85,21 +84,15 @@ public partial class Move : Component
         {
             float accelerationToUse = acceleration;
             if (!parent.IsOnFloor())
-            {
                 accelerationToUse *= airControl;
-            }
             newVelocity.X = Mathf.Lerp(currVelocity.X,
                                        inputDirection * maxWalkSpeed,
                                        accelerationToUse);
         }
         else if (parent.IsOnFloor())
-        {
             newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, friction);
-        }
         else
-        {
             newVelocity.X = currVelocity.X;
-        }
 
         parent.SetVelocity(newVelocity);
     }
@@ -119,9 +112,7 @@ public partial class Move : Component
         {
             hasJumpInput = true;
             if (!newOnFloorResult)
-            {
                 jumpBufferTimer.Start();
-            }
         }
 
         if ((newOnFloorResult || canCoyoteJump) && hasJumpInput)
