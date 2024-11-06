@@ -16,6 +16,8 @@ public partial class Move : Component
     [Export]
     public float friction { get; set; } = 0.2f;
     [Export]
+    public float airDrag { get; set; } = 0.01f;
+    [Export]
     public float acceleration { get; set; } = 0.25f;
     [Export]
     public float airControl { get; set; } = 0.5f;
@@ -43,12 +45,12 @@ public partial class Move : Component
         AddChild(coyoteTimer);
         coyoteTimer.WaitTime = coyoteTime;
         coyoteTimer.OneShot = true;
-        coyoteTimer.Timeout += () => { canCoyoteJump = false; GD.Print("Coyote timer"); };
+        coyoteTimer.Timeout += () => { canCoyoteJump = false; };
 
         AddChild(jumpBufferTimer);
         jumpBufferTimer.WaitTime = jumpBufferTime;
         jumpBufferTimer.OneShot = true;
-        jumpBufferTimer.Timeout += () => { hasJumpInput = false; GD.Print("Jump Buffer"); };
+        jumpBufferTimer.Timeout += () => { hasJumpInput = false; };
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -85,6 +87,7 @@ public partial class Move : Component
             float accelerationToUse = acceleration;
             if (!parent.IsOnFloor())
                 accelerationToUse *= airControl;
+
             newVelocity.X = Mathf.Lerp(currVelocity.X,
                                        inputDirection * maxWalkSpeed,
                                        accelerationToUse);
@@ -92,7 +95,8 @@ public partial class Move : Component
         else if (parent.IsOnFloor())
             newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, friction);
         else
-            newVelocity.X = currVelocity.X;
+            newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, airDrag);
+        // newVelocity.X = currVelocity.X;
 
         parent.SetVelocity(newVelocity);
     }

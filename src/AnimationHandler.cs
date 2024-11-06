@@ -10,6 +10,8 @@ public partial class AnimationHandler : Component
     public AnimationPlayer animationPlayer;
     [Export]
     public Sprite2D sprite;
+    [Export]
+    public CpuParticles2D landingParticles;
 
     private bool lastOnFloor = true;
     // Called when the node enters the scene tree for the first time.
@@ -37,8 +39,12 @@ public partial class AnimationHandler : Component
                 {
                     if (Mathf.Abs(currVelocity.X) > 300.0f)
                         animationPlayer.Play("land_roll");
-                    else
+                    else {
                         animationPlayer.Play("land_still");
+                        landingParticles.InitialVelocityMax = currVelocity.Y;
+                        landingParticles.InitialVelocityMin = 
+                            currVelocity.Y / 2.0f;
+                    }
                 }
                 else
                     animationPlayer.Play("fall");
@@ -52,30 +58,6 @@ public partial class AnimationHandler : Component
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-
-        // bool currOnFloor = parent.IsOnFloor();
-        // Godot.Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
-
-        // if (!currOnFloor && !lastOnFloor && currVelocity.Y > 0.0f)
-        // {
-        //     float time = animationPlayer.GetAnimation("land_still").Length / 4.0f;
-
-        //     float distance = (currVelocity.Y * time) +
-        //         0.5f * (parent.GetGravity().Y * (time * time));
-
-        //     var spaceState = GetWorld2D().DirectSpaceState;
-
-        //     var query =
-        //         PhysicsRayQueryParameters2D.Create(parent.Position,
-        //             parent.Position + (Vector2.Down * distance));
-
-        //     var result = spaceState.IntersectRay(query);
-        //     if (result.Count > 0)
-        //     {
-        //         animationPlayer.Play("land");
-        //         GD.Print("Land");
-        //     }
-        // }
     }
 
     private void UpdateWalkAnimation(Vector2 currVelocity)
