@@ -3,34 +3,36 @@
 [ext_resource type="PackedScene" uid="uid://cxh6v761vjx5h" path="res://terrain/Floor.tscn" id="1_bgf8l"]
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="2_ql6sj"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Level" type="Node2D"]
 
-[node name="Floor" parent="." instance=ExtResource("1_bgf8l")]
+[node name="Floors" type="Node2D" parent="."]
+
+[node name="Floor" parent="Floors" instance=ExtResource("1_bgf8l")]
 scale = Vector2(76.72, 1)
 
-[node name="Player" parent="." instance=ExtResource("2_ql6sj")]
-position = Vector2(85, -40)
-
-[node name="Floor2" parent="." instance=ExtResource("1_bgf8l")]
+[node name="Floor2" parent="Floors" instance=ExtResource("1_bgf8l")]
 position = Vector2(192, -113)
 scale = Vector2(2.96, 1)
 
-[node name="Floor3" parent="." instance=ExtResource("1_bgf8l")]
+[node name="Floor3" parent="Floors" instance=ExtResource("1_bgf8l")]
 position = Vector2(369, -199)
 scale = Vector2(2.96, 1)
 
-[node name="Floor4" parent="." instance=ExtResource("1_bgf8l")]
+[node name="Floor4" parent="Floors" instance=ExtResource("1_bgf8l")]
 position = Vector2(532, -261)
 scale = Vector2(2.96, 1)
 
-[node name="Floor5" parent="." instance=ExtResource("1_bgf8l")]
+[node name="Floor5" parent="Floors" instance=ExtResource("1_bgf8l")]
 position = Vector2(685, -348)
 scale = Vector2(2.96, 1)
 
-[node name="Floor6" parent="." instance=ExtResource("1_bgf8l")]
+[node name="Floor6" parent="Floors" instance=ExtResource("1_bgf8l")]
 position = Vector2(833, -424)
 scale = Vector2(2.96, 1)
 
-[node name="Floor7" parent="." instance=ExtResource("1_bgf8l")]
+[node name="Floor7" parent="Floors" instance=ExtResource("1_bgf8l")]
 position = Vector2(991, -523)
 scale = Vector2(2.96, 1)
+
+[node name="Player" parent="." instance=ExtResource("2_ql6sj")]
+position = Vector2(85, -40)

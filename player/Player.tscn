@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://de271tm4kog24"]
 
-[ext_resource type="Script" path="res://src/Player.cs" id="1_dnad5"]
+[ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="2_v2pqu"]
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="3_jstdq"]
 [ext_resource type="Texture2D" uid="uid://bvwb57x4vm01v" path="res://assets/Player/Idle.png" id="3_vqoe2"]
@@ -544,14 +544,14 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yl442"]
 _data = {
-"RESET": SubResource("Animation_87h3t"),
-"fall": SubResource("Animation_dwn75"),
-"idle": SubResource("Animation_vc2uf"),
-"jump": SubResource("Animation_w3pfh"),
-"land_roll": SubResource("Animation_ytdp5"),
-"land_still": SubResource("Animation_cvayu"),
-"run": SubResource("Animation_spgi1"),
-"walk": SubResource("Animation_w17ow")
+&"RESET": SubResource("Animation_87h3t"),
+&"fall": SubResource("Animation_dwn75"),
+&"idle": SubResource("Animation_vc2uf"),
+&"jump": SubResource("Animation_w3pfh"),
+&"land_roll": SubResource("Animation_ytdp5"),
+&"land_still": SubResource("Animation_cvayu"),
+&"run": SubResource("Animation_spgi1"),
+&"walk": SubResource("Animation_w17ow")
 }
 
 [sub_resource type="QuadMesh" id="QuadMesh_tvfjf"]
@@ -570,6 +570,8 @@ moveComponent = NodePath("Move")
 animationHandler = NodePath("AnimationHandler")
 
 [node name="Move" parent="." instance=ExtResource("2_v2pqu")]
+airDrag = 0.02
+jumpSpeed = -750.0
 
 [node name="AnimationHandler" parent="." node_paths=PackedStringArray("animationPlayer", "sprite", "landingParticles") instance=ExtResource("3_jstdq")]
 position = Vector2(170.71, 98.9737)
@@ -585,7 +587,7 @@ hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_yl442")
+&"": SubResource("AnimationLibrary_yl442")
 }
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]

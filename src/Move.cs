@@ -84,19 +84,22 @@ public partial class Move : Component
         float inputDirection = Input.GetAxis("walk_left", "walk_right");
         if (inputDirection != 0.0f)
         {
+            float maxWalkSpeedToUse = maxWalkSpeed;
             float accelerationToUse = acceleration;
             if (!parent.IsOnFloor())
-                accelerationToUse *= airControl;
+            {
+                maxWalkSpeedToUse *= airControl;
+                accelerationToUse *= Mathf.Sqrt(airControl);
+            }
 
             newVelocity.X = Mathf.Lerp(currVelocity.X,
-                                       inputDirection * maxWalkSpeed,
+                                       inputDirection * maxWalkSpeedToUse,
                                        accelerationToUse);
         }
         else if (parent.IsOnFloor())
             newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, friction);
         else
             newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, airDrag);
-        // newVelocity.X = currVelocity.X;
 
         parent.SetVelocity(newVelocity);
     }
