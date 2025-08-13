@@ -10,17 +10,26 @@ public partial class Move : Component
 {
     // Walking
     [Export]
-    public float maxWalkSpeed { get; set; } = 400.0f;
-    public float currWalkSpeed { get; private set; }
-    public float lastWalkSpeed { get; private set; }
+    public float maxRunSpeed { get; set; } = 400.0f;
     [Export]
-    public float friction { get; set; } = 0.2f;
+    public float maxWalkSpeed { get; set; } = 100.0f;
+    public float currMoveSpeed { get; private set; }
+    public float lastMoveSpeed { get; private set; }
+    [Export]
+    public float walkFriction { get; set; } = 0.2f;
+    [Export]
+    public float slideFriction { get; set; } = 0.02f;
     [Export]
     public float airDrag { get; set; } = 0.01f;
     [Export]
     public float acceleration { get; set; } = 0.25f;
     [Export]
+    public float timeToAccelerate { get; set; } = 2.0f;
+    [Export]
     public float airControl { get; set; } = 0.5f;
+
+    private float speedAlpha = 0.0f;
+    public bool isDown = false;
 
     // Jumping
     //// Coyote Time
@@ -56,6 +65,8 @@ public partial class Move : Component
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
+        Label label = (Label)parent.GetNode("SpeedAlphaLabel");
+        label.Text = speedAlpha.ToString();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -76,32 +87,59 @@ public partial class Move : Component
 
         if (!parent.IsOnFloor())
         {
-            newVelocity.Y =
-                currVelocity.Y +
-                parent.gravity.Y * (float)delta;
+            newVelocity.Y = currVelocity.Y + parent.gravity.Y * (float)delta;
         }
 
-        float inputDirection = Input.GetAxis("walk_left", "walk_right");
+        float inputDirection = ProcessInput();
         if (inputDirection != 0.0f)
         {
-            float maxWalkSpeedToUse = maxWalkSpeed;
-            float accelerationToUse = acceleration;
-            if (!parent.IsOnFloor())
-            {
-                maxWalkSpeedToUse *= airControl;
-                accelerationToUse *= Mathf.Sqrt(airControl);
-            }
+            speedAlpha = Mathf.Clamp(speedAlpha +
+                                     (acceleration / timeToAccelerate),
+                                     0.0f, 1.0f);
 
-            newVelocity.X = Mathf.Lerp(currVelocity.X,
-                                       inputDirection * maxWalkSpeedToUse,
-                                       accelerationToUse);
+
+            // Quadratic lerp
+            float lerp1 = Mathf.Lerp(0.0f, inputDirection * maxWalkSpeed,
+                                     speedAlpha);
+
+            float lerp2 = Mathf.Lerp(inputDirection * maxWalkSpeed,
+                                     inputDirection * maxRunSpeed,
+                                     speedAlpha);
+
+            newVelocity.X = Mathf.Lerp(lerp1, lerp2, speedAlpha);
         }
         else if (parent.IsOnFloor())
-            newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, friction);
+        {
+            float friction = isDown ? slideFriction : walkFriction;
+            newVelocity.X = AddDrag(currVelocity, friction);
+        }
         else
-            newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, airDrag);
+        {
+            newVelocity.X = AddDrag(currVelocity, airDrag);
+        }
 
         parent.SetVelocity(newVelocity);
+    }
+
+    private float AddDrag(Godot.Vector2 currVelocity, float dragAmount)
+    {
+        speedAlpha = Mathf.Clamp(speedAlpha -
+                         (acceleration / timeToAccelerate),
+                         0.0f, 1.0f);
+        return Mathf.Lerp(currVelocity.X, 0.0f, dragAmount);
+    }
+
+    private float ProcessInput()
+    {
+        float inputDirection = Input.GetAxis("walk_left", "walk_right");
+        isDown = (Input.GetActionStrength("down") > 0.0f) ? true : false;
+
+        if (isDown)
+        {
+            inputDirection = 0.0f;
+        }
+
+        return inputDirection;
     }
 
     private void UpdateJump()

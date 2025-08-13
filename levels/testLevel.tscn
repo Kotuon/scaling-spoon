@@ -5,32 +5,33 @@
 
 [node name="Level" type="Node2D"]
 
-[node name="Floors" type="Node2D" parent="."]
-
-[node name="Floor" parent="Floors" instance=ExtResource("1_bgf8l")]
+[node name="Floor" parent="." instance=ExtResource("1_bgf8l")]
 scale = Vector2(76.72, 1)
 
-[node name="Floor2" parent="Floors" instance=ExtResource("1_bgf8l")]
+[node name="Platforms" type="Node2D" parent="."]
+position = Vector2(354, 0)
+
+[node name="Floor2" parent="Platforms" instance=ExtResource("1_bgf8l")]
 position = Vector2(192, -113)
 scale = Vector2(2.96, 1)
 
-[node name="Floor3" parent="Floors" instance=ExtResource("1_bgf8l")]
+[node name="Floor3" parent="Platforms" instance=ExtResource("1_bgf8l")]
 position = Vector2(369, -199)
 scale = Vector2(2.96, 1)
 
-[node name="Floor4" parent="Floors" instance=ExtResource("1_bgf8l")]
+[node name="Floor4" parent="Platforms" instance=ExtResource("1_bgf8l")]
 position = Vector2(532, -261)
 scale = Vector2(2.96, 1)
 
-[node name="Floor5" parent="Floors" instance=ExtResource("1_bgf8l")]
+[node name="Floor5" parent="Platforms" instance=ExtResource("1_bgf8l")]
 position = Vector2(685, -348)
 scale = Vector2(2.96, 1)
 
-[node name="Floor6" parent="Floors" instance=ExtResource("1_bgf8l")]
+[node name="Floor6" parent="Platforms" instance=ExtResource("1_bgf8l")]
 position = Vector2(833, -424)
 scale = Vector2(2.96, 1)
 
-[node name="Floor7" parent="Floors" instance=ExtResource("1_bgf8l")]
+[node name="Floor7" parent="Platforms" instance=ExtResource("1_bgf8l")]
 position = Vector2(991, -523)
 scale = Vector2(2.96, 1)
 

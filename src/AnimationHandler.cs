@@ -29,6 +29,11 @@ public partial class AnimationHandler : Component
 
         if (!IsLanding())
         {
+            if (currVelocity.X > 5.0f)
+                sprite.FlipH = false;
+            else if (currVelocity.X < -5.0f)
+                sprite.FlipH = true;
+
             if (currOnFloor && lastOnFloor)
                 UpdateWalkAnimation(currVelocity);
             else if (lastOnFloor)
@@ -39,10 +44,11 @@ public partial class AnimationHandler : Component
                 {
                     if (Mathf.Abs(currVelocity.X) > 300.0f)
                         animationPlayer.Play("land_roll");
-                    else {
+                    else
+                    {
                         animationPlayer.Play("land_still");
                         landingParticles.InitialVelocityMax = currVelocity.Y;
-                        landingParticles.InitialVelocityMin = 
+                        landingParticles.InitialVelocityMin =
                             currVelocity.Y / 2.0f;
                     }
                 }
@@ -50,6 +56,11 @@ public partial class AnimationHandler : Component
                     animationPlayer.Play("fall");
 
             }
+        }
+        else
+        {
+            if (lastOnFloor && !currOnFloor)
+                animationPlayer.Play("jump");
         }
 
         lastOnFloor = currOnFloor;
@@ -62,24 +73,15 @@ public partial class AnimationHandler : Component
 
     private void UpdateWalkAnimation(Vector2 currVelocity)
     {
-        if (currVelocity.X > 5.0f)
-        {
-            sprite.FlipH = false;
+        Move move = (Move)parent.GetNode("Move");
+        float absHorizontalSpeed = Mathf.Abs(currVelocity.X);
 
-            if (currVelocity.X > 100.0f)
-                animationPlayer.Play("run");
-            else
-                animationPlayer.Play("walk");
-        }
-        else if (currVelocity.X < -5.0f)
-        {
-            sprite.FlipH = true;
-
-            if (currVelocity.X < -100.0f)
-                animationPlayer.Play("run");
-            else
-                animationPlayer.Play("walk");
-        }
+        if (move.isDown && absHorizontalSpeed > 50.0f)
+            animationPlayer.Play("slide");
+        else if (absHorizontalSpeed > 300.0f)
+            animationPlayer.Play("run");
+        else if (absHorizontalSpeed > 5.0f)
+            animationPlayer.Play("walk");
         else
             animationPlayer.Play("idle");
     }
