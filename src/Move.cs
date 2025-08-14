@@ -28,6 +28,8 @@ public partial class Move : Component
     [Export]
     public float airControl { get; set; } = 0.5f;
 
+    private Godot.Vector2 force = Godot.Vector2.Zero;
+
     private float speedAlpha = 0.0f;
     public bool isDown = false;
 
@@ -86,12 +88,10 @@ public partial class Move : Component
         Godot.Vector2 currVelocity = parent.GetRealVelocity();
 
         if (!parent.IsOnFloor())
-        {
             newVelocity.Y = currVelocity.Y + parent.gravity.Y * (float)delta;
-        }
 
         float inputDirection = ProcessInput();
-        if (inputDirection != 0.0f)
+        if (!Mathf.IsEqualApprox(inputDirection, 0.0f))
         {
             speedAlpha = Mathf.Clamp(speedAlpha +
                                      (acceleration / timeToAccelerate),
@@ -118,15 +118,17 @@ public partial class Move : Component
             newVelocity.X = AddDrag(currVelocity, airDrag);
         }
 
-        parent.SetVelocity(newVelocity);
+        parent.SetVelocity(newVelocity + force);
+        force = Godot.Vector2.Zero;
     }
 
     private float AddDrag(Godot.Vector2 currVelocity, float dragAmount)
     {
-        speedAlpha = Mathf.Clamp(speedAlpha -
-                         (acceleration / timeToAccelerate),
-                         0.0f, 1.0f);
-        return Mathf.Lerp(currVelocity.X, 0.0f, dragAmount);
+        float result = Mathf.Lerp(currVelocity.X, 0.0f, dragAmount);
+
+        speedAlpha = Mathf.Abs(result) / maxRunSpeed;
+
+        return result;
     }
 
     private float ProcessInput()
@@ -134,10 +136,11 @@ public partial class Move : Component
         float inputDirection = Input.GetAxis("walk_left", "walk_right");
         isDown = (Input.GetActionStrength("down") > 0.0f) ? true : false;
 
+        if (Input.IsActionJustPressed("down"))
+            force = parent.GetRealVelocity().Normalized() * 400.0f;
+
         if (isDown)
-        {
             inputDirection = 0.0f;
-        }
 
         return inputDirection;
     }
@@ -164,6 +167,9 @@ public partial class Move : Component
         {
             hasJumpInput = false;
             canCoyoteJump = false;
+
+            if (isDown)
+                force += parent.GetRealVelocity().Normalized() * 800.0f;
 
             Godot.Vector2 jumpVelocity =
                 new Godot.Vector2(parent.GetRealVelocity().X, jumpSpeed);
