@@ -8,6 +8,11 @@
 [node name="Floor" parent="." instance=ExtResource("1_bgf8l")]
 scale = Vector2(76.72, 1)
 
+[node name="Floor2" parent="." instance=ExtResource("1_bgf8l")]
+position = Vector2(3069, 0)
+rotation = -1.5708
+scale = Vector2(20.52, 1)
+
 [node name="Platforms" type="Node2D" parent="."]
 position = Vector2(354, 0)
 

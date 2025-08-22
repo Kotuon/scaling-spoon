@@ -630,6 +630,7 @@ maxWalkSpeed = 50.0
 airDrag = 0.02
 acceleration = 0.025
 timeToAccelerate = 0.75
+airControl = 700.0
 jumpSpeed = -750.0
 
 [node name="AnimationHandler" parent="." node_paths=PackedStringArray("animationPlayer", "sprite", "landingParticles") instance=ExtResource("3_jstdq")]

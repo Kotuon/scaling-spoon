@@ -13,6 +13,7 @@ public partial class Move : Component
     public float maxRunSpeed { get; set; } = 400.0f;
     [Export]
     public float maxWalkSpeed { get; set; } = 100.0f;
+    private float maxAirSpeed { get; set; } = 1200.0f;
     public float currMoveSpeed { get; private set; }
     public float lastMoveSpeed { get; private set; }
     [Export]
@@ -26,7 +27,7 @@ public partial class Move : Component
     [Export]
     public float timeToAccelerate { get; set; } = 2.0f;
     [Export]
-    public float airControl { get; set; } = 0.5f;
+    public float airControl { get; set; } = 500.0f;
 
     private Godot.Vector2 force = Godot.Vector2.Zero;
 
@@ -90,32 +91,45 @@ public partial class Move : Component
         if (!parent.IsOnFloor())
             newVelocity.Y = currVelocity.Y + parent.gravity.Y * (float)delta;
 
+        bool onFloor = parent.IsOnFloor();
         float inputDirection = ProcessInput();
-        if (!Mathf.IsEqualApprox(inputDirection, 0.0f))
+
+        bool isInputing = !Mathf.IsEqualApprox(inputDirection, 0.0f);
+        if (isInputing)
         {
-            speedAlpha = Mathf.Clamp(speedAlpha +
-                                     (acceleration / timeToAccelerate),
-                                     0.0f, 1.0f);
+            if (onFloor)
+            {
+                speedAlpha = Mathf.Clamp(speedAlpha +
+                         (acceleration / timeToAccelerate),
+                         0.0f, 1.0f);
 
+                // Quadratic lerp
+                float lerp1 = Mathf.Lerp(0.0f, inputDirection * maxWalkSpeed,
+                                         speedAlpha);
 
-            // Quadratic lerp
-            float lerp1 = Mathf.Lerp(0.0f, inputDirection * maxWalkSpeed,
-                                     speedAlpha);
+                float lerp2 = Mathf.Lerp(inputDirection * maxWalkSpeed,
+                                         inputDirection * maxRunSpeed,
+                                         speedAlpha);
 
-            float lerp2 = Mathf.Lerp(inputDirection * maxWalkSpeed,
-                                     inputDirection * maxRunSpeed,
-                                     speedAlpha);
-
-            newVelocity.X = Mathf.Lerp(lerp1, lerp2, speedAlpha);
-        }
-        else if (parent.IsOnFloor())
-        {
-            float friction = isDown ? slideFriction : walkFriction;
-            newVelocity.X = AddDrag(currVelocity, friction);
+                newVelocity.X = Mathf.Lerp(lerp1, lerp2, speedAlpha);
+            }
+            else
+            {
+                // In air
+                newVelocity.X = Mathf.Clamp(currVelocity.X +
+                    (inputDirection * acceleration * airControl),
+                    -maxAirSpeed, maxAirSpeed);
+            }
         }
         else
         {
-            newVelocity.X = AddDrag(currVelocity, airDrag);
+            if (onFloor)
+            {
+                float friction = isDown ? slideFriction : walkFriction;
+                newVelocity.X = AddDrag(currVelocity, friction);
+            }
+            else
+                newVelocity.X = AddDrag(currVelocity, airDrag);
         }
 
         parent.SetVelocity(newVelocity + force);
@@ -136,7 +150,7 @@ public partial class Move : Component
         float inputDirection = Input.GetAxis("walk_left", "walk_right");
         isDown = (Input.GetActionStrength("down") > 0.0f) ? true : false;
 
-        if (Input.IsActionJustPressed("down"))
+        if (Input.IsActionJustPressed("down") && parent.IsOnFloor())
             force = parent.GetRealVelocity().Normalized() * 400.0f;
 
         if (isDown)
@@ -173,6 +187,9 @@ public partial class Move : Component
 
             Godot.Vector2 jumpVelocity =
                 new Godot.Vector2(parent.GetRealVelocity().X, jumpSpeed);
+
+            maxAirSpeed = Mathf.Abs(jumpVelocity.X);
+
             parent.SetVelocity(jumpVelocity);
             parent.MoveAndSlide();
             // TODO: time in air stuff
