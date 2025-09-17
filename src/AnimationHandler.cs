@@ -12,47 +12,23 @@ public partial class AnimationHandler : Component
     public Sprite2D sprite;
     [Export]
     public CpuParticles2D landingParticles;
+    [Export]
+    public float runCutoff { get; set; } = 200;
+
+    private Vector2 lastNonZeroInput = new Vector2(0, 1);
 
     private bool lastOnFloor = true;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        animationPlayer.Play("idle");
+        animationPlayer.Play("front_idle");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        bool currOnFloor = parent.IsOnFloor();
-
-        Godot.Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
-
-        if (!IsLanding())
-        {
-            if (currOnFloor && lastOnFloor)
-                UpdateWalkAnimation(currVelocity);
-            else if (lastOnFloor)
-                animationPlayer.Play("jump");
-            else if (!lastOnFloor && currVelocity.Y > 0.0f)
-            {
-                if (currOnFloor)
-                {
-                    if (Mathf.Abs(currVelocity.X) > 300.0f)
-                        animationPlayer.Play("land_roll");
-                    else {
-                        animationPlayer.Play("land_still");
-                        landingParticles.InitialVelocityMax = currVelocity.Y;
-                        landingParticles.InitialVelocityMin = 
-                            currVelocity.Y / 2.0f;
-                    }
-                }
-                else
-                    animationPlayer.Play("fall");
-
-            }
-        }
-
-        lastOnFloor = currOnFloor;
+        Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
+        UpdateWalkAnimation(currVelocity);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -60,43 +36,58 @@ public partial class AnimationHandler : Component
         base._PhysicsProcess(delta);
     }
 
-    private void UpdateWalkAnimation(Vector2 currVelocity)
+    private String GetAnimationDirection(Vector2 currVelocity)
     {
-        if (currVelocity.X > 5.0f)
-        {
-            sprite.FlipH = false;
+        Vector2 direction = currVelocity.Normalized();
 
-            if (currVelocity.X > 100.0f)
-                animationPlayer.Play("run");
+        String animationDirection = "front";
+
+        if (direction.Y > 0.1)
+        {
+            if (Mathf.Abs(direction.X) < 0.1f)
+                animationDirection = "front";
             else
-                animationPlayer.Play("walk");
+                animationDirection = "front_side";
         }
-        else if (currVelocity.X < -5.0f)
+        else if (direction.Y < -0.1)
         {
-            sprite.FlipH = true;
-
-            if (currVelocity.X < -100.0f)
-                animationPlayer.Play("run");
+            if (Mathf.Abs(direction.X) < 0.1f)
+                animationDirection = "back";
             else
-                animationPlayer.Play("walk");
+                animationDirection = "back_side";
         }
         else
-            animationPlayer.Play("idle");
+            animationDirection = "side";
+
+        return animationDirection;
     }
 
-    private bool IsLanding()
+    private void UpdateWalkAnimation(Vector2 currVelocity)
     {
-        if (animationPlayer.CurrentAnimation != "land_still" &&
-            animationPlayer.CurrentAnimation != "land_roll")
-            return false;
+        if (currVelocity.LengthSquared() > 0.0f)
+            lastNonZeroInput = currVelocity.Normalized();
 
-        if (!animationPlayer.IsPlaying())
-            return false;
 
-        return true;
+        if (Mathf.IsZeroApprox(currVelocity.LengthSquared()))
+        {
+            animationPlayer.Play(
+                GetAnimationDirection(lastNonZeroInput) + "_idle");
+            sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
+        }
+        else if (currVelocity.Length() > runCutoff)
+        {
+            animationPlayer.Play(GetAnimationDirection(currVelocity) + "_run");
+            sprite.FlipH = currVelocity.X < 0 ? true : false;
+        }
+        else
+        {
+            animationPlayer.Play(GetAnimationDirection(currVelocity) + "_walk");
+            sprite.FlipH = currVelocity.X < 0 ? true : false;
+        }
+
     }
 
-    private Godot.Vector2 ClipSmallValues(Godot.Vector2 inputVec)
+    private Vector2 ClipSmallValues(Vector2 inputVec)
     {
         if (Mathf.Abs(inputVec.X) < 0.1f)
             inputVec.X = 0.0f;
