@@ -11,7 +11,7 @@
 scale = Vector2(76.72, 1)
 
 [node name="Floor2" parent="Floors" instance=ExtResource("1_bgf8l")]
-position = Vector2(192, -113)
+position = Vector2(106, -259)
 scale = Vector2(2.96, 1)
 
 [node name="Floor3" parent="Floors" instance=ExtResource("1_bgf8l")]
