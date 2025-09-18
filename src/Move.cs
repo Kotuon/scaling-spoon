@@ -21,12 +21,18 @@ public partial class Move : Component
     public float turnSpeed { get; set; } = 1000000.0f;
     [Export]
     public float brakeSpeed { get; set; } = 1250.0f;
-
+    [Export]
+    public AudioStream[] footstepSounds;
+    [Export]
+    public AudioStreamPlayer2D footstepPlayer;
     private bool _canMove { get; set; } = true;
+
+    private RandomNumberGenerator rng = new RandomNumberGenerator();
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        rng.Randomize();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -83,8 +89,24 @@ public partial class Move : Component
         newVelocity = (currVelocity + (direction * turnSpeed)).Normalized() *
             currWalkSpeed;
 
+        if (currWalkSpeed != 0.0)
+            playFootstepSound();
+
         parent.SetVelocity(newVelocity);
         parent.MoveAndSlide();
+    }
+
+    private void playFootstepSound()
+    {
+        if (footstepPlayer.Playing)
+            return;
+
+        if (footstepSounds.Length == 0)
+            return;
+
+        int randomIndex = rng.RandiRange(0, footstepSounds.Length - 1);
+        footstepPlayer.Stream = footstepSounds[randomIndex];
+        footstepPlayer.Play();
     }
 
 }
