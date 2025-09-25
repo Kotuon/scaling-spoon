@@ -82,16 +82,25 @@ public partial class AnimationHandler : Component
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
             sprite.FlipH = currVelocity.X < 0 ? true : false;
+
+            if (!landingParticles.Emitting)
+                landingParticles.Emitting = true;
         }
         else if (speed > runCutoff)
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_run");
             sprite.FlipH = currVelocity.X < 0 ? true : false;
+
+            if (landingParticles.Emitting)
+                landingParticles.Emitting = false;
         }
         else
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_walk");
             sprite.FlipH = currVelocity.X < 0 ? true : false;
+
+            if (landingParticles.Emitting)
+                landingParticles.Emitting = false;
         }
 
     }

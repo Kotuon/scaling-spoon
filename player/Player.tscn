@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="2_v2pqu"]
 [ext_resource type="AudioStream" uid="uid://dao2ksoscougm" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_A.wav" id="3_e6io6"]
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="3_jstdq"]
-[ext_resource type="Texture2D" uid="uid://dstpj5utcdk4k" path="res://assets/art/Player/Front Movement.png" id="4_xj3hh"]
+[ext_resource type="Texture2D" uid="uid://bqas8l8ge2e5q" path="res://assets/art/Player/Front Movement.png" id="4_xj3hh"]
 [ext_resource type="AudioStream" uid="uid://cosbmpcbdtih7" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_B.wav" id="4_ynqyi"]
 [ext_resource type="AudioStream" uid="uid://bbc3jll7nvjfw" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_C.wav" id="5_tveiy"]
 [ext_resource type="Texture2D" uid="uid://c2qrjekpefcdp" path="res://assets/art/Player/Back Movement.png" id="5_yswho"]
@@ -23,6 +23,10 @@
 [ext_resource type="Texture2D" uid="uid://bnqpqyabbr05m" path="res://assets/art/Player/Side DashnRoll.png" id="21_8nth8"]
 [ext_resource type="Texture2D" uid="uid://yboel1y0rn4y" path="res://assets/art/Player/FrontSide DashnRoll.png" id="22_8tqfn"]
 [ext_resource type="Texture2D" uid="uid://n38di2d28q01" path="res://assets/art/Player/BackSide DashnRoll.png" id="23_stbqk"]
+
+[sub_resource type="Gradient" id="Gradient_7dls3"]
+offsets = PackedFloat32Array(0, 0.513333, 1)
+colors = PackedColorArray(1, 0.99, 0.98, 1, 0.69, 0.64722, 0.60719997, 1, 1, 1, 1, 0)
 
 [sub_resource type="Resource" id="Resource_qkm22"]
 metadata/__load_path__ = "res://assets/Player/top_down/Front Spritesheet.png"
@@ -1189,10 +1193,6 @@ _data = {
 radius = 12.0
 height = 52.0
 
-[sub_resource type="Gradient" id="Gradient_7dls3"]
-offsets = PackedFloat32Array(0, 0.513333, 1)
-colors = PackedColorArray(0.9, 0.8055, 0.711, 1, 0.65, 0.579475, 0.5135, 1, 1, 1, 1, 0)
-
 [sub_resource type="AudioStream" id="AudioStream_uoipf"]
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("moveComponent", "animationHandler")]
@@ -1208,6 +1208,22 @@ footstepPlayer = NodePath("../Footsteps")
 animationPlayer = NodePath("../AnimationPlayer")
 sprite = NodePath("../Sprite2D")
 landingParticles = NodePath("../CPUParticles2D")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, 30)
+amount = 16
+lifetime = 0.2
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(10, 5)
+direction = Vector2(0, -1)
+spread = 90.65
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_min = 2.0
+scale_amount_max = 6.0
+color_ramp = SubResource("Gradient_7dls3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -1228,27 +1244,9 @@ mesh = SubResource("QuadMesh_tvfjf")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_fmlfo")
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-position = Vector2(0, 30)
-emitting = false
-amount = 16
-lifetime = 0.2
-one_shot = true
-explosiveness = 1.0
-randomness = 1.0
-emission_shape = 3
-emission_rect_extents = Vector2(10, 1)
-direction = Vector2(0, -1)
-spread = 90.65
-gravity = Vector2(0, 0)
-initial_velocity_min = 50.0
-initial_velocity_max = 200.0
-scale_amount_min = 2.0
-scale_amount_max = 6.0
-color_ramp = SubResource("Gradient_7dls3")
 
 [node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStream_uoipf")
