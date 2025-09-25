@@ -13,7 +13,9 @@ public partial class AnimationHandler : Component
     [Export]
     public CpuParticles2D landingParticles;
     [Export]
-    public float runCutoff { get; set; } = 200;
+    public float runCutoff { get; set; } = 200.0f;
+    [Export]
+    public float dashCutoff { get; set; } = 400.0f;
 
     private Vector2 lastNonZeroInput = new Vector2(0, 1);
 
@@ -64,17 +66,24 @@ public partial class AnimationHandler : Component
 
     private void UpdateWalkAnimation(Vector2 currVelocity)
     {
-        if (currVelocity.LengthSquared() > 0.0f)
+        float speed = currVelocity.Length();
+
+        if (speed > 0.0f)
             lastNonZeroInput = currVelocity.Normalized();
 
 
-        if (Mathf.IsZeroApprox(currVelocity.LengthSquared()))
+        if (Mathf.IsZeroApprox(speed))
         {
             animationPlayer.Play(
                 GetAnimationDirection(lastNonZeroInput) + "_idle");
             sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
         }
-        else if (currVelocity.Length() > runCutoff)
+        else if (speed > dashCutoff)
+        {
+            animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
+            sprite.FlipH = currVelocity.X < 0 ? true : false;
+        }
+        else if (speed > runCutoff)
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_run");
             sprite.FlipH = currVelocity.X < 0 ? true : false;

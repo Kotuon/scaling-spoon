@@ -8,6 +8,9 @@ using System.Numerics;
 
 public partial class Move : Component
 {
+    // Dash
+    [Export]
+    public float dashSpeed { get; set; } = 600.0f;
     // Walking
     [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
@@ -54,12 +57,15 @@ public partial class Move : Component
 
     private void UpdateSpeed(double delta, Godot.Vector2 direction)
     {
+        bool isDashing = Input.GetActionStrength("dash") > 0.0f ? true : false;
+        float maxSpeedToUse = isDashing ? dashSpeed : maxWalkSpeed;
+        
         if (direction.LengthSquared() > 0.0f)
         {
-            if (currWalkSpeed < maxWalkSpeed)
+            if (currWalkSpeed < maxSpeedToUse)
                 currWalkSpeed += acceleration * (float)delta;
             else
-                currWalkSpeed = maxWalkSpeed;
+                currWalkSpeed = maxSpeedToUse;
         }
         else
         {
@@ -67,7 +73,7 @@ public partial class Move : Component
             {
                 currWalkSpeed = (float)Godot.Mathf.Clamp(
                     currWalkSpeed - brakeSpeed * (float)delta,
-                    0.0, maxWalkSpeed);
+                    0.0, maxSpeedToUse);
             }
             else
                 currWalkSpeed = 0.0f;
@@ -89,7 +95,7 @@ public partial class Move : Component
         newVelocity = (currVelocity + (direction * turnSpeed)).Normalized() *
             currWalkSpeed;
 
-        if (currWalkSpeed != 0.0)
+        if (currWalkSpeed != 0.0 && currWalkSpeed <= maxWalkSpeed)
             playFootstepSound();
 
         parent.SetVelocity(newVelocity);
