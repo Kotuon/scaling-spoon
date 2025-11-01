@@ -11,7 +11,7 @@ public partial class AnimationHandler : Component
     [Export]
     public Sprite2D sprite;
     [Export]
-    public CpuParticles2D landingParticles;
+    public CpuParticles2D dashParticles;
     [Export]
     public float runCutoff { get; set; } = 200.0f;
     [Export]
@@ -38,11 +38,32 @@ public partial class AnimationHandler : Component
         base._PhysicsProcess(delta);
     }
 
+    public String GetCurrentAnimation()
+    {
+        return animationPlayer.CurrentAnimation;
+    }
+    public void PlayAnimation(Vector2 inputDir, String animName)
+    {
+        String dir = GetAnimationDirection(inputDir);
+        sprite.FlipH = inputDir.X > 0 ? false : true;
+
+        if (Mathf.IsZeroApprox(inputDir.LengthSquared()))
+        {
+            dir = GetAnimationDirection(lastNonZeroInput);
+            sprite.FlipH = lastNonZeroInput.X > 0 ? false : true;
+        }
+        
+        animationPlayer.Play(dir + "_" + animName);
+    }
+
     private String GetAnimationDirection(Vector2 currVelocity)
     {
         Vector2 direction = currVelocity.Normalized();
 
         String animationDirection = "front";
+
+        if (!Mathf.IsZeroApprox(currVelocity.LengthSquared()))
+            lastNonZeroInput = currVelocity.Normalized();
 
         if (direction.Y > 0.1)
         {
@@ -68,39 +89,34 @@ public partial class AnimationHandler : Component
     {
         float speed = currVelocity.Length();
 
-        if (speed > 0.0f)
-            lastNonZeroInput = currVelocity.Normalized();
-
-
         if (Mathf.IsZeroApprox(speed))
         {
             animationPlayer.Play(
                 GetAnimationDirection(lastNonZeroInput) + "_idle");
             sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
+
+            SetDashParticles(false);
         }
         else if (speed > dashCutoff)
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
             sprite.FlipH = currVelocity.X < 0 ? true : false;
 
-            if (!landingParticles.Emitting)
-                landingParticles.Emitting = true;
+            SetDashParticles(true);
         }
         else if (speed > runCutoff)
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_run");
             sprite.FlipH = currVelocity.X < 0 ? true : false;
 
-            if (landingParticles.Emitting)
-                landingParticles.Emitting = false;
+            SetDashParticles(false);
         }
         else
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_walk");
             sprite.FlipH = currVelocity.X < 0 ? true : false;
 
-            if (landingParticles.Emitting)
-                landingParticles.Emitting = false;
+            SetDashParticles(false);
         }
 
     }
@@ -113,5 +129,13 @@ public partial class AnimationHandler : Component
             inputVec.Y = 0.0f;
 
         return inputVec;
+    }
+
+    public void SetDashParticles(bool setValue)
+    {
+        if (dashParticles.Emitting != setValue)
+        {
+            dashParticles.Emitting = setValue;
+        }
     }
 }

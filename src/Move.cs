@@ -28,7 +28,7 @@ public partial class Move : Component
     public AudioStream[] footstepSounds;
     [Export]
     public AudioStreamPlayer2D footstepPlayer;
-    private bool _canMove { get; set; } = true;
+    public bool _canMove { get; set; } = true;
 
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 
@@ -52,6 +52,12 @@ public partial class Move : Component
             Godot.Vector2 inputDirection = Input.GetVector("walk_left",
                 "walk_right", "walk_up", "walk_down");
             UpdateWalk(delta, inputDirection);
+        }
+        else
+        {
+            currWalkSpeed = 0.0f;
+            parent.SetVelocity(Godot.Vector2.Zero);
+            parent.MoveAndSlide();
         }
     }
 
