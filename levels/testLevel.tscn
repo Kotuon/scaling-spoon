@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=4 uid="uid://blr7pg6ket21n"]
+[gd_scene load_steps=9 format=4 uid="uid://blr7pg6ket21n"]
 
 [ext_resource type="Texture2D" uid="uid://tp3lknyy0d0b" path="res://assets/art/Environment/Tilesets/Tileset-Terrain.png" id="1_5gvxl"]
 [ext_resource type="Texture2D" uid="uid://b0p2ttpoernin" path="res://assets/art/Environment/Tilesets/wall-4 - 3 tiles tall.png" id="2_4fj8m"]
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="2_ql6sj"]
-[ext_resource type="Script" uid="uid://dtaxnxepok7nj" path="res://src/Voronoi.cs" id="4_gdkoi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ftfpk"]
 texture = ExtResource("1_5gvxl")
@@ -7510,6 +7509,3 @@ tile_set = SubResource("TileSet_4fj8m")
 
 [node name="Player" parent="." instance=ExtResource("2_ql6sj")]
 position = Vector2(640, 360)
-
-[node name="Voronoi" type="Node2D" parent="."]
-script = ExtResource("4_gdkoi")

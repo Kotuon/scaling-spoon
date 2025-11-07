@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=73 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="2_v2pqu"]
@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://cfnkecfdgk5gf" path="res://assets/art/Player/New/Side Shield.png" id="26_stbqk"]
 [ext_resource type="Texture2D" uid="uid://dgwf1kgxmps7i" path="res://assets/art/Player/New/FrontSide Shield.png" id="27_8eyfg"]
 [ext_resource type="Texture2D" uid="uid://bgvo31vfok5kh" path="res://assets/art/Player/New/BackSide Shield.png" id="28_76mgg"]
+[ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 
 [sub_resource type="Gradient" id="Gradient_7dls3"]
 offsets = PackedFloat32Array(0, 0.513333, 1)
@@ -2067,7 +2068,6 @@ scale = Vector2(25, 50)
 mesh = SubResource("QuadMesh_tvfjf")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -2076,3 +2076,5 @@ shape = SubResource("CapsuleShape2D_fmlfo")
 
 [node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStream_uoipf")
+
+[node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
