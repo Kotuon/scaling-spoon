@@ -20,6 +20,7 @@ public partial class Shield : Ability
             "walk_right", "walk_up", "walk_down");
 
         animHandler.PlayAnimation(inputDirection, "shield_init");
+        mouseRef.useMouseDirection = true;
     }
 
     public override void Update()
@@ -38,5 +39,6 @@ public partial class Shield : Ability
         base.End();
 
         move._canMove = true;
+        mouseRef.useMouseDirection = false;
     }
 }

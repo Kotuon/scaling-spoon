@@ -1,9 +1,8 @@
-[gd_scene load_steps=73 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=74 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="2_v2pqu"]
 [ext_resource type="AudioStream" uid="uid://dao2ksoscougm" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_A.wav" id="3_e6io6"]
-[ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="3_jstdq"]
 [ext_resource type="Texture2D" uid="uid://bqas8l8ge2e5q" path="res://assets/art/Player/Front Movement.png" id="4_xj3hh"]
 [ext_resource type="AudioStream" uid="uid://cosbmpcbdtih7" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_B.wav" id="4_ynqyi"]
 [ext_resource type="AudioStream" uid="uid://bbc3jll7nvjfw" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_C.wav" id="5_tveiy"]
@@ -29,6 +28,8 @@
 [ext_resource type="Texture2D" uid="uid://cfnkecfdgk5gf" path="res://assets/art/Player/New/Side Shield.png" id="26_stbqk"]
 [ext_resource type="Texture2D" uid="uid://dgwf1kgxmps7i" path="res://assets/art/Player/New/FrontSide Shield.png" id="27_8eyfg"]
 [ext_resource type="Texture2D" uid="uid://bgvo31vfok5kh" path="res://assets/art/Player/New/BackSide Shield.png" id="28_76mgg"]
+[ext_resource type="Script" uid="uid://3jbd0vrso0a2" path="res://src/MouseCamera.cs" id="29_a0lmo"]
+[ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 
 [sub_resource type="Gradient" id="Gradient_7dls3"]
@@ -2026,11 +2027,6 @@ animationHandler = NodePath("AnimationHandler")
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../Footsteps")
 
-[node name="AnimationHandler" parent="." node_paths=PackedStringArray("animationPlayer", "sprite", "dashParticles") instance=ExtResource("3_jstdq")]
-animationPlayer = NodePath("../AnimationPlayer")
-sprite = NodePath("../Sprite2D")
-dashParticles = NodePath("../CPUParticles2D")
-
 [node name="Shield" parent="." instance=ExtResource("14_76mgg")]
 abilityName = "shield"
 
@@ -2068,9 +2064,9 @@ scale = Vector2(25, 50)
 mesh = SubResource("QuadMesh_tvfjf")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("29_a0lmo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_fmlfo")
 
@@ -2078,3 +2074,8 @@ shape = SubResource("CapsuleShape2D_fmlfo")
 stream = SubResource("AudioStream_uoipf")
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
+
+[node name="AnimationHandler" parent="." node_paths=PackedStringArray("animationPlayer", "sprite", "dashParticles") instance=ExtResource("30_a0lmo")]
+animationPlayer = NodePath("../AnimationPlayer")
+sprite = NodePath("../Sprite2D")
+dashParticles = NodePath("../CPUParticles2D")

@@ -1,21 +1,71 @@
+
+namespace Game.Component;
+
 using Godot;
 using System;
 
-public partial class Mouse : Node2D
+public partial class Mouse : Component
 {
+
+    [Export]
+    public float maxRadius = 400.0f;
+
+    private bool _useMouseDirection;
+
+    public bool useMouseDirection
+    {
+        set
+        {
+            if (value)
+            {
+                icon.Visible = true;
+                Input.WarpMouse(GetViewportRect().Size / 2.0f);
+            }
+            else
+            {
+                icon.Visible = false;
+            }
+
+            _useMouseDirection = value;
+        }
+
+        get => _useMouseDirection;
+    }
+
+    private MeshInstance2D icon;
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+        foreach (var child in GetChildren())
+        {
+            if (child is MeshInstance2D)
+                icon = (MeshInstance2D)child;
+        }
+
+        icon.Visible = false;
+
+        Input.MouseMode = Input.MouseModeEnum.ConfinedHidden;
+    }
+
+
     public override void _Process(double delta)
     {
         base._Process(delta);
 
         var mousePos = GetGlobalMousePosition();
-        mousePos -= GetViewport().GetVisibleRect().Size / 2.0f;
 
-        // Processing if needed
+        var dir = mousePos - parent.GlobalPosition;
 
-        Position = mousePos;
+        if (dir.Length() > maxRadius)
+        {
+            mousePos = parent.GlobalPosition + dir.Normalized() * maxRadius;
+        }
 
-        GD.Print("Global: " + GetGlobalMousePosition().ToString());
-        GD.Print("Local: " + GetLocalMousePosition().ToString());
+            // Processing if needed
+
+            GlobalPosition = mousePos;
     }
 
 }

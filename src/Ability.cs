@@ -37,7 +37,6 @@ public partial class Ability : Component
         {
             if (!onCooldown)
             {
-                GD.Print("Trigger");
                 Trigger();
             }
         }
@@ -45,7 +44,6 @@ public partial class Ability : Component
         {
             if (isActive)
             {
-                GD.Print("End");
                 StartCooldown();
                 End();
             }

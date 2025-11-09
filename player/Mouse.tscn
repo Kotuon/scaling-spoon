@@ -8,6 +8,8 @@
 material = SubResource("ShaderMaterial_illg6")
 
 [sub_resource type="Gradient" id="Gradient_6rskp"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0, 0.8666668, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dyphf"]
 gradient = SubResource("Gradient_6rskp")
@@ -17,5 +19,6 @@ scale = Vector2(12.415, 12.415)
 script = ExtResource("1_8oi1p")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(1.5, 1.5)
 mesh = SubResource("QuadMesh_8oi1p")
 texture = SubResource("GradientTexture1D_dyphf")

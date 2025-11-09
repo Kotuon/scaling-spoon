@@ -20,6 +20,7 @@ public partial class AnimationHandler : Component
     private Vector2 lastNonZeroInput = new Vector2(0, 1);
 
     private bool lastOnFloor = true;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -44,7 +45,12 @@ public partial class AnimationHandler : Component
     }
     public void PlayAnimation(Vector2 inputDir, String animName)
     {
-        String dir = GetAnimationDirection(inputDir);
+        var mouseDirection = mouseRef.GlobalPosition - parent.GlobalPosition;
+
+        var dir = mouseRef.useMouseDirection
+            ? GetAnimationDirection(mouseDirection)
+            : GetAnimationDirection(inputDir);
+        
         sprite.FlipH = inputDir.X > 0 ? false : true;
 
         if (Mathf.IsZeroApprox(inputDir.LengthSquared()))
@@ -89,6 +95,12 @@ public partial class AnimationHandler : Component
     {
         float speed = currVelocity.Length();
 
+        var mouseDirection = mouseRef.GlobalPosition - parent.GlobalPosition;
+
+        var currDirection = mouseRef.useMouseDirection 
+            ? GetAnimationDirection(mouseDirection)
+            : GetAnimationDirection(currVelocity);
+
         if (Mathf.IsZeroApprox(speed))
         {
             animationPlayer.Play(
@@ -106,15 +118,21 @@ public partial class AnimationHandler : Component
         }
         else if (speed > runCutoff)
         {
-            animationPlayer.Play(GetAnimationDirection(currVelocity) + "_run");
-            sprite.FlipH = currVelocity.X < 0 ? true : false;
+            animationPlayer.Play(currDirection + "_run");
+            // sprite.FlipH = currVelocity.X < 0 ? true : false;
+
+            sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
+                : currVelocity.X < 0;
 
             SetDashParticles(false);
         }
         else
         {
-            animationPlayer.Play(GetAnimationDirection(currVelocity) + "_walk");
-            sprite.FlipH = currVelocity.X < 0 ? true : false;
+            animationPlayer.Play(currDirection + "_walk");
+            // sprite.FlipH = currVelocity.X < 0 ? true : false;
+
+            sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
+                : currVelocity.X < 0;
 
             SetDashParticles(false);
         }

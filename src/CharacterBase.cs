@@ -19,4 +19,15 @@ public partial class CharacterBase : CharacterBody2D
     {
         base._PhysicsProcess(delta);
     }
+
+    public T GetComponent<T>() where T : class
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is T)
+                return child as T;
+        }
+
+        return default(T);
+    }
 }

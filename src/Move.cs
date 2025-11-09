@@ -10,7 +10,7 @@ public partial class Move : Component
 {
     // Dash
     [Export]
-    public float dashSpeed { get; set; } = 600.0f;
+    public float dashSpeed { get; set; } = 800.0f;
     // Walking
     [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
@@ -55,9 +55,11 @@ public partial class Move : Component
         }
         else
         {
-            currWalkSpeed = 0.0f;
-            parent.SetVelocity(Godot.Vector2.Zero);
-            parent.MoveAndSlide();
+            UpdateWalk(delta, Godot.Vector2.Zero);
+            
+            // currWalkSpeed = 0.0f;
+            // parent.SetVelocity(Godot.Vector2.Zero);
+            // parent.MoveAndSlide();
         }
     }
 
