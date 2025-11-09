@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 namespace Game.Component;
 
 using Godot;
@@ -10,11 +12,27 @@ public partial class Move : Component
 {
     // Dash
     [Export]
+    public CpuParticles2D dashParticles;
+    [Export]
     public float dashSpeed { get; set; } = 800.0f;
     // Walking
     [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
-    public float currWalkSpeed { get; private set; }
+    
+    private float _currWalkSpeed;
+    public float currWalkSpeed
+    {
+        private set
+        {
+            _currWalkSpeed = value;
+            if (_currWalkSpeed > maxWalkSpeed)
+                SetDashParticles(true);
+            else
+                SetDashParticles(false);
+        }
+        
+        get => _currWalkSpeed;
+    }
     public float lastWalkSpeed { get; private set; }
     [Export]
     public float friction { get; set; } = 0.2f;
@@ -122,5 +140,11 @@ public partial class Move : Component
         footstepPlayer.Stream = footstepSounds[randomIndex];
         footstepPlayer.Play();
     }
-
+    public void SetDashParticles(bool setValue)
+    {
+        if (dashParticles.Emitting != setValue)
+        {
+            dashParticles.Emitting = setValue;
+        }
+    }
 }

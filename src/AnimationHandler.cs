@@ -11,15 +11,16 @@ public partial class AnimationHandler : Component
     [Export]
     public Sprite2D sprite;
     [Export]
-    public CpuParticles2D dashParticles;
-    [Export]
     public float runCutoff { get; set; } = 200.0f;
     [Export]
     public float dashCutoff { get; set; } = 400.0f;
 
     private Vector2 lastNonZeroInput = new Vector2(0, 1);
 
+    private float dirCutoff = 0.25f;
+
     private bool lastOnFloor = true;
+    public bool canAdvance = true;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -30,8 +31,21 @@ public partial class AnimationHandler : Component
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
-        UpdateWalkAnimation(currVelocity);
+        if (!canAdvance)
+        {
+            if (animationPlayer.CurrentAnimationPosition >=
+                animationPlayer.CurrentAnimationLength)
+            {
+                canAdvance = true;
+                parent.GetComponent<Move>()._canMove = true;
+                mouseRef.useMouseDirection = false;
+            }
+        }
+        else if (parent.GetComponent<Move>()._canMove)
+        {
+            Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
+            UpdateWalkAnimation(currVelocity);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -45,15 +59,15 @@ public partial class AnimationHandler : Component
     }
     public void PlayAnimation(Vector2 inputDir, String animName)
     {
-        var mouseDirection = mouseRef.GlobalPosition - parent.GlobalPosition;
+        var mouseDir = mouseRef.GlobalPosition - parent.GlobalPosition;
 
-        var dir = mouseRef.useMouseDirection
-            ? GetAnimationDirection(mouseDirection)
-            : GetAnimationDirection(inputDir);
+        var vecDir = mouseRef.useMouseDirection ? mouseDir : inputDir;
+
+        var dir = GetAnimationDirection(vecDir);
         
-        sprite.FlipH = inputDir.X > 0 ? false : true;
+        sprite.FlipH = vecDir.X > 0 ? false : true;
 
-        if (Mathf.IsZeroApprox(inputDir.LengthSquared()))
+        if (Mathf.IsZeroApprox(vecDir.LengthSquared()))
         {
             dir = GetAnimationDirection(lastNonZeroInput);
             sprite.FlipH = lastNonZeroInput.X > 0 ? false : true;
@@ -71,14 +85,14 @@ public partial class AnimationHandler : Component
         if (!Mathf.IsZeroApprox(currVelocity.LengthSquared()))
             lastNonZeroInput = currVelocity.Normalized();
 
-        if (direction.Y > 0.1)
+        if (direction.Y > dirCutoff)
         {
             if (Mathf.Abs(direction.X) < 0.1f)
                 animationDirection = "front";
             else
                 animationDirection = "front_side";
         }
-        else if (direction.Y < -0.1)
+        else if (direction.Y < -dirCutoff)
         {
             if (Mathf.Abs(direction.X) < 0.1f)
                 animationDirection = "back";
@@ -106,15 +120,11 @@ public partial class AnimationHandler : Component
             animationPlayer.Play(
                 GetAnimationDirection(lastNonZeroInput) + "_idle");
             sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
-
-            SetDashParticles(false);
         }
         else if (speed > dashCutoff)
         {
             animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
             sprite.FlipH = currVelocity.X < 0 ? true : false;
-
-            SetDashParticles(true);
         }
         else if (speed > runCutoff)
         {
@@ -123,8 +133,6 @@ public partial class AnimationHandler : Component
 
             sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
                 : currVelocity.X < 0;
-
-            SetDashParticles(false);
         }
         else
         {
@@ -133,8 +141,6 @@ public partial class AnimationHandler : Component
 
             sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
                 : currVelocity.X < 0;
-
-            SetDashParticles(false);
         }
 
     }
@@ -147,13 +153,5 @@ public partial class AnimationHandler : Component
             inputVec.Y = 0.0f;
 
         return inputVec;
-    }
-
-    public void SetDashParticles(bool setValue)
-    {
-        if (dashParticles.Emitting != setValue)
-        {
-            dashParticles.Emitting = setValue;
-        }
     }
 }
