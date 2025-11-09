@@ -6,7 +6,18 @@ using Game.Entity;
 
 public partial class Component : Node2D
 {
-    public CharacterBase parent;
+    private CharacterBase _parent = null;
+    public CharacterBase parent
+    {
+        private set => _parent = value;
+
+        get
+        {
+            if (_parent == null)
+                _parent = GetNode<CharacterBase>("..");
+            return _parent;
+        }
+    }
     private Mouse _mouseRef;
     protected Mouse mouseRef
     {

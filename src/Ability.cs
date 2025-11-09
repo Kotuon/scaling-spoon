@@ -17,8 +17,31 @@ public partial class Ability : Component
 
     private bool isActive = false;
 
-    public AnimationHandler animHandler { get; set; }
-    public Move move { get; set; }
+    private AnimationHandler _animHandler;
+    public AnimationHandler animHandler
+    {
+        private set => _animHandler = value;
+
+        get
+        {
+            if (_animHandler == null)
+                _animHandler = parent.GetComponent<AnimationHandler>();
+            return _animHandler;
+        }
+    }
+
+    private Move _move;
+    public Move move
+    {
+        private set => _move = value;
+
+        get
+        {
+            if (_move == null)
+                _move = parent.GetComponent<Move>();
+            return _move;
+        }
+    }
 
     public override void _Ready()
     {
