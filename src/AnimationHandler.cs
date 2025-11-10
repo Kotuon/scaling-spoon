@@ -57,17 +57,13 @@ public partial class AnimationHandler : Component
     {
         return animationPlayer.CurrentAnimation;
     }
-    public void PlayAnimation(Vector2 inputDir, String animName)
+    public void PlayAnimation(String animName, Vector2 inputDir)
     {
-        var mouseDir = mouseRef.GlobalPosition - parent.GlobalPosition;
-
-        var vecDir = mouseRef.useMouseDirection ? mouseDir : inputDir;
-
-        var dir = GetAnimationDirection(vecDir);
+        var dir = GetAnimationDirection(inputDir);
         
-        sprite.FlipH = vecDir.X > 0 ? false : true;
+        sprite.FlipH = inputDir.X > 0 ? false : true;
 
-        if (Mathf.IsZeroApprox(vecDir.LengthSquared()))
+        if (Mathf.IsZeroApprox(inputDir.LengthSquared()))
         {
             dir = GetAnimationDirection(lastNonZeroInput);
             sprite.FlipH = lastNonZeroInput.X > 0 ? false : true;

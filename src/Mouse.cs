@@ -32,6 +32,17 @@ public partial class Mouse : Component
         get => _useMouseDirection;
     }
 
+    private Vector2 _mouseDir;
+    public Vector2 mouseDir
+    {
+        private set => _mouseDir = value;
+        get
+        {
+            _mouseDir = GlobalPosition - parent.GlobalPosition;
+            return _mouseDir;
+        }
+    }
+
     private MeshInstance2D icon;
 
     public override void _Ready()

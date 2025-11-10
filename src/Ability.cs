@@ -15,7 +15,7 @@ public partial class Ability : Component
     private Timer cooldownTimer;
     private bool onCooldown = false;
 
-    private bool isActive = false;
+    public bool isActive { private set; get; } = false;
 
     private AnimationHandler _animHandler;
     public AnimationHandler animHandler

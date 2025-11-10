@@ -8,12 +8,16 @@ size = Vector2(23, 6)
 
 [node name="Projectile" type="CharacterBody2D"]
 scale = Vector2(3, 3)
+motion_mode = 1
+slide_on_ceiling = false
+floor_stop_on_slope = false
 script = ExtResource("1_y3him")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+position = Vector2(0.33333334, 0.6666667)
 texture = ExtResource("2_tak0m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, -1)
+position = Vector2(1.8333334, -0.3333333)
 shape = SubResource("RectangleShape2D_y3him")

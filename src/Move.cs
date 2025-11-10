@@ -10,11 +10,6 @@ using System.Numerics;
 
 public partial class Move : Component
 {
-    // Dash
-    [Export]
-    public CpuParticles2D dashParticles;
-    [Export]
-    public float dashSpeed { get; set; } = 800.0f;
     // Walking
     [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
@@ -25,10 +20,10 @@ public partial class Move : Component
         private set
         {
             _currWalkSpeed = value;
-            if (_currWalkSpeed > maxWalkSpeed)
-                SetDashParticles(true);
-            else
-                SetDashParticles(false);
+            // if (_currWalkSpeed > maxWalkSpeed)
+            //     SetDashParticles(true);
+            // else
+            //     SetDashParticles(false);
         }
         
         get => _currWalkSpeed;
@@ -67,24 +62,20 @@ public partial class Move : Component
 
         if (_canMove)
         {
-            Godot.Vector2 inputDirection = Input.GetVector("walk_left",
-                "walk_right", "walk_up", "walk_down");
+            var inputDirection = parent.GetComponent<Controller>().moveInput;
             UpdateWalk(delta, inputDirection);
         }
         else
         {
             UpdateWalk(delta, Godot.Vector2.Zero);
-            
-            // currWalkSpeed = 0.0f;
-            // parent.SetVelocity(Godot.Vector2.Zero);
-            // parent.MoveAndSlide();
         }
     }
 
     private void UpdateSpeed(double delta, Godot.Vector2 direction)
     {
-        bool isDashing = Input.GetActionStrength("dash") > 0.0f ? true : false;
-        float maxSpeedToUse = isDashing ? dashSpeed : maxWalkSpeed;
+        var dash = parent.GetComponent<Dash>();
+
+        float maxSpeedToUse = dash.isActive ? dash.speed : maxWalkSpeed;
         
         if (direction.LengthSquared() > 0.0f)
         {
@@ -139,12 +130,5 @@ public partial class Move : Component
         int randomIndex = rng.RandiRange(0, footstepSounds.Length - 1);
         footstepPlayer.Stream = footstepSounds[randomIndex];
         footstepPlayer.Play();
-    }
-    public void SetDashParticles(bool setValue)
-    {
-        if (dashParticles.Emitting != setValue)
-        {
-            dashParticles.Emitting = setValue;
-        }
     }
 }

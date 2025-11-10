@@ -16,10 +16,7 @@ public partial class Shield : Ability
 
         move._canMove = false;
 
-        Godot.Vector2 inputDirection = Input.GetVector("walk_left",
-            "walk_right", "walk_up", "walk_down");
-
-        animHandler.PlayAnimation(inputDirection, "shield_init");
+        animHandler.PlayAnimation("shield_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
     }
 
@@ -27,11 +24,8 @@ public partial class Shield : Ability
     {
         base.Update();
 
-        Godot.Vector2 inputDirection = Input.GetVector("walk_left",
-            "walk_right", "walk_up", "walk_down");
-
         if (animHandler.GetCurrentAnimation().Find("shield_init") == -1)
-            animHandler.PlayAnimation(inputDirection, "shield_idle");
+            animHandler.PlayAnimation("shield_idle", mouseRef.mouseDir);
     }
 
     public override void End()
