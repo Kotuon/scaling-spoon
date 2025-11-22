@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8jg7bg0n8mvb"]
+
+[ext_resource type="Script" uid="uid://hgksaq78pm2q" path="res://src/Mouse.cs" id="1_8oi1p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_illg6"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_8oi1p"]
+material = SubResource("ShaderMaterial_illg6")
+
+[sub_resource type="Gradient" id="Gradient_6rskp"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0, 0.8666668, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dyphf"]
+gradient = SubResource("Gradient_6rskp")
+
+[node name="Mouse" type="Node2D"]
+scale = Vector2(12.415, 12.415)
+script = ExtResource("1_8oi1p")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(1.5, 1.5)
+mesh = SubResource("QuadMesh_8oi1p")
+texture = SubResource("GradientTexture1D_dyphf")

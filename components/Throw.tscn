@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv4e3gh3noq3e"]
+
+[ext_resource type="Script" uid="uid://r4uf5x44seau" path="res://src/Throw.cs" id="1_i3y1c"]
+
+[node name="Spear" type="Node2D"]
+script = ExtResource("1_i3y1c")

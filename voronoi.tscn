@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmt1ukb0ptdws"]
+
+[ext_resource type="Script" uid="uid://dtaxnxepok7nj" path="res://src/Voronoi.cs" id="1_7ytg5"]
+
+[node name="Voronoi" type="Node"]
+script = ExtResource("1_7ytg5")

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy20yp5ktv4xe"]
+
+[ext_resource type="Script" uid="uid://gc8mc83mwj3t" path="res://src/Dash.cs" id="1_roy0j"]
+
+[sub_resource type="Gradient" id="Gradient_roy0j"]
+offsets = PackedFloat32Array(0, 0.513333, 1)
+colors = PackedColorArray(1, 0.99, 0.98, 1, 0.69, 0.64722, 0.60719997, 1, 1, 1, 1, 0)
+
+[node name="Dash" type="Node2D" node_paths=PackedStringArray("dashParticles")]
+script = ExtResource("1_roy0j")
+dashParticles = NodePath("DashParticles")
+abilityName = "dash"
+
+[node name="DashParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, 30)
+emitting = false
+amount = 16
+lifetime = 0.2
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(10, 5)
+direction = Vector2(0, -1)
+spread = 90.65
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_min = 2.0
+scale_amount_max = 6.0
+color_ramp = SubResource("Gradient_roy0j")

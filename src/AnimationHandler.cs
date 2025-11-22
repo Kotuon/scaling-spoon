@@ -11,48 +11,42 @@ public partial class AnimationHandler : Component
     [Export]
     public Sprite2D sprite;
     [Export]
-    public CpuParticles2D landingParticles;
+    public float runCutoff { get; set; } = 200.0f;
+    [Export]
+    public float dashCutoff { get; set; } = 400.0f;
+
+    private Vector2 lastNonZeroInput = new Vector2(0, 1);
+
+    private float dirCutoff = 0.25f;
 
     private bool lastOnFloor = true;
+    public bool canAdvance = true;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        animationPlayer.Play("idle");
+        animationPlayer.Play("front_idle");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
-        bool currOnFloor = parent.IsOnFloor();
-
-        Godot.Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
-
-        if (!IsLanding())
+        if (!canAdvance)
         {
-            if (currOnFloor && lastOnFloor)
-                UpdateWalkAnimation(currVelocity);
-            else if (lastOnFloor)
-                animationPlayer.Play("jump");
-            else if (!lastOnFloor && currVelocity.Y > 0.0f)
+            if (animationPlayer.CurrentAnimationPosition >=
+                animationPlayer.CurrentAnimationLength)
             {
-                if (currOnFloor)
-                {
-                    if (Mathf.Abs(currVelocity.X) > 300.0f)
-                        animationPlayer.Play("land_roll");
-                    else {
-                        animationPlayer.Play("land_still");
-                        landingParticles.InitialVelocityMax = currVelocity.Y;
-                        landingParticles.InitialVelocityMin = 
-                            currVelocity.Y / 2.0f;
-                    }
-                }
-                else
-                    animationPlayer.Play("fall");
-
+                canAdvance = true;
+                parent.attributes["canMove"] = true;
+                mouseRef.useMouseDirection = false;
             }
         }
-
-        lastOnFloor = currOnFloor;
+        else if ((bool)parent.attributes["canMove"] && 
+            !parent.GetComponent<Move>().movementOverride)
+        {
+            Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
+            UpdateWalkAnimation(currVelocity);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -60,43 +54,95 @@ public partial class AnimationHandler : Component
         base._PhysicsProcess(delta);
     }
 
-    private void UpdateWalkAnimation(Vector2 currVelocity)
+    public String GetCurrentAnimation()
     {
-        if (currVelocity.X > 5.0f)
-        {
-            sprite.FlipH = false;
+        return animationPlayer.CurrentAnimation;
+    }
+    public void PlayAnimation(String animName, Vector2 inputDir)
+    {
+        var dir = GetAnimationDirection(inputDir);
+        
+        sprite.FlipH = inputDir.X > 0 ? false : true;
 
-            if (currVelocity.X > 100.0f)
-                animationPlayer.Play("run");
-            else
-                animationPlayer.Play("walk");
+        if (Mathf.IsZeroApprox(inputDir.LengthSquared()))
+        {
+            dir = GetAnimationDirection(lastNonZeroInput);
+            sprite.FlipH = lastNonZeroInput.X > 0 ? false : true;
         }
-        else if (currVelocity.X < -5.0f)
-        {
-            sprite.FlipH = true;
+        
+        animationPlayer.Play(dir + "_" + animName);
+    }
 
-            if (currVelocity.X < -100.0f)
-                animationPlayer.Play("run");
+    private String GetAnimationDirection(Vector2 currVelocity)
+    {
+        Vector2 direction = currVelocity.Normalized();
+
+        String animationDirection = "front";
+
+        if (!Mathf.IsZeroApprox(currVelocity.LengthSquared()))
+            lastNonZeroInput = currVelocity.Normalized();
+
+        if (direction.Y > dirCutoff)
+        {
+            if (Mathf.Abs(direction.X) < 0.1f)
+                animationDirection = "front";
             else
-                animationPlayer.Play("walk");
+                animationDirection = "front_side";
+        }
+        else if (direction.Y < -dirCutoff)
+        {
+            if (Mathf.Abs(direction.X) < 0.1f)
+                animationDirection = "back";
+            else
+                animationDirection = "back_side";
         }
         else
-            animationPlayer.Play("idle");
+            animationDirection = "side";
+
+        return animationDirection;
     }
 
-    private bool IsLanding()
+    private void UpdateWalkAnimation(Vector2 currVelocity)
     {
-        if (animationPlayer.CurrentAnimation != "land_still" &&
-            animationPlayer.CurrentAnimation != "land_roll")
-            return false;
+        float speed = currVelocity.Length();
 
-        if (!animationPlayer.IsPlaying())
-            return false;
+        var mouseDirection = mouseRef.GlobalPosition - parent.GlobalPosition;
 
-        return true;
+        var currDirection = mouseRef.useMouseDirection 
+            ? GetAnimationDirection(mouseDirection)
+            : GetAnimationDirection(currVelocity);
+
+        if (Mathf.IsZeroApprox(speed))
+        {
+            animationPlayer.Play(
+                GetAnimationDirection(lastNonZeroInput) + "_idle");
+            sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
+        }
+        // else if (speed > dashCutoff)
+        // {
+        //     animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
+        //     sprite.FlipH = currVelocity.X < 0 ? true : false;
+        // }
+        else if (speed > runCutoff)
+        {
+            animationPlayer.Play(currDirection + "_run");
+            // sprite.FlipH = currVelocity.X < 0 ? true : false;
+
+            sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
+                : currVelocity.X < 0;
+        }
+        else
+        {
+            animationPlayer.Play(currDirection + "_walk");
+            // sprite.FlipH = currVelocity.X < 0 ? true : false;
+
+            sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
+                : currVelocity.X < 0;
+        }
+
     }
 
-    private Godot.Vector2 ClipSmallValues(Godot.Vector2 inputVec)
+    private Vector2 ClipSmallValues(Vector2 inputVec)
     {
         if (Mathf.Abs(inputVec.X) < 0.1f)
             inputVec.X = 0.0f;

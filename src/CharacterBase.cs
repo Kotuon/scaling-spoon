@@ -5,9 +5,8 @@ using System;
 
 public partial class CharacterBase : CharacterBody2D
 {
-    [Export]
-    public Vector2 gravity { get; set; } = new Vector2(0.0f, 1500.0f);
-
+    [Export] public Godot.Collections.Dictionary attributes;
+    
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -21,5 +20,21 @@ public partial class CharacterBase : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
+    }
+
+    public T GetComponent<T>() where T : class
+    {
+        foreach (Node child in GetChildren())
+        {
+            foreach (Node subChild in child.GetChildren())
+            {
+                if (subChild is T)
+                    return subChild as T;
+            }
+            if (child is T)
+                return child as T;
+        }
+
+        return default(T);
     }
 }

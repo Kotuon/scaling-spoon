@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 namespace Game.Component;
 
 using Godot;
@@ -6,55 +8,48 @@ using Game.Entity;
 using System.Numerics;
 
 
-public partial class Move : Component
+public partial class Move : Ability
 {
     // Walking
     [Export]
-    public float maxWalkSpeed { get; set; } = 400.0f;
-    public float currWalkSpeed { get; private set; }
+    public float maxWalkSpeed { get; set; } = 350.0f;
+    
+    public float currWalkSpeed
+    {
+        set
+        {
+            parent.attributes["currSpeed"] = value;
+        }
+        
+        get => (float)parent.attributes["currSpeed"];
+    }
     public float lastWalkSpeed { get; private set; }
     [Export]
     public float friction { get; set; } = 0.2f;
     [Export]
-    public float airDrag { get; set; } = 0.01f;
+    public float acceleration { get; set; } = 600.0f;
     [Export]
-    public float acceleration { get; set; } = 0.25f;
+    public float turnSpeed { get; set; } = 1000000.0f;
     [Export]
-    public float airControl { get; set; } = 0.5f;
+    public float brakeSpeed { get; set; } = 750.0f;
+    [Export]
+    public float slideBrakeSpeed { get; set; } = 325.0f;
+    [Export]
+    public AudioStream[] footstepSounds;
+    [Export]
+    public AudioStreamPlayer2D footstepPlayer;
 
-    // Jumping
-    //// Coyote Time
-    private Timer coyoteTimer = new Timer();
-    [Export]
-    public float coyoteTime { get; set; } = 0.2f;
-    private bool canCoyoteJump = false;
-    //// Jump Buffering
-    private Timer jumpBufferTimer = new Timer();
-    [Export]
-    public float jumpBufferTime { get; set; } = 0.1f;
-    //// General
-    [Export]
-    public float jumpSpeed { get; set; } = -1000.0f;
-    private bool hasJumpInput = false;
+    private RandomNumberGenerator rng = new RandomNumberGenerator();
 
-    private bool _canMove { get; set; } = true;
+    public bool movementOverride = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        AddChild(coyoteTimer);
-        coyoteTimer.WaitTime = coyoteTime;
-        coyoteTimer.OneShot = true;
-        coyoteTimer.Timeout += () => { canCoyoteJump = false; };
-
-        AddChild(jumpBufferTimer);
-        jumpBufferTimer.WaitTime = jumpBufferTime;
-        jumpBufferTimer.OneShot = true;
-        jumpBufferTimer.Timeout += () => { hasJumpInput = false; };
+        rng.Randomize();
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+    public override void _Input(InputEvent @event)
     {
     }
 
@@ -62,76 +57,95 @@ public partial class Move : Component
     {
         base._PhysicsProcess(delta);
 
-        if (_canMove)
+        if (movementOverride)
+            return;
+
+        if ((bool)parent.attributes["canMove"])
         {
-            UpdateWalk(delta);
-            UpdateJump();
+            var inputDirection = parent.GetComponent<Controller>().moveInput;
+            UpdateWalk(brakeSpeed, delta, inputDirection);
+        }
+        else
+        {
+            UpdateWalk(slideBrakeSpeed, delta, Godot.Vector2.Zero);
         }
     }
 
-    private void UpdateWalk(double delta)
+    public float UpdateSpeed(float currSpeed, float maxSpeed, float slowSpeed,
+        double delta, Godot.Vector2 direction)
     {
-        Godot.Vector2 newVelocity = new Godot.Vector2(0.0f, 0.0f);
+        if (direction.LengthSquared() > 0.0f)
+        {
+            if (currSpeed < maxSpeed)
+                currSpeed += acceleration * (float)delta;
+            else
+                currSpeed = maxSpeed;
+        }
+        else
+        {
+            if (!Mathf.IsEqualApprox(currSpeed, 0.0f))
+            {
+                currSpeed = (float)Mathf.Clamp(
+                    currSpeed - slowSpeed * (float)delta,
+                    0.0, maxSpeed);
+            }
+            else
+                currSpeed = 0.0f;
+        }
+
+        return currSpeed;
+    }
+
+    private void UpdateSpeed(float slowSpeed, double delta, Godot.Vector2 direction)
+    {
+        var dash = parent.GetComponent<Dash>();
+
+        float maxSpeedToUse = dash.isActive ? dash.speed : maxWalkSpeed;
+
+        currWalkSpeed = UpdateSpeed(currWalkSpeed, maxSpeedToUse, slowSpeed,
+            delta, direction);
+    }
+
+    public Godot.Vector2 UpdateWalk(float currSpeed, float maxSpeed, 
+        double delta, Godot.Vector2 direction)
+    {
+        Godot.Vector2 newVelocity;
         Godot.Vector2 currVelocity = parent.GetRealVelocity();
 
-        if (!parent.IsOnFloor())
+        if (currVelocity.Normalized() == (direction.Normalized() * -1.0f))
         {
-            newVelocity.Y =
-                currVelocity.Y +
-                parent.gravity.Y * (float)delta;
+            direction += direction.Orthogonal() * turnSpeed;
         }
 
-        float inputDirection = Input.GetAxis("walk_left", "walk_right");
-        if (inputDirection != 0.0f)
-        {
-            float maxWalkSpeedToUse = maxWalkSpeed;
-            float accelerationToUse = acceleration;
-            if (!parent.IsOnFloor())
-            {
-                maxWalkSpeedToUse *= airControl;
-                accelerationToUse *= Mathf.Sqrt(airControl);
-            }
+        newVelocity = (currVelocity + (direction * turnSpeed)).Normalized() *
+            currSpeed;
 
-            newVelocity.X = Mathf.Lerp(currVelocity.X,
-                                       inputDirection * maxWalkSpeedToUse,
-                                       accelerationToUse);
-        }
-        else if (parent.IsOnFloor())
-            newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, friction);
-        else
-            newVelocity.X = Mathf.Lerp(currVelocity.X, 0.0f, airDrag);
-
-        parent.SetVelocity(newVelocity);
+        return newVelocity;
     }
 
-    private void UpdateJump()
+    private void UpdateWalk(float slowSpeed, double delta, Godot.Vector2 direction)
     {
-        bool lastOnFloorResult = parent.IsOnFloor();
-        bool newOnFloorResult = parent.MoveAndSlide();
+        UpdateSpeed(slowSpeed, delta, direction);
+        Godot.Vector2 newVelocity = UpdateWalk(currWalkSpeed, maxWalkSpeed,
+            delta, direction);
 
-        if (!newOnFloorResult && lastOnFloorResult)
-        {
-            canCoyoteJump = true;
-            coyoteTimer.Start();
-        }
+        if (currWalkSpeed != 0.0 && currWalkSpeed <= maxWalkSpeed)
+            playFootstepSound();
 
-        if (Input.IsActionJustPressed("jump"))
-        {
-            hasJumpInput = true;
-            if (!newOnFloorResult)
-                jumpBufferTimer.Start();
-        }
+        parent.SetVelocity(newVelocity);
+        parent.MoveAndSlide();
+    }
 
-        if ((newOnFloorResult || canCoyoteJump) && hasJumpInput)
-        {
-            hasJumpInput = false;
-            canCoyoteJump = false;
+    private void playFootstepSound()
+    {
+        if (footstepPlayer.Playing)
+            return;
 
-            Godot.Vector2 jumpVelocity =
-                new Godot.Vector2(parent.GetRealVelocity().X, jumpSpeed);
-            parent.SetVelocity(jumpVelocity);
-            parent.MoveAndSlide();
-            // TODO: time in air stuff
-        }
+        if (footstepSounds.Length == 0)
+            return;
+
+        int randomIndex = rng.RandiRange(0, footstepSounds.Length - 1);
+        footstepPlayer.Stream = footstepSounds[randomIndex];
+        footstepPlayer.Play();
     }
 }
