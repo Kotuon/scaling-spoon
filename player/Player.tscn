@@ -2924,6 +2924,7 @@ attributes = {
 brakeSpeed = 1250.0
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../../Footsteps")
+abilityName = "move"
 
 [node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
 abilityName = "shield"

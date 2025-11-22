@@ -53,7 +53,6 @@ public partial class Move : Ability
     {
     }
 
-
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
@@ -69,7 +68,6 @@ public partial class Move : Ability
         else
         {
             UpdateWalk(slideBrakeSpeed, delta, Godot.Vector2.Zero);
-            GD.Print("Slow");
         }
     }
 

@@ -13,7 +13,7 @@ public partial class Ability : Component
     [Export]
     public float cooldown { get; set; } = 0.1f;
     private Timer cooldownTimer;
-    protected bool onCooldown = false;
+    public bool onCooldown = false;
 
     public bool isActive { private set; get; } = false;
 
@@ -77,27 +77,6 @@ public partial class Ability : Component
         cooldownTimer.Timeout += EndCooldown;
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        base._Input(@event);
-
-        if (@event.IsActionPressed(abilityName))
-        {
-            if (!isActive && !onCooldown)
-            {
-                Trigger();
-            }
-        }
-        if (@event.IsActionReleased(abilityName))
-        {
-            if (isActive)
-            {
-                StartCooldown();
-                End();
-            }
-        }
-    }
-
     public override void _Process(double delta)
     {
         base._Process(delta);
@@ -122,7 +101,7 @@ public partial class Ability : Component
         isActive = false;
     }
 
-    private void StartCooldown()
+    public void StartCooldown()
     {
         onCooldown = true;
         cooldownTimer.Start();
