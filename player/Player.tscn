@@ -1,6 +1,7 @@
-[gd_scene load_steps=97 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=98 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/Player.cs" id="1_dnad5"]
+[ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="2_v2pqu"]
 [ext_resource type="AudioStream" uid="uid://dao2ksoscougm" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_A.wav" id="3_e6io6"]
 [ext_resource type="Texture2D" uid="uid://bqas8l8ge2e5q" path="res://assets/art/Player/Front Movement.png" id="4_xj3hh"]
@@ -29,7 +30,6 @@
 [ext_resource type="Texture2D" uid="uid://cfnkecfdgk5gf" path="res://assets/art/Player/New/Side Shield.png" id="26_stbqk"]
 [ext_resource type="Texture2D" uid="uid://dgwf1kgxmps7i" path="res://assets/art/Player/New/FrontSide Shield.png" id="27_8eyfg"]
 [ext_resource type="Texture2D" uid="uid://bgvo31vfok5kh" path="res://assets/art/Player/New/BackSide Shield.png" id="28_76mgg"]
-[ext_resource type="Script" uid="uid://3jbd0vrso0a2" path="res://src/MouseCamera.cs" id="29_a0lmo"]
 [ext_resource type="Texture2D" uid="uid://b4fbsnncmuius" path="res://assets/art/Player/New/Front Throw.png" id="29_lhjxl"]
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
@@ -40,6 +40,7 @@
 [ext_resource type="Texture2D" uid="uid://cqcg0rq166o63" path="res://assets/art/Player/New/FrontSide Throw.png" id="36_ayguc"]
 [ext_resource type="Texture2D" uid="uid://bfqh0jv15aib1" path="res://assets/art/Player/New/BackSide Throw.png" id="37_t7u8x"]
 [ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/PlayerController.tscn" id="39_610ub"]
+[ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/OffsetCamera.cs" id="39_ayguc"]
 
 [sub_resource type="Resource" id="Resource_qkm22"]
 metadata/__load_path__ = "res://assets/Player/top_down/Front Spritesheet.png"
@@ -794,7 +795,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Throw")
+tracks/4/path = NodePath("AbilityManager/Throw")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1022,7 +1023,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Throw")
+tracks/4/path = NodePath("AbilityManager/Throw")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -1894,7 +1895,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Throw")
+tracks/4/path = NodePath("AbilityManager/Throw")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -2122,7 +2123,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Throw")
+tracks/4/path = NodePath("AbilityManager/Throw")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -2672,7 +2673,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Throw")
+tracks/4/path = NodePath("AbilityManager/Throw")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -2910,23 +2911,30 @@ height = 52.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("move", "animationHandler")]
 script = ExtResource("1_dnad5")
-move = NodePath("Move")
+move = NodePath("AbilityManager/Move")
 animationHandler = NodePath("AnimationHandler")
+attributes = {
+"canMove": true,
+"currSpeed": 0.0
+}
 
-[node name="Move" parent="." node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
+[node name="AbilityManager" parent="." instance=ExtResource("2_t7u8x")]
+
+[node name="Move" parent="AbilityManager" node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
+brakeSpeed = 1250.0
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
-footstepPlayer = NodePath("../Footsteps")
+footstepPlayer = NodePath("../../Footsteps")
 
-[node name="Shield" parent="." instance=ExtResource("14_76mgg")]
+[node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
 abilityName = "shield"
 
-[node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
-
-[node name="Throw" parent="." instance=ExtResource("32_234y4")]
+[node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
 proj = ExtResource("33_u8vxv")
 abilityName = "throw"
 
-[node name="Dash" parent="." instance=ExtResource("17_ayguc")]
+[node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
+
+[node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -2949,7 +2957,7 @@ scale = Vector2(25, 50)
 mesh = SubResource("QuadMesh_tvfjf")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("29_a0lmo")
+script = ExtResource("39_ayguc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)

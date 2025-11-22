@@ -10,18 +10,69 @@ public partial class Dash : Ability
     [Export]
     public float speed { get; set; } = 800.0f;
 
-    public override void Trigger()
+    protected float currSpeed
     {
-        base.Trigger();
+        set
+        {
+            parent.attributes["currSpeed"] = value;
+        }
+        get
+        {
+            var retSpeed = (float)parent.attributes["currSpeed"];
 
-        SetDashParticles(true);
+            if (retSpeed > move.maxWalkSpeed)
+                SetDashParticles(true);
+            else
+                SetDashParticles(false);
+
+            return retSpeed;
+        }
     }
 
-    public override void Update()
+    public override void _Input(InputEvent @event)
     {
-        base.Update();
+        base._Input(@event);
 
-        // move.currWalkSpeed
+        if (!isActive && !onCooldown && 
+            @event.GetActionStrength(abilityName) != 0.0f)
+            Trigger();
+    }
+
+
+    public override void Trigger()
+    {
+        if ((float)parent.attributes["currSpeed"] < move.maxWalkSpeed)
+            return;
+
+        base.Trigger();
+
+        move.movementOverride = true;
+    }
+
+    public override void Update(double delta)
+    {
+        if (!(bool)parent.attributes["canMove"])
+        {
+            End();
+            return;
+        }
+        
+        base.Update(delta);
+
+        var dir = parent.GetComponent<Controller>().moveInput;
+
+        currSpeed = move.UpdateSpeed(currSpeed, speed, 0.0f, delta, dir);
+
+        var velocity = move.UpdateWalk(currSpeed, speed, delta, dir);
+
+        parent.GetComponent<OffsetCamera>().TriggerOffset(
+            velocity.Normalized() * 250.0f, 0.007f
+        );
+
+        parent.SetVelocity(velocity);
+        parent.MoveAndSlide();
+
+        animHandler.PlayAnimation("dash", velocity);
     }
 
 
@@ -29,7 +80,10 @@ public partial class Dash : Ability
     {
         base.End();
 
+        move.movementOverride = false;
         SetDashParticles(false);
+
+        parent.GetComponent<OffsetCamera>().CancelOffset();
     }
 
     private void SetDashParticles(bool setValue)

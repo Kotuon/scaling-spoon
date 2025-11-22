@@ -7,8 +7,8 @@ using System;
 public partial class Mouse : Component
 {
 
-    [Export]
-    public float maxRadius = 400.0f;
+    [Export] public float offsetPercent = 0.25f;
+    [Export] public float maxRadius = 400.0f;
 
     private bool _useMouseDirection;
 
@@ -24,6 +24,8 @@ public partial class Mouse : Component
             else
             {
                 icon.Visible = false;
+                
+                parent.GetComponent<OffsetCamera>().CancelOffset();
             }
 
             _useMouseDirection = value;
@@ -76,7 +78,14 @@ public partial class Mouse : Component
 
             // Processing if needed
 
-            GlobalPosition = mousePos;
+        GlobalPosition = mousePos;
+
+        if (useMouseDirection)
+        {
+            parent.GetComponent<OffsetCamera>().TriggerOffset(
+                (GlobalPosition - parent.GlobalPosition) * offsetPercent
+            );
+        }
     }
 
 }

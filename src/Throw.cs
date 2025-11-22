@@ -12,15 +12,15 @@ public partial class Throw : Ability
     {
         base.Trigger();
 
-        move._canMove = false;
+        parent.attributes["canMove"] = false;
 
         animHandler.PlayAnimation("throw_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
     }
 
-    public override void Update()
+    public override void Update(double delta)
     {
-        base.Update();
+        base.Update(delta);
 
         if (animHandler.GetCurrentAnimation().Find("throw_init") == -1)
             animHandler.PlayAnimation("throw_update", mouseRef.mouseDir);
@@ -37,7 +37,7 @@ public partial class Throw : Ability
     public void SpawnProjectile(Vector2 startPos)
     {
         var inst = (Projectile)proj.Instantiate();
-        GetNode("../..").AddChild(inst);
+        GetNode("../../..").AddChild(inst);
 
         bool spriteFlip = animHandler.sprite.FlipH;
 

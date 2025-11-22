@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7mrgqxbrp16y"]
+
+[ext_resource type="Script" uid="uid://dg8idu41mbj4p" path="res://src/AbilityManager.cs" id="1_7ud1q"]
+
+[node name="AbilityManager" type="Node2D"]
+script = ExtResource("1_7ud1q")

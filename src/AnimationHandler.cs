@@ -37,11 +37,12 @@ public partial class AnimationHandler : Component
                 animationPlayer.CurrentAnimationLength)
             {
                 canAdvance = true;
-                parent.GetComponent<Move>()._canMove = true;
+                parent.attributes["canMove"] = true;
                 mouseRef.useMouseDirection = false;
             }
         }
-        else if (parent.GetComponent<Move>()._canMove)
+        else if ((bool)parent.attributes["canMove"] && 
+            !parent.GetComponent<Move>().movementOverride)
         {
             Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
             UpdateWalkAnimation(currVelocity);
@@ -117,11 +118,11 @@ public partial class AnimationHandler : Component
                 GetAnimationDirection(lastNonZeroInput) + "_idle");
             sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
         }
-        else if (speed > dashCutoff)
-        {
-            animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
-            sprite.FlipH = currVelocity.X < 0 ? true : false;
-        }
+        // else if (speed > dashCutoff)
+        // {
+        //     animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
+        //     sprite.FlipH = currVelocity.X < 0 ? true : false;
+        // }
         else if (speed > runCutoff)
         {
             animationPlayer.Play(currDirection + "_run");

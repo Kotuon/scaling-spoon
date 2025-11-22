@@ -14,15 +14,15 @@ public partial class Shield : Ability
     {
         base.Trigger();
 
-        move._canMove = false;
+        parent.attributes["canMove"] = false;
 
         animHandler.PlayAnimation("shield_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
     }
 
-    public override void Update()
+    public override void Update(double delta)
     {
-        base.Update();
+        base.Update(delta);
 
         if (animHandler.GetCurrentAnimation().Find("shield_init") == -1)
             animHandler.PlayAnimation("shield_idle", mouseRef.mouseDir);
@@ -32,7 +32,7 @@ public partial class Shield : Ability
     {
         base.End();
 
-        move._canMove = true;
+        parent.attributes["canMove"] = true;
         mouseRef.useMouseDirection = false;
     }
 }

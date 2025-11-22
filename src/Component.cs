@@ -6,14 +6,14 @@ using Game.Entity;
 
 public partial class Component : Node2D
 {
-    private CharacterBase _parent = null;
+    protected CharacterBase _parent = null;
     public CharacterBase parent
     {
-        private set => _parent = value;
+        protected set => _parent = value;
 
         get
         {
-            if (_parent == null)
+            if (_parent == null && GetNode("..") is CharacterBase)
                 _parent = GetNode<CharacterBase>("..");
             return _parent;
         }

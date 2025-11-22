@@ -8,25 +8,20 @@ using Game.Entity;
 using System.Numerics;
 
 
-public partial class Move : Component
+public partial class Move : Ability
 {
     // Walking
     [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
     
-    private float _currWalkSpeed;
     public float currWalkSpeed
     {
-        private set
+        set
         {
-            _currWalkSpeed = value;
-            // if (_currWalkSpeed > maxWalkSpeed)
-            //     SetDashParticles(true);
-            // else
-            //     SetDashParticles(false);
+            parent.attributes["currSpeed"] = value;
         }
         
-        get => _currWalkSpeed;
+        get => (float)parent.attributes["currSpeed"];
     }
     public float lastWalkSpeed { get; private set; }
     [Export]
@@ -36,14 +31,17 @@ public partial class Move : Component
     [Export]
     public float turnSpeed { get; set; } = 1000000.0f;
     [Export]
-    public float brakeSpeed { get; set; } = 1250.0f;
+    public float brakeSpeed { get; set; } = 750.0f;
+    [Export]
+    public float slideBrakeSpeed { get; set; } = 325.0f;
     [Export]
     public AudioStream[] footstepSounds;
     [Export]
     public AudioStreamPlayer2D footstepPlayer;
-    public bool _canMove { get; set; } = true;
 
     private RandomNumberGenerator rng = new RandomNumberGenerator();
+
+    public bool movementOverride = false;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -51,58 +49,70 @@ public partial class Move : Component
         rng.Randomize();
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta)
+    public override void _Input(InputEvent @event)
     {
     }
+
 
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
 
-        if (_canMove)
+        if (movementOverride)
+            return;
+
+        if ((bool)parent.attributes["canMove"])
         {
             var inputDirection = parent.GetComponent<Controller>().moveInput;
-            UpdateWalk(delta, inputDirection);
+            UpdateWalk(brakeSpeed, delta, inputDirection);
         }
         else
         {
-            UpdateWalk(delta, Godot.Vector2.Zero);
+            UpdateWalk(slideBrakeSpeed, delta, Godot.Vector2.Zero);
+            GD.Print("Slow");
         }
     }
 
-    private void UpdateSpeed(double delta, Godot.Vector2 direction)
+    public float UpdateSpeed(float currSpeed, float maxSpeed, float slowSpeed,
+        double delta, Godot.Vector2 direction)
+    {
+        if (direction.LengthSquared() > 0.0f)
+        {
+            if (currSpeed < maxSpeed)
+                currSpeed += acceleration * (float)delta;
+            else
+                currSpeed = maxSpeed;
+        }
+        else
+        {
+            if (!Mathf.IsEqualApprox(currSpeed, 0.0f))
+            {
+                currSpeed = (float)Mathf.Clamp(
+                    currSpeed - slowSpeed * (float)delta,
+                    0.0, maxSpeed);
+            }
+            else
+                currSpeed = 0.0f;
+        }
+
+        return currSpeed;
+    }
+
+    private void UpdateSpeed(float slowSpeed, double delta, Godot.Vector2 direction)
     {
         var dash = parent.GetComponent<Dash>();
 
         float maxSpeedToUse = dash.isActive ? dash.speed : maxWalkSpeed;
-        
-        if (direction.LengthSquared() > 0.0f)
-        {
-            if (currWalkSpeed < maxSpeedToUse)
-                currWalkSpeed += acceleration * (float)delta;
-            else
-                currWalkSpeed = maxSpeedToUse;
-        }
-        else
-        {
-            if (!Godot.Mathf.IsEqualApprox(currWalkSpeed, 0.0f))
-            {
-                currWalkSpeed = (float)Godot.Mathf.Clamp(
-                    currWalkSpeed - brakeSpeed * (float)delta,
-                    0.0, maxSpeedToUse);
-            }
-            else
-                currWalkSpeed = 0.0f;
-        }
+
+        currWalkSpeed = UpdateSpeed(currWalkSpeed, maxSpeedToUse, slowSpeed,
+            delta, direction);
     }
 
-    private void UpdateWalk(double delta, Godot.Vector2 direction)
+    public Godot.Vector2 UpdateWalk(float currSpeed, float maxSpeed, 
+        double delta, Godot.Vector2 direction)
     {
         Godot.Vector2 newVelocity;
         Godot.Vector2 currVelocity = parent.GetRealVelocity();
-
-        UpdateSpeed(delta, direction);
 
         if (currVelocity.Normalized() == (direction.Normalized() * -1.0f))
         {
@@ -110,7 +120,16 @@ public partial class Move : Component
         }
 
         newVelocity = (currVelocity + (direction * turnSpeed)).Normalized() *
-            currWalkSpeed;
+            currSpeed;
+
+        return newVelocity;
+    }
+
+    private void UpdateWalk(float slowSpeed, double delta, Godot.Vector2 direction)
+    {
+        UpdateSpeed(slowSpeed, delta, direction);
+        Godot.Vector2 newVelocity = UpdateWalk(currWalkSpeed, maxWalkSpeed,
+            delta, direction);
 
         if (currWalkSpeed != 0.0 && currWalkSpeed <= maxWalkSpeed)
             playFootstepSound();

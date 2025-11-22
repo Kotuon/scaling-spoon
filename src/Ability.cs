@@ -13,7 +13,7 @@ public partial class Ability : Component
     [Export]
     public float cooldown { get; set; } = 0.1f;
     private Timer cooldownTimer;
-    private bool onCooldown = false;
+    protected bool onCooldown = false;
 
     public bool isActive { private set; get; } = false;
 
@@ -43,6 +43,31 @@ public partial class Ability : Component
         }
     }
 
+    public new CharacterBase parent
+    {
+        protected set => _parent = value;
+
+        get
+        {
+            if (_parent == null)
+                _parent = GetNode<CharacterBase>("../..");
+            return _parent;
+        }
+    }
+
+    private AbilityManager _ablManager;
+    public AbilityManager ablManager
+    {
+        private set => _ablManager = value;
+
+        get
+        {
+            if (_ablManager == null)
+                _ablManager = GetNode<AbilityManager>("..");
+            return _ablManager;
+        }
+    }
+
     public override void _Ready()
     {
         cooldownTimer = new Timer();
@@ -58,7 +83,7 @@ public partial class Ability : Component
 
         if (@event.IsActionPressed(abilityName))
         {
-            if (!onCooldown)
+            if (!isActive && !onCooldown)
             {
                 Trigger();
             }
@@ -78,7 +103,7 @@ public partial class Ability : Component
         base._Process(delta);
 
         if (isActive)
-            Update();
+            Update(delta);
     }
 
 
@@ -87,7 +112,7 @@ public partial class Ability : Component
         isActive = true;
     }
 
-    public virtual void Update()
+    public virtual void Update(double delta)
     {
 
     }
