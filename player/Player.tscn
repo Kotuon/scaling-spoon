@@ -27,14 +27,14 @@
 [ext_resource type="Texture2D" uid="uid://n38di2d28q01" path="res://assets/art/Player/BackSide DashnRoll.png" id="23_stbqk"]
 [ext_resource type="Texture2D" uid="uid://dwxm5yy3y1epj" path="res://assets/art/Player/New/Front Shield.png" id="24_8nth8"]
 [ext_resource type="Texture2D" uid="uid://ckdowcfcnt2yj" path="res://assets/art/Player/New/Back Shield.png" id="25_8tqfn"]
-[ext_resource type="Texture2D" uid="uid://cfnkecfdgk5gf" path="res://assets/art/Player/New/Side Shield.png" id="26_stbqk"]
+[ext_resource type="Texture2D" uid="uid://cchjjkjo7ofaj" path="res://assets/art/Player/New/Side SHield.png" id="26_stbqk"]
 [ext_resource type="Texture2D" uid="uid://dgwf1kgxmps7i" path="res://assets/art/Player/New/FrontSide Shield.png" id="27_8eyfg"]
 [ext_resource type="Texture2D" uid="uid://bgvo31vfok5kh" path="res://assets/art/Player/New/BackSide Shield.png" id="28_76mgg"]
 [ext_resource type="Texture2D" uid="uid://b4fbsnncmuius" path="res://assets/art/Player/New/Front Throw.png" id="29_lhjxl"]
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/Throw.tscn" id="32_234y4"]
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectile.tscn" id="33_u8vxv"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/Projectile.tscn" id="33_u8vxv"]
 [ext_resource type="Texture2D" uid="uid://cta3uraxnh5oi" path="res://assets/art/Player/New/Back Throw.png" id="34_8cy8x"]
 [ext_resource type="Texture2D" uid="uid://ccumi6x32ih52" path="res://assets/art/Player/New/Side Throw.png" id="35_610ub"]
 [ext_resource type="Texture2D" uid="uid://cqcg0rq166o63" path="res://assets/art/Player/New/FrontSide Throw.png" id="36_ayguc"]
@@ -2936,6 +2936,7 @@ abilityName = "throw"
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
+z_index = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

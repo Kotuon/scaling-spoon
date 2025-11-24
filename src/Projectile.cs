@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class Projectile : CharacterBody2D
 {
@@ -21,7 +22,26 @@ public partial class Projectile : CharacterBody2D
     {
         base._Process(delta);
 
-        MoveAndSlide();
+        var result = MoveAndSlide();
+
+        if (result)
+        {
+            Velocity = Vector2.Zero;
+            var particles = GetNode<CpuParticles2D>("HitParticles");
+            particles.Emitting = true;
+
+            var sprite = GetNode<Sprite2D>("Sprite2D");
+            sprite.Visible = false;
+
+            Timeout();
+        }
+    }
+
+    public async Task Timeout()
+    {
+        await ToSignal(GetTree().CreateTimer(1.0f), 
+            SceneTreeTimer.SignalName.Timeout);
+        QueueFree();
     }
 
 }

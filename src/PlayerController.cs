@@ -70,42 +70,6 @@ public partial class PlayerController : Controller
                 }
             }
         }
-
-        // if (actionMap.ContainsKey(@event.AsText()))
-        // {
-        //     Ability ability = actionMap[@event.AsText()];
-
-        //     if (@event.IsActionPressed(ability.abilityName))
-        //     {
-        //         if (!ability.isActive && !ability.onCooldown)
-        //         {
-        //             ability.Trigger();
-        //         }
-        //     }
-        //     if (@event.IsActionReleased(ability.abilityName))
-        //     {
-        //         if (ability.isActive)
-        //         {
-        //             ability.StartCooldown();
-        //             ability.End();
-        //         }
-        //     }
-        // }
     }
-
-
-    // public override void _Input(InputEvent @event)
-    // {
-    //     base._Input(@event);
-
-    //     if (actionMap.ContainsKey(@event.AsText()))
-    //     {
-    //         if (@event.IsPressed())
-    //             actionMap[@event.AsText()] = (int)InputState.Pressed;
-    //         else if (@event.IsReleased())
-    //             actionMap[@event.AsText()] = (int)InputState.Released;
-    //     }
-    // }
-
 
 }

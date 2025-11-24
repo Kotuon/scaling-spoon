@@ -1,6 +1,6 @@
 namespace Game.Component;
 
-using Game.Entity.Player;
+using Game.Entity;
 using Godot;
 using System;
 

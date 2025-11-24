@@ -1,4 +1,4 @@
-namespace Game.Entity.Player;
+namespace Game.Entity;
 
 using Godot;
 using System;

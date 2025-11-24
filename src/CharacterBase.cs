@@ -22,6 +22,14 @@ public partial class CharacterBase : CharacterBody2D
         base._PhysicsProcess(delta);
     }
 
+    public void AddAttribute(Variant key, Variant value)
+    {
+        if (attributes.ContainsKey(key))
+            return;
+        
+        attributes.Add(key, value);
+    }
+
     public T GetComponent<T>() where T : class
     {
         foreach (Node child in GetChildren())

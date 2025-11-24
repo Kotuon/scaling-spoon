@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=3 uid="uid://shvynfehd4nc"]
+
+[ext_resource type="Script" uid="uid://dflmrwqkm5m3e" path="res://src/EnemyBase.cs" id="1_o5cky"]
+[ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_5d2fm"]
+[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="3_x7emw"]
+[ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/EnemyBaseController.tscn" id="4_uu2uj"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5cky"]
+size = Vector2(100, 100)
+
+[node name="EnemyBase" type="CharacterBody2D"]
+script = ExtResource("1_o5cky")
+attributes = {
+"canMove": true,
+"currSpeed": 0.0
+}
+
+[node name="AbilityManager" parent="." instance=ExtResource("2_5d2fm")]
+position = Vector2(93.97739, -42.386307)
+
+[node name="Move" parent="AbilityManager" instance=ExtResource("3_x7emw")]
+maxWalkSpeed = 100.0
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(100, 100)
+mesh = SubResource("QuadMesh_o5cky")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o5cky")
+
+[node name="EnemyBaseController" parent="." instance=ExtResource("4_uu2uj")]

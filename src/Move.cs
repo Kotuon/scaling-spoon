@@ -47,6 +47,9 @@ public partial class Move : Ability
     public override void _Ready()
     {
         rng.Randomize();
+
+        parent.AddAttribute("canMove", true);
+        parent.AddAttribute("currSpeed", 0.0f);
     }
 
     public override void _Input(InputEvent @event)
@@ -98,11 +101,7 @@ public partial class Move : Ability
 
     private void UpdateSpeed(float slowSpeed, double delta, Godot.Vector2 direction)
     {
-        var dash = parent.GetComponent<Dash>();
-
-        float maxSpeedToUse = dash.isActive ? dash.speed : maxWalkSpeed;
-
-        currWalkSpeed = UpdateSpeed(currWalkSpeed, maxSpeedToUse, slowSpeed,
+        currWalkSpeed = UpdateSpeed(currWalkSpeed, maxWalkSpeed, slowSpeed,
             delta, direction);
     }
 
@@ -138,6 +137,9 @@ public partial class Move : Ability
 
     private void playFootstepSound()
     {
+        if (footstepPlayer == null)
+            return;
+        
         if (footstepPlayer.Playing)
             return;
 

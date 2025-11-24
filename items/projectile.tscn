@@ -1,23 +1,51 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwv0smc80566w"]
+[gd_scene load_steps=6 format=3 uid="uid://bwv0smc80566w"]
 
-[ext_resource type="Script" uid="uid://bfbjbfd3tk800" path="res://src/Projectile.cs" id="1_y3him"]
-[ext_resource type="Texture2D" uid="uid://gcv7dybucrco" path="res://assets/art/Player/New/Side Throw-1.png.png" id="2_tak0m"]
+[ext_resource type="Script" uid="uid://bfbjbfd3tk800" path="res://src/Projectile.cs" id="1_58rdg"]
+[ext_resource type="Texture2D" uid="uid://gcv7dybucrco" path="res://assets/art/Player/New/Side Throw-1.png.png" id="2_glfey"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3him"]
 size = Vector2(23, 6)
+
+[sub_resource type="Curve" id="Curve_58rdg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.25), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_58rdg"]
+offsets = PackedFloat32Array(0, 0.6747573, 1)
+colors = PackedColorArray(0, 1, 0.9764706, 1, 0, 1, 0.9764706, 1, 0, 1, 0.98333335, 0)
 
 [node name="Projectile" type="CharacterBody2D"]
 scale = Vector2(3, 3)
 motion_mode = 1
 slide_on_ceiling = false
+wall_min_slide_angle = 3.1415927
 floor_stop_on_slope = false
-script = ExtResource("1_y3him")
+script = ExtResource("1_58rdg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
 position = Vector2(0.33333334, 0.6666667)
-texture = ExtResource("2_tak0m")
+texture = ExtResource("2_glfey")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1.8333334, -0.3333333)
 shape = SubResource("RectangleShape2D_y3him")
+
+[node name="HitParticles" type="CPUParticles2D" parent="."]
+position = Vector2(13.333334, 0)
+rotation = 3.1415927
+emitting = false
+one_shot = true
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+damping_min = 75.0
+damping_max = 150.0
+scale_amount_min = 4.0
+scale_amount_max = 8.0
+scale_amount_curve = SubResource("Curve_58rdg")
+color = Color(0, 1, 0.9764706, 1)
+color_ramp = SubResource("Gradient_58rdg")
