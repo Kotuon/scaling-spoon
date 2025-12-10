@@ -8,9 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/Projectile.tscn" id="5_sub67"]
 [ext_resource type="PackedScene" uid="uid://bvbut14c1803" path="res://components/controllers/behavior_tree/BehaviorTree.tscn" id="7_rbfrs"]
 [ext_resource type="PackedScene" uid="uid://cu8i6jnyok2qy" path="res://components/controllers/behavior_tree/SequenceNode.tscn" id="8_4rh40"]
-[ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/actions/FindTarget.tscn" id="9_4rh40"]
-[ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/actions/MoveToTarget.tscn" id="10_rrd6m"]
-[ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/actions/Wait.tscn" id="11_303ht"]
+[ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/tasks/FindTarget.tscn" id="9_4rh40"]
+[ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/tasks/MoveToTarget.tscn" id="10_rrd6m"]
+[ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/tasks/Wait.tscn" id="11_303ht"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
 

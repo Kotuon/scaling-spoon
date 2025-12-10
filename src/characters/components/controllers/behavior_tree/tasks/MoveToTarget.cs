@@ -22,14 +22,17 @@ public partial class MoveToTarget : BehaviorNode
             GD.PushError("Target is not node 2d, got %s", target);
             return BehaviorNode.Status.ERROR;
         }
-        
+
         CharacterBase parent = (CharacterBase)context["parent"];
+
+        Controller controller = parent.GetComponent<Controller>();
 
         Vector2 target_position = (target as Node2D).Position;
         if (has_reached_target(target_position, parent.Position))
+        {
+            controller.moveInput = Vector2.Zero;
             return BehaviorNode.Status.SUCCESS;
-
-        Controller controller = parent.GetComponent<Controller>();
+        }
 
         controller.moveInput = target_position - parent.Position;
 

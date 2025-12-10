@@ -1,9 +1,8 @@
 using Godot;
 using Godot.Collections;
 using System;
-using System.Collections.Generic;
 
-public partial class Sequence : FlowControlNode
+public partial class Selector : FlowControlNode
 {
     public override BehaviorNode.Status evaluate(Dictionary context)
     {
@@ -18,22 +17,20 @@ public partial class Sequence : FlowControlNode
 
         if (result == BehaviorNode.Status.ERROR)
         {
-            reset_state();
-            return BehaviorNode.Status.ERROR;
-        }
-        else if (result == BehaviorNode.Status.SUCCESS)
-        {
             if (m_curr_node == nodes.Count - 1)
             {
                 reset_state();
-                return BehaviorNode.Status.SUCCESS;
+                return BehaviorNode.Status.ERROR;
             }
 
             m_curr_node += 1;
         }
+        else if (result == BehaviorNode.Status.SUCCESS)
+        {
+            reset_state();
+            return BehaviorNode.Status.SUCCESS;
+        }
 
         return BehaviorNode.Status.RUNNING;
     }
-
-
 }

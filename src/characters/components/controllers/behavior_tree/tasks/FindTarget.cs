@@ -13,7 +13,7 @@ public partial class FindTarget : BehaviorNode
             return BehaviorNode.Status.ERROR;
 
         context[target_name] = target_node;
-        
+
         return BehaviorNode.Status.SUCCESS;
     }
 }
