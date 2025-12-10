@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cu8i6jnyok2qy"]
+
+[ext_resource type="Script" uid="uid://ccure5g4sil0p" path="res://src/characters/components/controllers/behavior_tree/Sequence.cs" id="1_qqu7p"]
+
+[node name="SequenceNode" type="Node" node_paths=PackedStringArray("nodes")]
+script = ExtResource("1_qqu7p")
+nodes = []

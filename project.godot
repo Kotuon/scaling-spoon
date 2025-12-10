@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="scaling-spoon"
-run/main_scene="res://levels/testLevel.tscn"
+run/main_scene="uid://3rhkwh5ss5k7"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://b8jg7bg0n8mvb"]
 
-[ext_resource type="Script" uid="uid://hgksaq78pm2q" path="res://src/Mouse.cs" id="1_8oi1p"]
+[ext_resource type="Script" uid="uid://hgksaq78pm2q" path="res://src/characters/components/Mouse.cs" id="1_8oi1p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_illg6"]
 

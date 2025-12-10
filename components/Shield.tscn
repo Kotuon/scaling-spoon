@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxhf6esdftcfc"]
-
-[ext_resource type="Script" uid="uid://5fkpwytefpj3" path="res://src/Shield.cs" id="1_sg6kv"]
-
-[node name="Shield" type="Node2D"]
-script = ExtResource("1_sg6kv")

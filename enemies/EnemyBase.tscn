@@ -1,9 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://shvynfehd4nc"]
+[gd_scene load_steps=14 format=3 uid="uid://shvynfehd4nc"]
 
-[ext_resource type="Script" uid="uid://dflmrwqkm5m3e" path="res://src/EnemyBase.cs" id="1_o5cky"]
+[ext_resource type="Script" uid="uid://dflmrwqkm5m3e" path="res://src/characters/EnemyBase.cs" id="1_o5cky"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_5d2fm"]
-[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="3_x7emw"]
-[ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/EnemyBaseController.tscn" id="4_uu2uj"]
+[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="3_x7emw"]
+[ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="4_ix6nc"]
+[ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/controllers/EnemyBaseController.tscn" id="4_uu2uj"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/Projectile.tscn" id="5_sub67"]
+[ext_resource type="PackedScene" uid="uid://bvbut14c1803" path="res://components/controllers/behavior_tree/BehaviorTree.tscn" id="7_rbfrs"]
+[ext_resource type="PackedScene" uid="uid://cu8i6jnyok2qy" path="res://components/controllers/behavior_tree/SequenceNode.tscn" id="8_4rh40"]
+[ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/actions/FindTarget.tscn" id="9_4rh40"]
+[ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/actions/MoveToTarget.tscn" id="10_rrd6m"]
+[ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/actions/Wait.tscn" id="11_303ht"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
 
@@ -23,6 +30,9 @@ position = Vector2(93.97739, -42.386307)
 [node name="Move" parent="AbilityManager" instance=ExtResource("3_x7emw")]
 maxWalkSpeed = 100.0
 
+[node name="Throw" parent="AbilityManager" instance=ExtResource("4_ix6nc")]
+proj = ExtResource("5_sub67")
+
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 scale = Vector2(100, 100)
 mesh = SubResource("QuadMesh_o5cky")
@@ -31,3 +41,14 @@ mesh = SubResource("QuadMesh_o5cky")
 shape = SubResource("RectangleShape2D_o5cky")
 
 [node name="EnemyBaseController" parent="." instance=ExtResource("4_uu2uj")]
+
+[node name="BehaviorTree" parent="." instance=ExtResource("7_rbfrs")]
+
+[node name="SequenceNode" parent="BehaviorTree" instance=ExtResource("8_4rh40")]
+
+[node name="FindTarget" parent="BehaviorTree/SequenceNode" instance=ExtResource("9_4rh40")]
+
+[node name="MoveToTarget" parent="BehaviorTree/SequenceNode" instance=ExtResource("10_rrd6m")]
+
+[node name="Wait" parent="BehaviorTree/SequenceNode" instance=ExtResource("11_303ht")]
+wait_time = 5.0

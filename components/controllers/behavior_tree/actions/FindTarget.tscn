@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ua751p45hudl"]
+
+[ext_resource type="Script" uid="uid://e00kjp4mioul" path="res://src/characters/components/controllers/behavior_tree/actions/FindTarget.cs" id="1_t46cu"]
+
+[node name="FindTarget" type="Node"]
+script = ExtResource("1_t46cu")

@@ -1,8 +1,8 @@
 [gd_scene load_steps=98 format=3 uid="uid://de271tm4kog24"]
 
-[ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/Player.cs" id="1_dnad5"]
+[ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
-[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/Move.tscn" id="2_v2pqu"]
+[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="2_v2pqu"]
 [ext_resource type="AudioStream" uid="uid://dao2ksoscougm" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_A.wav" id="3_e6io6"]
 [ext_resource type="Texture2D" uid="uid://bqas8l8ge2e5q" path="res://assets/art/Player/Front Movement.png" id="4_xj3hh"]
 [ext_resource type="AudioStream" uid="uid://cosbmpcbdtih7" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_B.wav" id="4_ynqyi"]
@@ -18,8 +18,8 @@
 [ext_resource type="AudioStream" uid="uid://bn22pviqaerbr" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_H.wav" id="10_pa0na"]
 [ext_resource type="AudioStream" uid="uid://ce3f4rk32x4bi" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_I.wav" id="11_5pdkm"]
 [ext_resource type="AudioStream" uid="uid://vs8ssnu2hgu4" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_J.wav" id="12_f4gi0"]
-[ext_resource type="PackedScene" uid="uid://cxhf6esdftcfc" path="res://components/Shield.tscn" id="14_76mgg"]
-[ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/Dash.tscn" id="17_ayguc"]
+[ext_resource type="PackedScene" uid="uid://cxhf6esdftcfc" path="res://components/abilities/Shield.tscn" id="14_76mgg"]
+[ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
 [ext_resource type="Texture2D" uid="uid://b14s58neoq8uj" path="res://assets/art/Player/Front DashnRoll.png" id="19_ofhxi"]
 [ext_resource type="Texture2D" uid="uid://bvm41mrrrl5xo" path="res://assets/art/Player/Back DashnRoll.png" id="20_2m0d2"]
 [ext_resource type="Texture2D" uid="uid://bnqpqyabbr05m" path="res://assets/art/Player/Side DashnRoll.png" id="21_8nth8"]
@@ -33,13 +33,13 @@
 [ext_resource type="Texture2D" uid="uid://b4fbsnncmuius" path="res://assets/art/Player/New/Front Throw.png" id="29_lhjxl"]
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
-[ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/Throw.tscn" id="32_234y4"]
+[ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="32_234y4"]
 [ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/Projectile.tscn" id="33_u8vxv"]
 [ext_resource type="Texture2D" uid="uid://cta3uraxnh5oi" path="res://assets/art/Player/New/Back Throw.png" id="34_8cy8x"]
 [ext_resource type="Texture2D" uid="uid://ccumi6x32ih52" path="res://assets/art/Player/New/Side Throw.png" id="35_610ub"]
 [ext_resource type="Texture2D" uid="uid://cqcg0rq166o63" path="res://assets/art/Player/New/FrontSide Throw.png" id="36_ayguc"]
 [ext_resource type="Texture2D" uid="uid://bfqh0jv15aib1" path="res://assets/art/Player/New/BackSide Throw.png" id="37_t7u8x"]
-[ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/PlayerController.tscn" id="39_610ub"]
+[ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/controllers/PlayerController.tscn" id="39_610ub"]
 [ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/OffsetCamera.cs" id="39_ayguc"]
 
 [sub_resource type="Resource" id="Resource_qkm22"]
@@ -2924,14 +2924,11 @@ attributes = {
 brakeSpeed = 1250.0
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../../Footsteps")
-abilityName = "move"
 
 [node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
-abilityName = "shield"
 
 [node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
 proj = ExtResource("33_u8vxv")
-abilityName = "throw"
 
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
 

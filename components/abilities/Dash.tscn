@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://cy20yp5ktv4xe"]
+
+[ext_resource type="Script" uid="uid://gc8mc83mwj3t" path="res://src/characters/components/abilities/Dash.cs" id="1_em10g"]
+[ext_resource type="Shader" uid="uid://cxyqig5cvwqu7" path="res://shaders/Dash.gdshader" id="2_1jh8w"]
+
+[sub_resource type="Gradient" id="Gradient_roy0j"]
+offsets = PackedFloat32Array(0, 0.513333, 1)
+colors = PackedColorArray(1, 0.99, 0.98, 1, 0.69, 0.64722, 0.60719997, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qm8rw"]
+gradient = SubResource("Gradient_roy0j")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8ej7d"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 5, 0)
+direction = Vector3(0, -1, 0)
+spread = 90.65
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 6.0
+color_ramp = SubResource("GradientTexture1D_qm8rw")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8ej7d"]
+shader = ExtResource("2_1jh8w")
+shader_parameter/direction = Vector2(0, 0)
+shader_parameter/spread = 0.0
+shader_parameter/initial_velocity_min = 0.0
+shader_parameter/initial_velocity_max = 0.0
+shader_parameter/initial_scale_min = 0.0
+shader_parameter/initial_scale_max = 0.0
+
+[node name="Dash" type="Node2D" node_paths=PackedStringArray("dashParticles")]
+script = ExtResource("1_em10g")
+dashParticles = NodePath("DashParticles2")
+abilityName = "dash"
+
+[node name="DashParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, 30)
+emitting = false
+amount = 16
+lifetime = 0.2
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(10, 5)
+direction = Vector2(0, -1)
+spread = 90.65
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+scale_amount_min = 2.0
+scale_amount_max = 6.0
+color_ramp = SubResource("Gradient_roy0j")
+
+[node name="DashParticles2" type="GPUParticles2D" parent="."]
+position = Vector2(0, 30)
+emitting = false
+amount = 16
+lifetime = 0.2
+randomness = 1.0
+fixed_fps = 0
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_8ej7d")
+
+[node name="DashParticlesGPU" type="GPUParticles2D" parent="."]
+visible = false
+position = Vector2(0, 30)
+amount = 16
+lifetime = 0.2
+randomness = 1.0
+fixed_fps = 0
+process_material = SubResource("ShaderMaterial_8ej7d")
