@@ -50,13 +50,15 @@ public partial class Dash : Ability
             return;
 
         base.Trigger();
+        if (!isActive) return;
 
         move.movementOverride = true;
     }
 
     public override void Update(double delta)
     {
-        if (!(bool)parent.attributes["canMove"])
+        if (!manaManager.UseMana(cost * (float)delta) || 
+            !(bool)parent.attributes["canMove"])
         {
             End();
             return;

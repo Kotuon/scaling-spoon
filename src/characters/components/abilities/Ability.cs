@@ -67,6 +67,21 @@ public partial class Ability : Component
         }
     }
 
+    private ManaManager _manaManager;
+    public ManaManager manaManager
+    {
+        private set => _manaManager = value;
+
+        get
+        {
+            if (_manaManager == null)
+                _manaManager = GetNode<ManaManager>("../../ManaManager");
+            return _manaManager;
+        }
+    }
+
+    [Export] public float cost = 1.0f;
+
     public Ability(string abilityName_)
     {
         abilityName = abilityName_;
@@ -92,7 +107,9 @@ public partial class Ability : Component
 
     public virtual void Trigger()
     {
-        isActive = true;
+        isActive = manaManager.UseMana(cost);
+        
+        // return isActive;
     }
 
     public virtual void Update(double delta)

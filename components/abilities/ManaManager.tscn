@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcp0vyruqx8xr"]
+
+[ext_resource type="Script" uid="uid://5noce4fpl00w" path="res://src/characters/components/abilities/ManaManager.cs" id="1_osxvc"]
+
+[node name="ManaManager" type="Node2D"]
+script = ExtResource("1_osxvc")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=99 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
@@ -34,13 +34,14 @@
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="32_234y4"]
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/Projectile.tscn" id="33_u8vxv"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectile.tscn" id="33_u8vxv"]
 [ext_resource type="Texture2D" uid="uid://cta3uraxnh5oi" path="res://assets/art/Player/New/Back Throw.png" id="34_8cy8x"]
 [ext_resource type="Texture2D" uid="uid://ccumi6x32ih52" path="res://assets/art/Player/New/Side Throw.png" id="35_610ub"]
 [ext_resource type="Texture2D" uid="uid://cqcg0rq166o63" path="res://assets/art/Player/New/FrontSide Throw.png" id="36_ayguc"]
 [ext_resource type="Texture2D" uid="uid://bfqh0jv15aib1" path="res://assets/art/Player/New/BackSide Throw.png" id="37_t7u8x"]
 [ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/controllers/PlayerController.tscn" id="39_610ub"]
 [ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/OffsetCamera.cs" id="39_ayguc"]
+[ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/abilities/ManaManager.tscn" id="42_lnwue"]
 
 [sub_resource type="Resource" id="Resource_qkm22"]
 metadata/__load_path__ = "res://assets/Player/top_down/Front Spritesheet.png"
@@ -2931,6 +2932,7 @@ footstepPlayer = NodePath("../../Footsteps")
 proj = ExtResource("33_u8vxv")
 
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
+cost = 50.0
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
 z_index = 1
@@ -2966,3 +2968,15 @@ shape = SubResource("CapsuleShape2D_fmlfo")
 stream = SubResource("AudioStream_uoipf")
 
 [node name="PlayerController" parent="." instance=ExtResource("39_610ub")]
+
+[node name="ManaManager" parent="." instance=ExtResource("42_lnwue")]
+
+[node name="ManaBar" type="ProgressBar" parent="ManaManager"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = -99.0
+offset_right = 100.0
+offset_bottom = -72.0
+grow_horizontal = 2
