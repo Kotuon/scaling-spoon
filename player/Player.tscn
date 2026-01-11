@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=100 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
@@ -42,6 +42,7 @@
 [ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/controllers/PlayerController.tscn" id="39_610ub"]
 [ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/OffsetCamera.cs" id="39_ayguc"]
 [ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/abilities/ManaManager.tscn" id="42_lnwue"]
+[ext_resource type="Theme" uid="uid://clercpxyi78aa" path="res://themes/UIThemes.tres" id="43_7tnb4"]
 
 [sub_resource type="Resource" id="Resource_qkm22"]
 metadata/__load_path__ = "res://assets/Player/top_down/Front Spritesheet.png"
@@ -2920,22 +2921,33 @@ attributes = {
 }
 
 [node name="AbilityManager" parent="." instance=ExtResource("2_t7u8x")]
+Enabled = null
 
 [node name="Move" parent="AbilityManager" node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
-brakeSpeed = 1250.0
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../../Footsteps")
+cooldown = 0.0
+cost = 0.0
+Enabled = null
 
 [node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
+cost = 0.0
+Enabled = null
 
 [node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
 proj = ExtResource("33_u8vxv")
+cost = 0.0
+Enabled = null
 
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
-cost = 50.0
+cost = 5.0
+Enabled = null
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
 z_index = 1
+offsetPercent = null
+maxRadius = null
+Enabled = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -2946,6 +2958,9 @@ vframes = 12
 [node name="AnimationHandler" parent="." node_paths=PackedStringArray("animationPlayer", "sprite") instance=ExtResource("30_a0lmo")]
 animationPlayer = NodePath("../AnimationPlayer")
 sprite = NodePath("../Sprite2D")
+runCutoff = null
+dashCutoff = null
+Enabled = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -2960,6 +2975,28 @@ mesh = SubResource("QuadMesh_tvfjf")
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("39_ayguc")
 
+[node name="Control" type="Control" parent="Camera2D"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ManaBar" type="ProgressBar" parent="Camera2D/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_top = 316.0
+offset_right = 80.0
+offset_bottom = 344.0
+grow_horizontal = 2
+theme = ExtResource("43_7tnb4")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_fmlfo")
@@ -2968,15 +3005,7 @@ shape = SubResource("CapsuleShape2D_fmlfo")
 stream = SubResource("AudioStream_uoipf")
 
 [node name="PlayerController" parent="." instance=ExtResource("39_610ub")]
+Enabled = null
 
 [node name="ManaManager" parent="." instance=ExtResource("42_lnwue")]
-
-[node name="ManaBar" type="ProgressBar" parent="ManaManager"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_top = -99.0
-offset_right = 100.0
-offset_bottom = -72.0
-grow_horizontal = 2
+Enabled = null

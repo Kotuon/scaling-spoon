@@ -35,7 +35,7 @@ public partial class ManaManager : Component
         get
         {
             if (_manaBar == null)
-                _manaBar = GetNode<ProgressBar>("ManaBar");
+                _manaBar = GetNode<ProgressBar>("../Camera2D/Control/ManaBar");
             return _manaBar;
         }
     }
@@ -75,6 +75,9 @@ public partial class ManaManager : Component
 
     public bool UseMana(float cost)
     {
+        if (Mathf.IsZeroApprox(cost))
+            return true;
+        
         if (curr_mana - cost <= 0.0f)
             return false;
         

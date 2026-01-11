@@ -6,6 +6,7 @@ using Game.Entity;
 
 /// <summary>
 /// TODO: Create hit trigger/effect
+/// TODO: if using shield and hit by attack convert to mana (limited amount?)
 /// </summary>
 
 public partial class Shield : Ability

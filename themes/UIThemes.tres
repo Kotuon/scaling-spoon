@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://clercpxyi78aa"]
+
+[ext_resource type="FontFile" uid="uid://cnv5trghp6um2" path="res://assets/fonts/OpenDyslexic-Regular.otf" id="1_cvl15"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gpopv"]
+bg_color = Color(0.58856165, 0.58856165, 0.58856165, 0.25490198)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cvl15"]
+bg_color = Color(0, 0.44313726, 0.8627451, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[resource]
+default_font = ExtResource("1_cvl15")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_gpopv")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_cvl15")
