@@ -1,4 +1,4 @@
-[gd_scene load_steps=100 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=101 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://bfqh0jv15aib1" path="res://assets/art/Player/New/BackSide Throw.png" id="37_t7u8x"]
 [ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/controllers/PlayerController.tscn" id="39_610ub"]
 [ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/OffsetCamera.cs" id="39_ayguc"]
+[ext_resource type="Script" uid="uid://dg0ycdc5l4eej" path="res://src/MainUI.cs" id="41_2q4k2"]
 [ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/abilities/ManaManager.tscn" id="42_lnwue"]
 [ext_resource type="Theme" uid="uid://clercpxyi78aa" path="res://themes/UIThemes.tres" id="43_7tnb4"]
 
@@ -2984,6 +2985,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("41_2q4k2")
 
 [node name="ManaBar" type="ProgressBar" parent="Camera2D/Control"]
 layout_mode = 1
