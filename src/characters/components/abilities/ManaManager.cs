@@ -3,20 +3,23 @@ using Game.Component;
 using Godot;
 using System;
 
+
 public partial class ManaManager : Component
 {
+    
+    [Signal]
+    public delegate void mana_changedEventHandler(float newValue);
+    
     [Export] float max_mana = 100.0f;
     private float m_curr_mana;
     public float curr_mana
     {
-        get
-        {
-            return m_curr_mana;
-        }
+        get => m_curr_mana;
+
         set
         {
             m_curr_mana = Mathf.Clamp(value, 0.0f, max_mana);
-            manaBar.Value = m_curr_mana;
+            EmitSignal(SignalName.mana_changed, m_curr_mana);
         }
     }
 
@@ -27,19 +30,6 @@ public partial class ManaManager : Component
 
     [Export] public float regenRate = 10.0f;
 
-    private ProgressBar _manaBar;
-    public ProgressBar manaBar
-    {
-        private set => _manaBar = value;
-
-        get
-        {
-            if (_manaBar == null)
-                _manaBar = GetNode<ProgressBar>("../Camera2D/Control/ManaBar");
-            return _manaBar;
-        }
-    }
-
     public override void _Ready()
     {
         base._Ready();
@@ -49,11 +39,7 @@ public partial class ManaManager : Component
         regenTimer = new Timer();
         AddChild(regenTimer);
         regenTimer.WaitTime = timeUntilRegen;
-        regenTimer.Timeout += ShouldRegen;
-
-        manaBar.MaxValue = max_mana;
-        manaBar.MinValue = 0.0f;
-        manaBar.Value = curr_mana;
+        regenTimer.Timeout += () => isRegening = true;
     }
 
     public override void _Process(double delta)
@@ -87,10 +73,5 @@ public partial class ManaManager : Component
         regenTimer.Start();
 
         return true;
-    }
-
-    private void ShouldRegen()
-    {
-        isRegening = true;
     }
 }

@@ -18,13 +18,14 @@ public partial class Projectile : CharacterBody2D
         get => _launchDir;
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        base._Process(delta);
+        base._PhysicsProcess(delta);
 
-        var result = MoveAndSlide();
+        // var result = MoveAndSlide();
+        var collision = MoveAndCollide(Velocity * (float)delta);
 
-        if (result)
+        if (collision != null)
         {
             Velocity = Vector2.Zero;
             var particles = GetNode<CpuParticles2D>("HitParticles");

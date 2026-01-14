@@ -34,7 +34,7 @@
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="32_234y4"]
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectile.tscn" id="33_u8vxv"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/Projectile.tscn" id="33_u8vxv"]
 [ext_resource type="Texture2D" uid="uid://cta3uraxnh5oi" path="res://assets/art/Player/New/Back Throw.png" id="34_8cy8x"]
 [ext_resource type="Texture2D" uid="uid://ccumi6x32ih52" path="res://assets/art/Player/New/Side Throw.png" id="35_610ub"]
 [ext_resource type="Texture2D" uid="uid://cqcg0rq166o63" path="res://assets/art/Player/New/FrontSide Throw.png" id="36_ayguc"]
@@ -2929,26 +2929,19 @@ footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqy
 footstepPlayer = NodePath("../../Footsteps")
 cooldown = 0.0
 cost = 0.0
-Enabled = null
 
 [node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
 cost = 0.0
-Enabled = null
 
 [node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
 proj = ExtResource("33_u8vxv")
 cost = 0.0
-Enabled = null
 
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
 cost = 5.0
-Enabled = null
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
 z_index = 1
-offsetPercent = null
-maxRadius = null
-Enabled = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -2959,9 +2952,6 @@ vframes = 12
 [node name="AnimationHandler" parent="." node_paths=PackedStringArray("animationPlayer", "sprite") instance=ExtResource("30_a0lmo")]
 animationPlayer = NodePath("../AnimationPlayer")
 sprite = NodePath("../Sprite2D")
-runCutoff = null
-dashCutoff = null
-Enabled = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -3007,7 +2997,5 @@ shape = SubResource("CapsuleShape2D_fmlfo")
 stream = SubResource("AudioStream_uoipf")
 
 [node name="PlayerController" parent="." instance=ExtResource("39_610ub")]
-Enabled = null
 
 [node name="ManaManager" parent="." instance=ExtResource("42_lnwue")]
-Enabled = null
