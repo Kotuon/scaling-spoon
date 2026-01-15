@@ -54,6 +54,8 @@ public partial class Throw : Ability
         }
 
         var dir = (mouseRef.mouseDir - startPos).Normalized();
+        dir = !dir.IsEqualApprox(Vector2.Zero) ? 
+            (startPos).Normalized() : dir;
 
         inst.Position = startPos + parent.Position;
         inst.Rotation = dir.Angle();

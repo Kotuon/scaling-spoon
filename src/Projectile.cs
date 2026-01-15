@@ -1,3 +1,4 @@
+using Game.Entity;
 using Godot;
 using System;
 using System.Threading.Tasks;
@@ -25,8 +26,9 @@ public partial class Projectile : CharacterBody2D
         // var result = MoveAndSlide();
         var collision = MoveAndCollide(Velocity * (float)delta);
 
-        if (collision != null)
+        if (collision != null && collision.GetCollider() is not Player)
         {
+            // GD.Print(collision.GetCollider() as Player);
             Velocity = Vector2.Zero;
             var particles = GetNode<CpuParticles2D>("HitParticles");
             particles.Emitting = true;

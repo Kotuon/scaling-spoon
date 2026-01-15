@@ -21,18 +21,18 @@ public partial class MainUI : Control
         }
     }
 
-    // private Camera2D _cameraRef;
-    // public Camera2D cameraRef
-    // {
-    //     private set => _cameraRef = value;
+    private Camera2D _cameraRef;
+    public Camera2D cameraRef
+    {
+        private set => _cameraRef = value;
 
-    //     get
-    //     {
-    //         if (_cameraRef == null)
-    //             _cameraRef = parent.GetComponent<Camera2D>();
-    //         return _cameraRef;
-    //     }
-    // }
+        get
+        {
+            if (_cameraRef == null)
+                _cameraRef = parent.GetComponent<Camera2D>();
+            return _cameraRef;
+        }
+    }
 
     private ProgressBar _manaBar;
     public ProgressBar manaBar
@@ -59,7 +59,7 @@ public partial class MainUI : Control
     {
         base._Process(delta);
 
-        // Position = cameraRef.Position + cameraRef.Offset;
+        Position = cameraRef.Position + cameraRef.Offset;
     }
 
     private void UpdateManaBar(float newValue)
