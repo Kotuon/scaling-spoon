@@ -18,10 +18,12 @@ public partial class Move : Ability
     {
         set
         {
-            parent.attributes["currSpeed"] = value;
+            // parent.attributes["currSpeed"] = value;
+            parent.SetAttribute("currSpeed", value);
         }
         
-        get => (float)parent.attributes["currSpeed"];
+        // get => (float)parent.attributes["currSpeed"];
+        get => parent.GetAttribute<float>("currSpeed");
     }
     public float lastWalkSpeed { get; private set; }
     [Export]
@@ -68,7 +70,8 @@ public partial class Move : Ability
         if (movementOverride)
             return;
 
-        if ((bool)parent.attributes["canMove"])
+        // if ((bool)parent.attributes["canMove"])
+        if (parent.GetAttribute<bool>("canMove"))
         {
             var inputDirection = parent.GetComponent<Controller>().moveInput;
             UpdateWalk(brakeSpeed, delta, inputDirection);

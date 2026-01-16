@@ -20,7 +20,8 @@ public partial class Shield : Ability
     {
         base.Trigger();
 
-        parent.attributes["canMove"] = false;
+        // parent.attributes["canMove"] = false;
+        parent.SetAttribute("canMove", false);
 
         animHandler.PlayAnimation("shield_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
@@ -38,7 +39,9 @@ public partial class Shield : Ability
     {
         base.End();
 
-        parent.attributes["canMove"] = true;
+        // parent.attributes["canMove"] = true;
+        parent.SetAttribute("canMove", true);
+
         mouseRef.useMouseDirection = false;
     }
 }

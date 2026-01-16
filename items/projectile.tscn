@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bwv0smc80566w"]
 
-[ext_resource type="Script" uid="uid://bfbjbfd3tk800" path="res://src/Projectile.cs" id="1_58rdg"]
+[ext_resource type="Script" uid="uid://bfbjbfd3tk800" path="res://src/items/Projectile.cs" id="1_58rdg"]
 [ext_resource type="Texture2D" uid="uid://gcv7dybucrco" path="res://assets/art/Player/New/Side Throw-1.png.png" id="2_glfey"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3him"]

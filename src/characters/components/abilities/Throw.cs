@@ -17,7 +17,8 @@ public partial class Throw : Ability
     {
         base.Trigger();
 
-        parent.attributes["canMove"] = false;
+        // parent.attributes["canMove"] = false;
+        parent.SetAttribute("canMove", false);
 
         animHandler.PlayAnimation("throw_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
@@ -60,5 +61,6 @@ public partial class Throw : Ability
         inst.Position = startPos + parent.Position;
         inst.Rotation = dir.Angle();
         inst.launchDir = dir;
+        inst.owner = parent;
     }
 }

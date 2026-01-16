@@ -14,11 +14,13 @@ public partial class Dash : Ability
     {
         set
         {
-            parent.attributes["currSpeed"] = value;
+            // parent.attributes["currSpeed"] = value;
+            parent.SetAttribute("currSpeed", value);
         }
         get
         {
-            var retSpeed = (float)parent.attributes["currSpeed"];
+            // var retSpeed = (float)parent.attributes["currSpeed"];
+            var retSpeed = parent.GetAttribute<float>("currSpeed");
 
             if (retSpeed > move.maxWalkSpeed)
                 SetDashParticles(true);
@@ -46,7 +48,8 @@ public partial class Dash : Ability
 
     public override void Trigger()
     {
-        if ((float)parent.attributes["currSpeed"] < move.maxWalkSpeed)
+        // if ((float)parent.attributes["currSpeed"] < move.maxWalkSpeed)
+        if (parent.GetAttribute<float>("currSpeed") < move.maxWalkSpeed)
             return;
 
         base.Trigger();
@@ -58,7 +61,8 @@ public partial class Dash : Ability
     public override void Update(double delta)
     {
         if (!manaManager.UseMana(cost * (float)delta) || 
-            !(bool)parent.attributes["canMove"])
+            !parent.GetAttribute<bool>("canMove"))
+            // !(bool)parent.attributes["canMove"])
         {
             End();
             return;

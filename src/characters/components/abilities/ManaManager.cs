@@ -34,7 +34,7 @@ public partial class ManaManager : Component
     {
         base._Ready();
 
-        curr_mana = max_mana;
+        curr_mana = max_mana / 2.0f;
 
         regenTimer = new Timer();
         AddChild(regenTimer);
@@ -45,19 +45,7 @@ public partial class ManaManager : Component
     public override void _Process(double delta)
     {
         base._Process(delta);
-
-        if (isRegening)
-        {
-            curr_mana += regenRate * (float)delta;
-
-            if (curr_mana >= max_mana)
-            {
-                isRegening = false;
-            }
-        }
     }
-
-
 
     public bool UseMana(float cost)
     {
@@ -73,5 +61,26 @@ public partial class ManaManager : Component
         regenTimer.Start();
 
         return true;
+    }
+
+    public void RestoreMana(float restoreAmount)
+    {
+        if (curr_mana + restoreAmount >= max_mana)
+            curr_mana = max_mana;
+        else
+            curr_mana += restoreAmount;
+    }
+
+    private void Regen(float delta)
+    {
+        if (isRegening)
+        {
+            curr_mana += regenRate * (float)delta;
+
+            if (curr_mana >= max_mana)
+            {
+                isRegening = false;
+            }
+        }
     }
 }
