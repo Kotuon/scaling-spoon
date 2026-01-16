@@ -28,13 +28,21 @@ public partial class Projectile : CharacterBody2D
 
         if (collision != null && collision.GetCollider() is not Player)
         {
-            // GD.Print(collision.GetCollider() as Player);
             Velocity = Vector2.Zero;
             var particles = GetNode<CpuParticles2D>("HitParticles");
             particles.Emitting = true;
 
             var sprite = GetNode<Sprite2D>("Sprite2D");
             sprite.Visible = false;
+
+            var collider = GetNode<CollisionShape2D>("Hitbox");
+            collider.Disabled = true;
+
+            if (collision.GetCollider() is IDamageable)
+            {
+                // call damage function
+                (collision.GetCollider() as IDamageable).Damage(10.0f);
+            }
 
             Timeout();
         }

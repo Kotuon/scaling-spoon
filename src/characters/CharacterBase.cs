@@ -2,14 +2,28 @@ namespace Game.Entity;
 
 using Godot;
 using System;
+using System.Runtime.InteropServices;
 
-public partial class CharacterBase : CharacterBody2D
+
+public partial class CharacterBase : CharacterBody2D, IDamageable
 {
     [Export] public Godot.Collections.Dictionary attributes;
-    
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        if (!attributes.ContainsKey("canMove"))
+        {
+            attributes.Add("canMove", true);
+        }
+        if (!attributes.ContainsKey("currSpeed"))
+        {
+            attributes.Add("currSpeed", 0.0f);
+        }
+        if (!attributes.ContainsKey("health"))
+        {
+            attributes.Add("health", 10.0f);
+        }
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,7 +40,7 @@ public partial class CharacterBase : CharacterBody2D
     {
         if (attributes.ContainsKey(key))
             return;
-        
+
         attributes.Add(key, value);
     }
 
@@ -44,5 +58,19 @@ public partial class CharacterBase : CharacterBody2D
         }
 
         return default(T);
+    }
+
+    public void Damage(float amount)
+    {
+        attributes["health"] = (float)attributes["health"] - amount;
+        if ((float)attributes["health"] <= 0.0f)
+        {
+            Dies();
+        }
+    }
+
+    public void Dies()
+    {
+        Visible = false;
     }
 }
