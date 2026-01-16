@@ -34,7 +34,7 @@
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="32_234y4"]
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/Projectile.tscn" id="33_u8vxv"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectile.tscn" id="33_u8vxv"]
 [ext_resource type="Texture2D" uid="uid://cta3uraxnh5oi" path="res://assets/art/Player/New/Back Throw.png" id="34_8cy8x"]
 [ext_resource type="Texture2D" uid="uid://ccumi6x32ih52" path="res://assets/art/Player/New/Side Throw.png" id="35_610ub"]
 [ext_resource type="Texture2D" uid="uid://cqcg0rq166o63" path="res://assets/art/Player/New/FrontSide Throw.png" id="36_ayguc"]
@@ -2922,23 +2922,18 @@ attributes = {
 }
 
 [node name="AbilityManager" parent="." instance=ExtResource("2_t7u8x")]
-Enabled = null
 
 [node name="Move" parent="AbilityManager" node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../../Footsteps")
 cooldown = 0.0
-cost = 0.0
 
 [node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
-cost = 0.0
 
 [node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
 proj = ExtResource("33_u8vxv")
-cost = 0.0
 
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
-cost = 5.0
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
 z_index = 1
