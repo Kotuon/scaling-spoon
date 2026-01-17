@@ -26,6 +26,7 @@ public partial class AnimationHandler : Component
     public override void _Ready()
     {
         animationPlayer.Play("front_idle");
+        sprite.TextureChanged += UpdateShaderForTexture;
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,8 +38,7 @@ public partial class AnimationHandler : Component
                 animationPlayer.CurrentAnimationLength)
             {
                 canAdvance = true;
-                // parent.attributes["canMove"] = true;
-        parent.SetAttribute("canMove", true);
+                parent.SetAttribute("canMove", true);
                 mouseRef.useMouseDirection = false;
             }
         }
@@ -71,7 +71,7 @@ public partial class AnimationHandler : Component
             dir = GetAnimationDirection(lastNonZeroInput);
             sprite.FlipH = lastNonZeroInput.X > 0 ? false : true;
         }
-        
+
         animationPlayer.Play(dir + "_" + animName);
     }
 
@@ -120,15 +120,9 @@ public partial class AnimationHandler : Component
                 GetAnimationDirection(lastNonZeroInput) + "_idle");
             sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
         }
-        // else if (speed > dashCutoff)
-        // {
-        //     animationPlayer.Play(GetAnimationDirection(currVelocity) + "_dash");
-        //     sprite.FlipH = currVelocity.X < 0 ? true : false;
-        // }
         else if (speed > runCutoff)
         {
             animationPlayer.Play(currDirection + "_run");
-            // sprite.FlipH = currVelocity.X < 0 ? true : false;
 
             sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
                 : currVelocity.X < 0;
@@ -136,7 +130,6 @@ public partial class AnimationHandler : Component
         else
         {
             animationPlayer.Play(currDirection + "_walk");
-            // sprite.FlipH = currVelocity.X < 0 ? true : false;
 
             sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
                 : currVelocity.X < 0;
@@ -152,5 +145,16 @@ public partial class AnimationHandler : Component
             inputVec.Y = 0.0f;
 
         return inputVec;
+    }
+
+    private void UpdateShaderForTexture()
+    {
+        ShaderMaterial shader = sprite.Material as ShaderMaterial;
+
+        if (shader == null)
+            return;
+
+        shader.SetShaderParameter("hframes", sprite.Hframes);
+        shader.SetShaderParameter("vframes", sprite.Vframes);
     }
 }

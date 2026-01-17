@@ -57,6 +57,7 @@ public partial class Mouse : Component
                 icon = (MeshInstance2D)child;
         }
 
+        Visible = true;
         icon.Visible = false;
 
         Input.MouseMode = Input.MouseModeEnum.ConfinedHidden;

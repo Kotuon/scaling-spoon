@@ -1,4 +1,4 @@
-[gd_scene load_steps=101 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=106 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://cxhf6esdftcfc" path="res://components/abilities/Shield.tscn" id="14_76mgg"]
 [ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
 [ext_resource type="Texture2D" uid="uid://b14s58neoq8uj" path="res://assets/art/Player/Front DashnRoll.png" id="19_ofhxi"]
+[ext_resource type="Shader" uid="uid://smdmcyt21hsa" path="res://shaders/bloom.gdshader" id="19_w36ex"]
 [ext_resource type="Texture2D" uid="uid://bvm41mrrrl5xo" path="res://assets/art/Player/Back DashnRoll.png" id="20_2m0d2"]
 [ext_resource type="Texture2D" uid="uid://bnqpqyabbr05m" path="res://assets/art/Player/Side DashnRoll.png" id="21_8nth8"]
 [ext_resource type="Texture2D" uid="uid://yboel1y0rn4y" path="res://assets/art/Player/FrontSide DashnRoll.png" id="22_8tqfn"]
@@ -44,6 +45,45 @@
 [ext_resource type="Script" uid="uid://dg0ycdc5l4eej" path="res://src/MainUI.cs" id="41_2q4k2"]
 [ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/abilities/ManaManager.tscn" id="42_lnwue"]
 [ext_resource type="Theme" uid="uid://clercpxyi78aa" path="res://themes/UIThemes.tres" id="43_7tnb4"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w36ex"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 17.12
+gravity = Vector3(0, -25, 0)
+tangential_accel_min = -50.0
+tangential_accel_max = 50.0
+damping_min = 5.0
+damping_max = 15.0
+scale_min = 5.0
+scale_max = 8.0
+color = Color(0.48020002, 0.98, 0.97167003, 0.59607846)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w36ex"]
+seed = 25
+frequency = 0.0027
+fractal_type = 2
+fractal_lacunarity = 2.855
+fractal_gain = 1.0
+fractal_ping_pong_strength = 3.415
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7wro5"]
+noise = SubResource("FastNoiseLite_w36ex")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wro5"]
+shader = ExtResource("19_w36ex")
+shader_parameter/color = Color(0.48020002, 0.98, 0.97167003, 0.7137255)
+shader_parameter/width = 10.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = false
+shader_parameter/hframes = 0
+shader_parameter/vframes = 0
+shader_parameter/idx = Vector2(0.78, 0.345)
+shader_parameter/density = 4.0
+shader_parameter/speed = Vector2(0, 0.01)
+shader_parameter/noise = SubResource("NoiseTexture2D_7wro5")
 
 [sub_resource type="Resource" id="Resource_qkm22"]
 metadata/__load_path__ = "res://assets/Player/top_down/Front Spritesheet.png"
@@ -2927,19 +2967,33 @@ attributes = {
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../../Footsteps")
 cooldown = 0.0
+cost = 0.0
 
 [node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
+cost = 0.0
 
 [node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
 proj = ExtResource("33_u8vxv")
+cost = 0.0
 
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
+cost = 10.0
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
+visible = false
 z_index = 1
+
+[node name="AuraParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 10)
+amount = 128
+lifetime = 2.0
+fixed_fps = 0
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_w36ex")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_7wro5")
 scale = Vector2(3, 3)
 hframes = 13
 vframes = 12
@@ -2985,6 +3039,7 @@ grow_horizontal = 2
 theme = ExtResource("43_7tnb4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_fmlfo")
 

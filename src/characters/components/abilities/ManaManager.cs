@@ -34,12 +34,16 @@ public partial class ManaManager : Component
     {
         base._Ready();
 
-        curr_mana = max_mana / 2.0f;
+        // curr_mana = max_mana / 2.0f;
+        curr_mana = 0.0f;
 
         regenTimer = new Timer();
         AddChild(regenTimer);
         regenTimer.WaitTime = timeUntilRegen;
         regenTimer.Timeout += () => isRegening = true;
+
+        mana_changed += UpdateAura;
+        UpdateAura(curr_mana);
     }
 
     public override void _Process(double delta)
@@ -81,6 +85,29 @@ public partial class ManaManager : Component
             {
                 isRegening = false;
             }
+        }
+    }
+
+    private void UpdateAura(float new_mana)
+    {
+        Sprite2D sprite = parent.GetComponent<Sprite2D>();
+
+        ShaderMaterial shader = sprite.Material as ShaderMaterial;
+
+        float input = (new_mana / max_mana) * 10.0f;
+
+        shader.SetShaderParameter("width", input);
+
+        GpuParticles2D particles = parent.GetComponent<GpuParticles2D>();
+
+        if (new_mana > 0.0f)
+        {
+            particles.Emitting = true;
+            particles.AmountRatio = new_mana / max_mana;
+        }
+        else
+        {
+            particles.Emitting = false;
         }
     }
 }
