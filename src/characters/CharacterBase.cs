@@ -1,12 +1,16 @@
 namespace Game.Entity;
 
+using Game.Component;
 using Godot;
+using Microsoft.VisualBasic;
 using System;
+using System.Runtime.InteropServices;
 
-public partial class CharacterBase : CharacterBody2D
+
+public partial class CharacterBase : CharacterBody2D, IDamageable
 {
-    [Export] public Godot.Collections.Dictionary attributes;
-    
+    // [Export] protected Godot.Collections.Dictionary attributes;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -22,27 +26,49 @@ public partial class CharacterBase : CharacterBody2D
         base._PhysicsProcess(delta);
     }
 
-    public void AddAttribute(Variant key, Variant value)
-    {
-        if (attributes.ContainsKey(key))
-            return;
-        
-        attributes.Add(key, value);
-    }
-
     public T GetComponent<T>() where T : class
     {
         foreach (Node child in GetChildren())
         {
+            if (child is T)
+                return child as T;
             foreach (Node subChild in child.GetChildren())
             {
                 if (subChild is T)
                     return subChild as T;
             }
-            if (child is T)
-                return child as T;
         }
 
         return default(T);
+    }
+
+    public T GetComponent<T>(string name) where T : class
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is T && child.Name.Equals(name))
+                return child as T;
+            foreach (Node subChild in child.GetChildren())
+            {
+                if (subChild is T && subChild.Name.Equals(name))
+                    return subChild as T;
+            }
+
+        }
+
+        return default(T);
+    }
+
+    public void Damage(float amount)
+    {
+        Health health = GetComponent<Health>();
+        if (health == null) return;
+
+        health.Use(amount);
+    }
+
+    public void Dies()
+    {
+        Visible = false;
     }
 }

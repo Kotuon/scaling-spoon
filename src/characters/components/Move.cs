@@ -14,14 +14,15 @@ public partial class Move : Ability
     [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
     
+    private float _currWalkSpeed;
     public float currWalkSpeed
     {
         set
-        {
-            parent.attributes["currSpeed"] = value;
+        {   
+            _currWalkSpeed = value;
         }
         
-        get => (float)parent.attributes["currSpeed"];
+        get => _currWalkSpeed;
     }
     public float lastWalkSpeed { get; private set; }
     [Export]
@@ -42,6 +43,7 @@ public partial class Move : Ability
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 
     public bool movementOverride = false;
+    public bool canMove  = true;
 
     public Move() : base("move")
     {
@@ -52,9 +54,6 @@ public partial class Move : Ability
     public override void _Ready()
     {
         rng.Randomize();
-
-        parent.AddAttribute("canMove", true);
-        parent.AddAttribute("currSpeed", 0.0f);
     }
 
     public override void _Input(InputEvent @event)
@@ -68,7 +67,7 @@ public partial class Move : Ability
         if (movementOverride)
             return;
 
-        if ((bool)parent.attributes["canMove"])
+        if (canMove)
         {
             var inputDirection = parent.GetComponent<Controller>().moveInput;
             UpdateWalk(brakeSpeed, delta, inputDirection);

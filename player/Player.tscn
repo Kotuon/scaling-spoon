@@ -1,4 +1,4 @@
-[gd_scene load_steps=101 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=108 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://cxhf6esdftcfc" path="res://components/abilities/Shield.tscn" id="14_76mgg"]
 [ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
 [ext_resource type="Texture2D" uid="uid://b14s58neoq8uj" path="res://assets/art/Player/Front DashnRoll.png" id="19_ofhxi"]
+[ext_resource type="Shader" uid="uid://smdmcyt21hsa" path="res://shaders/bloom.gdshader" id="19_w36ex"]
 [ext_resource type="Texture2D" uid="uid://bvm41mrrrl5xo" path="res://assets/art/Player/Back DashnRoll.png" id="20_2m0d2"]
 [ext_resource type="Texture2D" uid="uid://bnqpqyabbr05m" path="res://assets/art/Player/Side DashnRoll.png" id="21_8nth8"]
 [ext_resource type="Texture2D" uid="uid://yboel1y0rn4y" path="res://assets/art/Player/FrontSide DashnRoll.png" id="22_8tqfn"]
@@ -42,8 +43,51 @@
 [ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/controllers/PlayerController.tscn" id="39_610ub"]
 [ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/OffsetCamera.cs" id="39_ayguc"]
 [ext_resource type="Script" uid="uid://dg0ycdc5l4eej" path="res://src/MainUI.cs" id="41_2q4k2"]
-[ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/abilities/ManaManager.tscn" id="42_lnwue"]
+[ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/attributes/Mana.tscn" id="42_lnwue"]
 [ext_resource type="Theme" uid="uid://clercpxyi78aa" path="res://themes/UIThemes.tres" id="43_7tnb4"]
+[ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="46_7wro5"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w36ex"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 17.12
+gravity = Vector3(0, -25, 0)
+tangential_accel_min = -50.0
+tangential_accel_max = 50.0
+damping_min = 5.0
+damping_max = 15.0
+scale_min = 5.0
+scale_max = 8.0
+color = Color(0.48020002, 0.98, 0.97167003, 0.59607846)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w36ex"]
+seed = 25
+frequency = 0.0027
+fractal_type = 2
+fractal_lacunarity = 2.855
+fractal_gain = 1.0
+fractal_ping_pong_strength = 3.415
+domain_warp_enabled = true
+domain_warp_fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7wro5"]
+noise = SubResource("FastNoiseLite_w36ex")
+seamless = true
+normalize = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7wro5"]
+shader = ExtResource("19_w36ex")
+shader_parameter/color = Color(0.48020002, 0.98, 0.97167003, 0.7137255)
+shader_parameter/width = 10.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = false
+shader_parameter/hframes = 0
+shader_parameter/vframes = 0
+shader_parameter/idx = Vector2(0.78, 0.345)
+shader_parameter/density = 4.0
+shader_parameter/speed = Vector2(0, 0.01)
+shader_parameter/noise = SubResource("NoiseTexture2D_7wro5")
 
 [sub_resource type="Resource" id="Resource_qkm22"]
 metadata/__load_path__ = "res://assets/Player/top_down/Front Spritesheet.png"
@@ -2193,7 +2237,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_w36ex"]
 resource_name = "front_throw_update"
-length = 0.1
+length = 0.3
 loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
@@ -2239,10 +2283,10 @@ tracks/3/path = NodePath("Sprite2D:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [5]
+"values": [5, 6, 4]
 }
 
 [sub_resource type="Animation" id="Animation_7bueq"]
@@ -2906,6 +2950,9 @@ _data = {
 
 [sub_resource type="QuadMesh" id="QuadMesh_tvfjf"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w36ex"]
+bg_color = Color(0.98, 0.48020002, 0.48020002, 1)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fmlfo"]
 radius = 12.0
 height = 52.0
@@ -2916,42 +2963,41 @@ height = 52.0
 script = ExtResource("1_dnad5")
 move = NodePath("AbilityManager/Move")
 animationHandler = NodePath("AnimationHandler")
-attributes = {
-"canMove": true,
-"currSpeed": 0.0
-}
 
 [node name="AbilityManager" parent="." instance=ExtResource("2_t7u8x")]
-Enabled = null
 
 [node name="Move" parent="AbilityManager" node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../../Footsteps")
 cooldown = 0.0
 cost = 0.0
-Enabled = null
 
 [node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
 cost = 0.0
-Enabled = null
 
 [node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
 proj = ExtResource("33_u8vxv")
 cost = 0.0
-Enabled = null
 
 [node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
-cost = 5.0
-Enabled = null
+cost = 10.0
 
 [node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
+visible = false
 z_index = 1
-offsetPercent = null
-maxRadius = null
-Enabled = null
+
+[node name="AuraParticles" type="GPUParticles2D" parent="."]
+position = Vector2(0, 10)
+emitting = false
+amount = 128
+lifetime = 2.0
+fixed_fps = 0
+draw_order = 0
+process_material = SubResource("ParticleProcessMaterial_w36ex")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+material = SubResource("ShaderMaterial_7wro5")
 scale = Vector2(3, 3)
 hframes = 13
 vframes = 12
@@ -2959,9 +3005,6 @@ vframes = 12
 [node name="AnimationHandler" parent="." node_paths=PackedStringArray("animationPlayer", "sprite") instance=ExtResource("30_a0lmo")]
 animationPlayer = NodePath("../AnimationPlayer")
 sprite = NodePath("../Sprite2D")
-runCutoff = null
-dashCutoff = null
-Enabled = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -2992,14 +3035,30 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -120.0
-offset_top = 316.0
-offset_right = 80.0
-offset_bottom = 344.0
+offset_left = -50.0
+offset_top = 37.065
+offset_right = 50.0
+offset_bottom = 51.065
 grow_horizontal = 2
 theme = ExtResource("43_7tnb4")
+show_percentage = false
+
+[node name="Locked" type="Control" parent="Camera2D/Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="Camera2D/Control/Locked"]
+layout_mode = 0
+offset_left = -616.0
+offset_top = 308.0
+offset_right = -416.0
+offset_bottom = 336.0
+theme = ExtResource("43_7tnb4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_w36ex")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_fmlfo")
 
@@ -3007,7 +3066,7 @@ shape = SubResource("CapsuleShape2D_fmlfo")
 stream = SubResource("AudioStream_uoipf")
 
 [node name="PlayerController" parent="." instance=ExtResource("39_610ub")]
-Enabled = null
 
-[node name="ManaManager" parent="." instance=ExtResource("42_lnwue")]
-Enabled = null
+[node name="Mana" parent="." instance=ExtResource("42_lnwue")]
+
+[node name="Health" parent="." instance=ExtResource("46_7wro5")]

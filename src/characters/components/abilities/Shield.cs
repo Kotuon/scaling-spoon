@@ -19,8 +19,8 @@ public partial class Shield : Ability
     public override void Trigger()
     {
         base.Trigger();
-
-        parent.attributes["canMove"] = false;
+        
+        move.canMove = false;
 
         animHandler.PlayAnimation("shield_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
@@ -38,7 +38,8 @@ public partial class Shield : Ability
     {
         base.End();
 
-        parent.attributes["canMove"] = true;
+        move.canMove = true;
+
         mouseRef.useMouseDirection = false;
     }
 }
