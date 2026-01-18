@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://de271tm4kog24"]
+[gd_scene load_steps=107 format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
@@ -66,10 +66,13 @@ fractal_type = 2
 fractal_lacunarity = 2.855
 fractal_gain = 1.0
 fractal_ping_pong_strength = 3.415
+domain_warp_enabled = true
+domain_warp_fractal_type = 0
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7wro5"]
 noise = SubResource("FastNoiseLite_w36ex")
 seamless = true
+normalize = false
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wro5"]
 shader = ExtResource("19_w36ex")
@@ -2233,7 +2236,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_w36ex"]
 resource_name = "front_throw_update"
-length = 0.1
+length = 0.3
 loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
@@ -2279,10 +2282,10 @@ tracks/3/path = NodePath("Sprite2D:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [5]
+"values": [5, 6, 4]
 }
 
 [sub_resource type="Animation" id="Animation_7bueq"]
@@ -2946,6 +2949,9 @@ _data = {
 
 [sub_resource type="QuadMesh" id="QuadMesh_tvfjf"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w36ex"]
+bg_color = Color(0.98, 0.48020002, 0.48020002, 1)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fmlfo"]
 radius = 12.0
 height = 52.0
@@ -2985,6 +2991,7 @@ z_index = 1
 
 [node name="AuraParticles" type="GPUParticles2D" parent="."]
 position = Vector2(0, 10)
+emitting = false
 amount = 128
 lifetime = 2.0
 fixed_fps = 0
@@ -3031,12 +3038,27 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -120.0
-offset_top = 316.0
-offset_right = 80.0
-offset_bottom = 344.0
+offset_left = -50.0
+offset_top = 37.065
+offset_right = 50.0
+offset_bottom = 51.065
 grow_horizontal = 2
 theme = ExtResource("43_7tnb4")
+show_percentage = false
+
+[node name="Locked" type="Control" parent="Camera2D/Control"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="ProgressBar" parent="Camera2D/Control/Locked"]
+layout_mode = 0
+offset_left = -616.0
+offset_top = 308.0
+offset_right = -416.0
+offset_bottom = 336.0
+theme = ExtResource("43_7tnb4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_w36ex")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

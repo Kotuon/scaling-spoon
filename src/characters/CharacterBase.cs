@@ -8,6 +8,8 @@ using System.Runtime.InteropServices;
 
 public partial class CharacterBase : CharacterBody2D, IDamageable
 {
+    [Signal]
+    public delegate void health_changedEventHandler(float newValue);
     [Export] protected Godot.Collections.Dictionary attributes;
 
     // Called when the node enters the scene tree for the first time.
@@ -34,6 +36,8 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
             return;
 
         attributes.Add(key, value);
+        if (key.Equals("health"))
+            EmitSignal(SignalName.health_changed, value);
     }
 
     public T GetAttribute<[MustBeVariant]T>(Variant key)
@@ -52,19 +56,38 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
     {
         if (attributes[key].VariantType == newValue.VariantType)
             attributes[key] = newValue;
+        if (key.Equals("health"))
+            EmitSignal(SignalName.health_changed, newValue);
     }
 
     public T GetComponent<T>() where T : class
     {
         foreach (Node child in GetChildren())
         {
+            if (child is T)
+                return child as T;
             foreach (Node subChild in child.GetChildren())
             {
                 if (subChild is T)
                     return subChild as T;
             }
-            if (child is T)
+        }
+
+        return default(T);
+    }
+
+    public T GetComponent<T>(string name) where T : class
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is T && child.Name.Equals(name))
                 return child as T;
+            foreach (Node subChild in child.GetChildren())
+            {
+                if (subChild is T && subChild.Name.Equals(name))
+                    return subChild as T;
+            }
+
         }
 
         return default(T);
