@@ -20,7 +20,7 @@ public partial class ManaSphere : Area2D
 
         Player player = node as Player;
 
-        ManaManager manaManager = player.GetComponent<ManaManager>();
+        Mana manaManager = player.GetComponent<Mana>();
 
         manaManager.RestoreMana(10.0f);
         

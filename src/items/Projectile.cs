@@ -37,7 +37,7 @@ public partial class Projectile : CharacterBody2D
                 (collision.GetCollider() as IDamageable).Damage(0.0f);
             }
 
-            Timeout();
+            _ = Timeout();
         }
     }
 

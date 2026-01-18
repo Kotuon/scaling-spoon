@@ -38,12 +38,12 @@ public partial class AnimationHandler : Component
                 animationPlayer.CurrentAnimationLength)
             {
                 canAdvance = true;
-                parent.SetAttribute("canMove", true);
+                parent.GetComponent<Move>().canMove = true;
                 mouseRef.useMouseDirection = false;
             }
         }
         // else if ((bool)parent.attributes["canMove"] && 
-        else if (parent.GetAttribute<bool>("canMove") && 
+        else if (parent.GetComponent<Move>().canMove && 
             !parent.GetComponent<Move>().movementOverride)
         {
             Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());

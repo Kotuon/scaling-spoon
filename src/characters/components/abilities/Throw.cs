@@ -17,8 +17,7 @@ public partial class Throw : Ability
     {
         base.Trigger();
 
-        // parent.attributes["canMove"] = false;
-        parent.SetAttribute("canMove", false);
+        move.canMove = false;
 
         animHandler.PlayAnimation("throw_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;

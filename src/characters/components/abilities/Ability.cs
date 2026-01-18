@@ -67,15 +67,15 @@ public partial class Ability : Component
 		}
 	}
 
-	private ManaManager _manaManager;
-	public ManaManager manaManager
+	private Mana _manaManager;
+	public Mana manaManager
 	{
 		private set => _manaManager = value;
 
 		get
 		{
 			if (_manaManager == null)
-				_manaManager = GetNode<ManaManager>("../../ManaManager");
+                _manaManager = parent.GetComponent<Mana>();
 			return _manaManager;
 		}
 	}

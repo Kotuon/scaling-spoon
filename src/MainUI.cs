@@ -74,8 +74,14 @@ public partial class MainUI : Control
     {
         base._Ready();
 
-        parent.GetComponent<ManaManager>().mana_changed += UpdateManaBar;
-        parent.health_changed += UpdateHealthBar;
+        Mana mana = parent.GetComponent<Mana>();
+        Health health = parent.GetComponent<Health>();
+
+        mana.mana_changed += UpdateManaBar;
+        health.health_changed += UpdateHealthBar;
+
+        manaBar.MaxValue = mana.max;
+        healthBar.MaxValue = health.max;
     }
 
     
