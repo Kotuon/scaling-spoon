@@ -44,18 +44,10 @@ public partial class Throw : Ability
         var inst = (Projectile)proj.Instantiate();
         GetNode("../../..").AddChild(inst);
 
-        bool spriteFlip = animHandler.sprite.FlipH;
-
-        var animName = animHandler.GetCurrentAnimation();
-
-        if (spriteFlip)
-        {
-            startPos.X = -startPos.X;
-        }
-
-        var dir = (mouseRef.mouseDir - startPos).Normalized();
-        // dir = !dir.IsEqualApprox(Vector2.Zero) ? 
-        //     (startPos).Normalized() : dir;
+        // startPos = (mouseRef.Position - parent.Position).Normalized();
+        startPos = mouseRef.mouseDir * 60.0f;
+        
+        var dir = (startPos - mouseRef.mouseDir).Normalized();
 
         inst.Position = startPos + parent.Position;
         inst.Rotation = dir.Angle();

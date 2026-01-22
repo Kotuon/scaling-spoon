@@ -9,7 +9,7 @@ material = SubResource("ShaderMaterial_illg6")
 
 [sub_resource type="Gradient" id="Gradient_6rskp"]
 offsets = PackedFloat32Array(1)
-colors = PackedColorArray(1, 0, 0.8666668, 1)
+colors = PackedColorArray(1, 0, 0.8666668, 0.7490196)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_dyphf"]
 gradient = SubResource("Gradient_6rskp")

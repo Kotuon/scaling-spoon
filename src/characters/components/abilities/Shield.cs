@@ -38,8 +38,7 @@ public partial class Shield : Ability
     {
         base.End();
 
-        move.canMove = true;
-
-        mouseRef.useMouseDirection = false;
+        animHandler.PlayAnimation("shield_end", mouseRef.mouseDir);
+        animHandler.canAdvance = false;
     }
 }

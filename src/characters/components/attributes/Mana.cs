@@ -65,7 +65,7 @@ public partial class Mana : Component
 
         ShaderMaterial shader = sprite.Material as ShaderMaterial;
 
-        float input = (new_mana / max) * 10.0f;
+        float input = (new_mana / max) * 2.5f;
 
         shader.SetShaderParameter("width", input);
 

@@ -10,7 +10,7 @@ uniform bool add_margins = true;
 group_uniforms TEXTURE_COORDINATES;
 uniform int hframes = 1;
 uniform int vframes = 1;
-uniform vec2 idx = vec2(0.5, 0.5);
+uniform bool flip = false;
 
 group_uniforms NOISE_VALUES;
 uniform float density = 0.25f;
@@ -22,7 +22,9 @@ void vertex() {
 	// Called for every vertex the material is visible on.
     if (add_margins)
     {
-        VERTEX += (UV * 2.0 - 1.0) * width;
+        vec2 uv = flip ? vec2(1.0 - UV.x, UV.y) : UV;
+
+        VERTEX += (uv * 2.0 - 1.0) * width;
     }
 }
 
@@ -75,7 +77,7 @@ void fragment() {
 		COLOR.a += (1.0 - COLOR.a) * (color.a);
 
         //float noise_value = texture(noise, (UV * vec2(float(hframes), float(vframes))) + speed).r;
-        float noise_value = texture(noise, uv * idx).r;
+        float noise_value = texture(noise, uv).r;
         //float noise_value = texture(noise, uv * vec2(float(hframes), float(vframes))).r;
         float opacity = clamp(noise_value * 2.0 - 1.0, 0.0, 1.0);
 //

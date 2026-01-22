@@ -9,7 +9,6 @@ public partial class ManaSphere : Area2D
     {
         base._Ready();
 
-        // AreaEntered += ResolveCollision;
         BodyEntered += ResolveCollision;
     }
 
@@ -21,10 +20,7 @@ public partial class ManaSphere : Area2D
         Player player = node as Player;
 
         Mana manaManager = player.GetComponent<Mana>();
-
         manaManager.RestoreMana(10.0f);
-        
-        GD.Print("AHHH!!!");
 
         QueueFree();
     }
