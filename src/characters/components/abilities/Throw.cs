@@ -12,6 +12,14 @@ public partial class Throw : Ability
     {
         
     }
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+        
+    }
+
     
     public override void Trigger()
     {

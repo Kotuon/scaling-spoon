@@ -136,7 +136,12 @@ public partial class Move : Ability
             playFootstepSound();
 
         parent.SetVelocity(newVelocity);
-        parent.MoveAndSlide();
+        // parent.MoveAndSlide();
+        var collision = parent.MoveAndCollide(parent.Velocity * (float)delta);
+        if (collision != null)
+        {
+            parent.EmitSignal(CharacterBase.SignalName.collision);
+        }
     }
 
     private void playFootstepSound()
