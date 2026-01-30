@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 
 public partial class CharacterBase : CharacterBody2D, IDamageable
 {
+    [Signal] public delegate void collisionEventHandler();
+    [Signal] public delegate void damagedEventHandler(float damageAmount);
     // [Export] protected Godot.Collections.Dictionary attributes;
 
     // Called when the node enters the scene tree for the first time.
@@ -59,15 +61,17 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
         return default(T);
     }
 
-    public void Damage(float amount)
+    public virtual void Damage(float amount)
     {
         Health health = GetComponent<Health>();
         if (health == null) return;
 
         health.Use(amount);
+
+        EmitSignal(SignalName.damaged, amount);
     }
 
-    public void Dies()
+    public virtual void Dies()
     {
         Visible = false;
     }

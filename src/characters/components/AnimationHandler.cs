@@ -6,27 +6,84 @@ using Game.Entity;
 
 public partial class AnimationHandler : Component
 {
-    [Export]
-    public AnimationPlayer animationPlayer;
-    [Export]
-    public Sprite2D sprite;
-    [Export]
-    public float runCutoff { get; set; } = 200.0f;
-    [Export]
-    public float dashCutoff { get; set; } = 400.0f;
+    [Export(PropertyHint.Enum, "CrimsonRed, ")]
+    public string animationLibrary = "CrimsonRed";
+    [ExportGroup("Speed Cutoffs")]
+    [Export] public float runCutoff { get; set; } = 200.0f;
+    [Export] public float dashCutoff { get; set; } = 400.0f;
+
+    private AnimationPlayer _animationPlayer;
+    public AnimationPlayer animationPlayer
+    {
+        protected set => _animationPlayer = value;
+
+        get
+        {
+            if (_animationPlayer == null)
+                _animationPlayer = parent.GetComponent<AnimationPlayer>();
+            return _animationPlayer;
+        }
+    }
+    private Sprite2D _sprite;
+    public Sprite2D sprite
+    {
+        protected set => _sprite = value;
+
+        get
+        {
+            if (_sprite == null)
+                _sprite = parent.GetComponent<Sprite2D>();
+            return _sprite;
+        }
+    }
+
+    private enum Direction
+    {
+        FRONT = 0,
+        FRONT_S = 1,
+        SIDE = 2,
+        BACK_S = 3,
+        BACK = 4
+    }
+
+    private Direction currDir = Direction.FRONT;
+    [Export] public int currFrame = 0;
 
     private Vector2 lastNonZeroInput = new Vector2(0, 1);
-
     private float dirCutoff = 0.25f;
-
-    private bool lastOnFloor = true;
     public bool canAdvance = true;
+
+    private bool _flip;
+    public bool flip
+    {
+        set
+        {
+            _flip = value;
+            sprite.FlipH = _flip;
+            ShaderMaterial shader = sprite.Material as ShaderMaterial;
+
+            if (shader == null)
+                return;
+
+            shader.SetShaderParameter("flip", _flip);
+        }
+
+        get => _flip;
+    }
+
+    public void set_frame(int newFrame)
+    {
+        currFrame = newFrame;
+        sprite.FrameCoords = new Vector2I(currFrame, (int)currDir);
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        animationPlayer.Play("front_idle");
+        animationPlayer.Play(animationLibrary + "/idle_default");
         sprite.TextureChanged += UpdateShaderForTexture;
+
+        animationPlayer.GetAnimationLibraryList();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,11 +99,11 @@ public partial class AnimationHandler : Component
                 mouseRef.useMouseDirection = false;
             }
         }
-        // else if ((bool)parent.attributes["canMove"] && 
-        else if (parent.GetComponent<Move>().canMove && 
+        else if (parent.GetComponent<Move>().canMove &&
             !parent.GetComponent<Move>().movementOverride)
         {
-            Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
+            // Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
+            Vector2 currVelocity = ClipSmallValues(parent.Velocity);
             UpdateWalkAnimation(currVelocity);
         }
     }
@@ -62,24 +119,24 @@ public partial class AnimationHandler : Component
     }
     public void PlayAnimation(String animName, Vector2 inputDir)
     {
-        var dir = GetAnimationDirection(inputDir);
-        
-        sprite.FlipH = inputDir.X > 0 ? false : true;
+        currDir = GetAnimationDirection(inputDir);
+
+        flip = inputDir.X > 0 ? false : true;
 
         if (Mathf.IsZeroApprox(inputDir.LengthSquared()))
         {
-            dir = GetAnimationDirection(lastNonZeroInput);
-            sprite.FlipH = lastNonZeroInput.X > 0 ? false : true;
+            currDir = GetAnimationDirection(lastNonZeroInput);
+            flip = lastNonZeroInput.X > 0 ? false : true;
         }
 
-        animationPlayer.Play(dir + "_" + animName);
+        animationPlayer.Play(animationLibrary + "/" + animName);
     }
 
-    private String GetAnimationDirection(Vector2 currVelocity)
+    private Direction GetAnimationDirection(Vector2 currVelocity)
     {
         Vector2 direction = currVelocity.Normalized();
 
-        String animationDirection = "front";
+        Direction animationDirection = Direction.FRONT;
 
         if (!Mathf.IsZeroApprox(currVelocity.LengthSquared()))
             lastNonZeroInput = currVelocity.Normalized();
@@ -87,19 +144,19 @@ public partial class AnimationHandler : Component
         if (direction.Y > dirCutoff)
         {
             if (Mathf.Abs(direction.X) < 0.1f)
-                animationDirection = "front";
+                animationDirection = Direction.FRONT;
             else
-                animationDirection = "front_side";
+                animationDirection = Direction.FRONT_S;
         }
         else if (direction.Y < -dirCutoff)
         {
             if (Mathf.Abs(direction.X) < 0.1f)
-                animationDirection = "back";
+                animationDirection = Direction.BACK;
             else
-                animationDirection = "back_side";
+                animationDirection = Direction.BACK_S;
         }
         else
-            animationDirection = "side";
+            animationDirection = Direction.SIDE;
 
         return animationDirection;
     }
@@ -110,28 +167,28 @@ public partial class AnimationHandler : Component
 
         var mouseDirection = mouseRef.GlobalPosition - parent.GlobalPosition;
 
-        var currDirection = mouseRef.useMouseDirection 
+        currDir = mouseRef.useMouseDirection
             ? GetAnimationDirection(mouseDirection)
             : GetAnimationDirection(currVelocity);
 
         if (Mathf.IsZeroApprox(speed))
         {
-            animationPlayer.Play(
-                GetAnimationDirection(lastNonZeroInput) + "_idle");
-            sprite.FlipH = lastNonZeroInput.X < 0 ? true : false;
+            currDir = GetAnimationDirection(lastNonZeroInput);
+            animationPlayer.Play(animationLibrary + "/idle_default");
+            flip = lastNonZeroInput.X < 0 ? true : false;
         }
         else if (speed > runCutoff)
         {
-            animationPlayer.Play(currDirection + "_run");
+            animationPlayer.Play(animationLibrary + "/walk");
 
-            sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
+            flip = mouseRef.useMouseDirection ? mouseDirection.X < 0
                 : currVelocity.X < 0;
         }
         else
         {
-            animationPlayer.Play(currDirection + "_walk");
+            animationPlayer.Play(animationLibrary + "/walk");
 
-            sprite.FlipH = mouseRef.useMouseDirection ? mouseDirection.X < 0
+            flip = mouseRef.useMouseDirection ? mouseDirection.X < 0
                 : currVelocity.X < 0;
         }
 

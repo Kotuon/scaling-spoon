@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cy20yp5ktv4xe"]
+[gd_scene format=3 uid="uid://cy20yp5ktv4xe"]
 
 [ext_resource type="Script" uid="uid://gc8mc83mwj3t" path="res://src/characters/components/abilities/Dash.cs" id="1_em10g"]
 [ext_resource type="Shader" uid="uid://cxyqig5cvwqu7" path="res://shaders/Dash.gdshader" id="2_1jh8w"]
@@ -32,12 +32,11 @@ shader_parameter/initial_velocity_max = 0.0
 shader_parameter/initial_scale_min = 0.0
 shader_parameter/initial_scale_max = 0.0
 
-[node name="Dash" type="Node2D" node_paths=PackedStringArray("dashParticles")]
+[node name="Dash" type="Node2D" unique_id=367702838 node_paths=PackedStringArray("dashParticles")]
 script = ExtResource("1_em10g")
 dashParticles = NodePath("DashParticles2")
-abilityName = "dash"
 
-[node name="DashParticles" type="CPUParticles2D" parent="."]
+[node name="DashParticles" type="CPUParticles2D" parent="." unique_id=1995858920]
 position = Vector2(0, 30)
 emitting = false
 amount = 16
@@ -54,7 +53,7 @@ scale_amount_min = 2.0
 scale_amount_max = 6.0
 color_ramp = SubResource("Gradient_roy0j")
 
-[node name="DashParticles2" type="GPUParticles2D" parent="."]
+[node name="DashParticles2" type="GPUParticles2D" parent="." unique_id=464072240]
 position = Vector2(0, 30)
 emitting = false
 amount = 16
@@ -64,7 +63,7 @@ fixed_fps = 0
 draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_8ej7d")
 
-[node name="DashParticlesGPU" type="GPUParticles2D" parent="."]
+[node name="DashParticlesGPU" type="GPUParticles2D" parent="." unique_id=587815694]
 visible = false
 position = Vector2(0, 30)
 amount = 16

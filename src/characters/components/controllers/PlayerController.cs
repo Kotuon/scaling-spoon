@@ -30,7 +30,7 @@ public partial class PlayerController : Controller
 
 
 [Export]
-    public Godot.Collections.Dictionary<String, Ability> actionMap = 
+    public Godot.Collections.Dictionary<string, Ability> actionMap = 
         new Godot.Collections.Dictionary<string, Ability>();
         
     public override void _Ready()

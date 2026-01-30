@@ -16,6 +16,14 @@ public partial class Shield : Ability
         
     }
 
+    public override void _Ready()
+    {
+        base._Ready();
+
+        parent.damaged += WasDamaged;
+    }
+
+
     public override void Trigger()
     {
         base.Trigger();
@@ -38,8 +46,15 @@ public partial class Shield : Ability
     {
         base.End();
 
-        move.canMove = true;
+        animHandler.PlayAnimation("shield_end", mouseRef.mouseDir);
+        animHandler.canAdvance = false;
+    }
 
-        mouseRef.useMouseDirection = false;
+    private void WasDamaged(float damageAmount)
+    {
+        if (!isActive) return;
+
+        Mana mana = parent.GetComponent<Mana>();
+        mana.RestoreMana(damageAmount);
     }
 }

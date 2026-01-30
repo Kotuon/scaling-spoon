@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwv0smc80566w"]
+[gd_scene format=3 uid="uid://bwv0smc80566w"]
 
 [ext_resource type="Script" uid="uid://bfbjbfd3tk800" path="res://src/items/Projectile.cs" id="1_58rdg"]
 [ext_resource type="Texture2D" uid="uid://gcv7dybucrco" path="res://assets/art/Player/New/Side Throw-1.png.png" id="2_glfey"]
@@ -14,7 +14,7 @@ point_count = 2
 offsets = PackedFloat32Array(0, 0.6747573, 1)
 colors = PackedColorArray(0, 1, 0.9764706, 1, 0, 1, 0.9764706, 1, 0, 1, 0.98333335, 0)
 
-[node name="Projectile" type="CharacterBody2D"]
+[node name="Projectile" type="CharacterBody2D" unique_id=2066999989]
 scale = Vector2(3, 3)
 motion_mode = 1
 slide_on_ceiling = false
@@ -22,16 +22,16 @@ wall_min_slide_angle = 3.1415927
 floor_stop_on_slope = false
 script = ExtResource("1_58rdg")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=125337897]
 texture_filter = 1
 position = Vector2(0.33333334, 0.6666667)
 texture = ExtResource("2_glfey")
 
-[node name="Hitbox" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="." unique_id=1029148984]
 position = Vector2(1.8333334, -0.3333333)
 shape = SubResource("RectangleShape2D_y3him")
 
-[node name="HitParticles" type="CPUParticles2D" parent="."]
+[node name="HitParticles" type="CPUParticles2D" parent="." unique_id=845373642]
 position = Vector2(13.333334, 0)
 rotation = 3.1415927
 emitting = false

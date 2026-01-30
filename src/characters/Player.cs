@@ -21,4 +21,20 @@ public partial class Player : CharacterBase
     public override void _Process(double delta)
     {
     }
+
+    public override void Damage(float amount)
+    {
+        base.Damage(amount);
+
+        animationHandler.PlayAnimation("hit", Vector2.Zero);
+        animationHandler.canAdvance = false;
+        move.currWalkSpeed = 0.0f;
+    }
+
+
+    override public void Dies()
+    {
+        GetTree().ReloadCurrentScene();
+        GD.Print("Dies");
+    }
 }

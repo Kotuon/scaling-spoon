@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxh6v761vjx5h"]
+[gd_scene format=3 uid="uid://cxh6v761vjx5h"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_5y1fh"]
 
@@ -12,17 +12,17 @@ gradient = SubResource("Gradient_hrmcf")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uqb1a"]
 size = Vector2(40, 40)
 
-[node name="Floor" type="Node2D"]
+[node name="Floor" type="Node2D" unique_id=1009577086]
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1080649826]
 position = Vector2(20, 20)
 scale = Vector2(40, 40)
 mesh = SubResource("QuadMesh_5y1fh")
 texture = SubResource("GradientTexture1D_0q0fq")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1313484064]
 position = Vector2(20, 20)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1900008688]
 visible = false
 shape = SubResource("RectangleShape2D_uqb1a")

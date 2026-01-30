@@ -26,7 +26,6 @@ public partial class Mana : Component
     {
         base._Ready();
 
-        // curr_mana = max_mana / 2.0f;
         curr = 0.0f;
 
         mana_changed += UpdateAura;
@@ -65,9 +64,13 @@ public partial class Mana : Component
 
         ShaderMaterial shader = sprite.Material as ShaderMaterial;
 
-        float input = (new_mana / max) * 10.0f;
+        float input = (new_mana / max) * 2.5f;
 
-        shader.SetShaderParameter("width", input);
+        Tween tween = GetTree().CreateTween();
+        tween.TweenMethod(
+            new Callable(this, MethodName.SetShaderWidth),
+            shader.GetShaderParameter("width"),
+            input, 0.25f);
 
         GpuParticles2D particles = parent.GetComponent<GpuParticles2D>();
 
@@ -80,5 +83,12 @@ public partial class Mana : Component
         {
             particles.Emitting = false;
         }
+    }
+
+    public void SetShaderWidth(float newValue)
+    {
+        Sprite2D sprite = parent.GetComponent<Sprite2D>();
+        ShaderMaterial shader = sprite.Material as ShaderMaterial;
+        shader.SetShaderParameter("width", newValue);
     }
 }

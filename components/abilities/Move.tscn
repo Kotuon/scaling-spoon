@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cj3fkw0agux0o"]
+[gd_scene format=3 uid="uid://cj3fkw0agux0o"]
 
 [ext_resource type="Script" uid="uid://bt405r8g0diy8" path="res://src/characters/components/Move.cs" id="1_p8npr"]
 
-[node name="Move" type="Node2D"]
+[node name="Move" type="Node2D" unique_id=1858808035]
 script = ExtResource("1_p8npr")

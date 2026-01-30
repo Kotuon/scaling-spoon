@@ -7,7 +7,7 @@ using Game.Component;
 public partial class MoveToTarget : BehaviorNode
 {
     [Export] public StringName target_name = "Player";
-    [Export] public float reach_distance = 200.0f;
+    [Export] public float reach_distance = 400.0f;
     public override BehaviorNode.Status evaluate(Dictionary context)
     {
         if (!context.ContainsKey(target_name))

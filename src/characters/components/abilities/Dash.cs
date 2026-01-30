@@ -2,6 +2,7 @@ namespace Game.Component;
 
 using Godot;
 using System;
+using Game.Entity;
 
 public partial class Dash : Ability
 {
@@ -33,14 +34,14 @@ public partial class Dash : Ability
 
     public Dash() : base("dash")
     {
-        
+
     }
 
     public override void _Input(InputEvent @event)
     {
         base._Input(@event);
 
-        if (!isActive && !onCooldown && 
+        if (!isActive && !onCooldown &&
             @event.GetActionStrength(abilityName) != 0.0f)
             Trigger();
     }
@@ -48,7 +49,6 @@ public partial class Dash : Ability
 
     public override void Trigger()
     {
-        // if ((float)parent.attributes["currSpeed"] < move.maxWalkSpeed)
         if (move.currWalkSpeed < move.maxWalkSpeed)
             return;
 
@@ -60,14 +60,13 @@ public partial class Dash : Ability
 
     public override void Update(double delta)
     {
-        if (!manaManager.UseMana(cost * (float)delta) || 
+        if (!manaManager.UseMana(cost * (float)delta) ||
             !move.canMove)
-            // !(bool)parent.attributes["canMove"])
         {
             End();
             return;
         }
-        
+
         base.Update(delta);
 
         var dir = parent.GetComponent<Controller>().moveInput;
@@ -81,7 +80,12 @@ public partial class Dash : Ability
         );
 
         parent.SetVelocity(velocity);
-        parent.MoveAndSlide();
+
+        var collision = parent.MoveAndCollide(parent.Velocity * (float)delta);
+        if (collision != null)
+        {
+            parent.EmitSignal(CharacterBase.SignalName.collision);
+        }
 
         animHandler.PlayAnimation("dash", velocity);
     }

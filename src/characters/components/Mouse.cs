@@ -19,7 +19,10 @@ public partial class Mouse : Component
             if (value)
             {
                 icon.Visible = true;
-                Input.WarpMouse(GetViewportRect().Size / 2.0f);
+
+                Vector2 newPosition = GetViewportRect().Size / 2.0f;
+                
+                Input.WarpMouse(newPosition + new Vector2(0.0f, 20.0f));
             }
             else
             {
@@ -41,7 +44,7 @@ public partial class Mouse : Component
         get
         {
             _mouseDir = GlobalPosition - parent.GlobalPosition;
-            return _mouseDir;
+            return _mouseDir.Normalized();
         }
     }
 

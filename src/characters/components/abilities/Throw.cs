@@ -5,13 +5,18 @@ using System;
 
 public partial class Throw : Ability
 {
-    [Export]
-    public PackedScene proj;
+    [Export] public PackedScene proj;
 
     public Throw() : base("throw")
     {
         
     }
+
+    public override void _Ready()
+    {
+        base._Ready();
+    }
+
     
     public override void Trigger()
     {
@@ -19,7 +24,7 @@ public partial class Throw : Ability
 
         move.canMove = false;
 
-        animHandler.PlayAnimation("throw_init", mouseRef.mouseDir);
+        animHandler.PlayAnimation(abilityName + "_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
     }
 
@@ -27,35 +32,30 @@ public partial class Throw : Ability
     {
         base.Update(delta);
 
-        if (animHandler.GetCurrentAnimation().Find("throw_init") == -1)
-            animHandler.PlayAnimation("throw_update", mouseRef.mouseDir);
+        if (animHandler.GetCurrentAnimation().Find(abilityName + "_init") == -1)
+        {
+            animHandler.PlayAnimation(
+                abilityName + "_update", mouseRef.mouseDir);
+        }
     }
 
     public override void End()
     {
         base.End();
 
-        animHandler.PlayAnimation("throw_end", mouseRef.mouseDir);
+        animHandler.PlayAnimation(abilityName + "_end", mouseRef.mouseDir);
         animHandler.canAdvance = false;
     }
     
-    public void SpawnProjectile(Vector2 startPos)
+    public void SpawnProjectile()
     {
         var inst = (Projectile)proj.Instantiate();
-        GetNode("../../..").AddChild(inst);
+        // GetNode("../../..").AddChild(inst);
+        parent.GetParent().AddChild(inst);
 
-        bool spriteFlip = animHandler.sprite.FlipH;
-
-        var animName = animHandler.GetCurrentAnimation();
-
-        if (spriteFlip)
-        {
-            startPos.X = -startPos.X;
-        }
-
-        var dir = (mouseRef.mouseDir - startPos).Normalized();
-        // dir = !dir.IsEqualApprox(Vector2.Zero) ? 
-        //     (startPos).Normalized() : dir;
+        Vector2 startPos = mouseRef.mouseDir * 60.0f;
+        
+        var dir = (startPos - mouseRef.mouseDir).Normalized();
 
         inst.Position = startPos + parent.Position;
         inst.Rotation = dir.Angle();
