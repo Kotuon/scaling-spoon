@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmy8hqpux8elx"]
+[gd_scene format=3 uid="uid://bmy8hqpux8elx"]
 
 [ext_resource type="Script" uid="uid://cxwnjoratkjjq" path="res://src/characters/components/controllers/EnemyBaseController.cs" id="1_al4rs"]
 
-[node name="EnemyBaseController" type="Node2D"]
+[node name="EnemyBaseController" type="Node2D" unique_id=1661527508]
 script = ExtResource("1_al4rs")

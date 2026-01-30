@@ -7,6 +7,8 @@ using System.ComponentModel;
 
 public partial class MainUI : Control
 {
+    [Export] public float progressBarTimeToChange = 0.25f;
+    
     private CharacterBase _parent;
     public CharacterBase parent
     {
@@ -92,12 +94,19 @@ public partial class MainUI : Control
         locked.Position = cameraRef.Position + cameraRef.Offset;
     }
 
+    private void TweenProgressBarValue(ProgressBar bar, float newValue)
+    {
+        Tween tween = GetTree().CreateTween();
+        tween.TweenProperty(
+            bar, "value", newValue, progressBarTimeToChange);
+    }
+
     private void UpdateManaBar(float newValue)
     {
-        manaBar.Value = newValue;
+        TweenProgressBarValue(manaBar, newValue);
     }
     private void UpdateHealthBar(float newValue)
     {
-        healthBar.Value = newValue;
+        TweenProgressBarValue(healthBar, newValue);
     }
 }

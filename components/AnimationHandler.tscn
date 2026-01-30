@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cw7edttgohtsy"]
+[gd_scene format=3 uid="uid://cw7edttgohtsy"]
 
 [ext_resource type="Script" uid="uid://derpmwv4hjilq" path="res://src/characters/components/AnimationHandler.cs" id="1_y2d8u"]
 
-[node name="AnimationHandler" type="Node2D"]
+[node name="AnimationHandler" type="Node2D" unique_id=113594748]
 script = ExtResource("1_y2d8u")

@@ -21,4 +21,10 @@ public partial class Player : CharacterBase
     public override void _Process(double delta)
     {
     }
+
+    override public void Dies()
+    {
+        GetTree().ReloadCurrentScene();
+        GD.Print("Dies");
+    }
 }

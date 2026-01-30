@@ -102,7 +102,8 @@ public partial class AnimationHandler : Component
         else if (parent.GetComponent<Move>().canMove &&
             !parent.GetComponent<Move>().movementOverride)
         {
-            Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
+            // Vector2 currVelocity = ClipSmallValues(parent.GetRealVelocity());
+            Vector2 currVelocity = ClipSmallValues(parent.Velocity);
             UpdateWalkAnimation(currVelocity);
         }
     }

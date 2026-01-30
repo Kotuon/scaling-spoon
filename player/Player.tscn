@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://de271tm4kog24"]
+[gd_scene format=3 uid="uid://de271tm4kog24"]
 
 [ext_resource type="Script" uid="uid://14n0gu1tgs60" path="res://src/characters/Player.cs" id="1_dnad5"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_t7u8x"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://ce3f4rk32x4bi" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_I.wav" id="11_5pdkm"]
 [ext_resource type="AudioStream" uid="uid://vs8ssnu2hgu4" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_J.wav" id="12_f4gi0"]
 [ext_resource type="PackedScene" uid="uid://cxhf6esdftcfc" path="res://components/abilities/Shield.tscn" id="14_76mgg"]
+[ext_resource type="PackedScene" uid="uid://c6h4sa3coyrp4" path="res://items/SpearProjectile.tscn" id="16_8eyfg"]
 [ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
 [ext_resource type="Shader" uid="uid://smdmcyt21hsa" path="res://shaders/bloom.gdshader" id="19_w36ex"]
 [ext_resource type="AnimationLibrary" uid="uid://bgrso2rsp1hwf" path="res://animation_libraries/LegacyPlayer.res" id="21_y617q"]
@@ -21,7 +22,6 @@
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="32_234y4"]
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectile.tscn" id="33_u8vxv"]
 [ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/controllers/PlayerController.tscn" id="39_610ub"]
 [ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/OffsetCamera.cs" id="39_ayguc"]
 [ext_resource type="Script" uid="uid://dg0ycdc5l4eej" path="res://src/MainUI.cs" id="41_2q4k2"]
@@ -29,18 +29,38 @@
 [ext_resource type="Theme" uid="uid://clercpxyi78aa" path="res://themes/UIThemes.tres" id="43_7tnb4"]
 [ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="46_7wro5"]
 
+[sub_resource type="Curve" id="Curve_8eyfg"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_76mgg"]
+curve = SubResource("Curve_8eyfg")
+
+[sub_resource type="Curve" id="Curve_76mgg"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(0.5, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ddnt4"]
+curve = SubResource("Curve_76mgg")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w36ex"]
 particle_flag_disable_z = true
-emission_shape = 1
+emission_shape = 2
 emission_sphere_radius = 17.12
-gravity = Vector3(0, 25, 0)
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 72.93998
+gravity = Vector3(0, 70.81, 0)
+radial_accel_min = -100.0
+radial_accel_max = 90.579994
 tangential_accel_min = -50.0
 tangential_accel_max = 50.0
 damping_min = 5.0
-damping_max = 15.0
+damping_max = 10.441001
 scale_min = 5.0
 scale_max = 8.0
+scale_curve = SubResource("CurveTexture_ddnt4")
 color = Color(0.48020002, 0.98, 0.97167003, 0.59607846)
+alpha_curve = SubResource("CurveTexture_76mgg")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_w36ex"]
 seed = 25
@@ -91,67 +111,66 @@ height = 52.0
 
 [sub_resource type="AudioStream" id="AudioStream_uoipf"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("move", "animationHandler")]
+[node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler")]
 script = ExtResource("1_dnad5")
 move = NodePath("AbilityManager/Move")
 animationHandler = NodePath("AnimationHandler")
 
-[node name="AbilityManager" parent="." instance=ExtResource("2_t7u8x")]
+[node name="AbilityManager" parent="." unique_id=346779894 instance=ExtResource("2_t7u8x")]
 
-[node name="Move" parent="AbilityManager" node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
+[node name="Move" parent="AbilityManager" unique_id=655076870 node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
 footstepPlayer = NodePath("../../Footsteps")
 cooldown = 0.0
 cost = 0.0
 
-[node name="Shield" parent="AbilityManager" instance=ExtResource("14_76mgg")]
+[node name="Shield" parent="AbilityManager" unique_id=647591326 instance=ExtResource("14_76mgg")]
 cost = 0.0
 
-[node name="Throw" parent="AbilityManager" instance=ExtResource("32_234y4")]
-proj = ExtResource("33_u8vxv")
+[node name="Throw" parent="AbilityManager" unique_id=2083118973 instance=ExtResource("32_234y4")]
+proj = ExtResource("16_8eyfg")
 cost = 0.0
 
-[node name="Dash" parent="AbilityManager" instance=ExtResource("17_ayguc")]
+[node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]
 cost = 10.0
 
-[node name="Mouse" parent="." instance=ExtResource("30_ddnt4")]
+[node name="Mouse" parent="." unique_id=1452754236 instance=ExtResource("30_ddnt4")]
 visible = false
 z_index = 1
 
-[node name="AuraParticles" type="GPUParticles2D" parent="."]
+[node name="AuraParticles" type="GPUParticles2D" parent="." unique_id=494178671]
+visible = false
 position = Vector2(0, -8)
-emitting = false
 amount = 128
-lifetime = 2.0
+lifetime = 0.5
 fixed_fps = 0
 draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_w36ex")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=189158091]
 texture_filter = 1
 material = SubResource("ShaderMaterial_7wro5")
 scale = Vector2(3, 3)
 hframes = 13
 vframes = 12
 
-[node name="AnimationHandler" parent="." instance=ExtResource("30_a0lmo")]
+[node name="AnimationHandler" parent="." unique_id=806842331 instance=ExtResource("30_a0lmo")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationHandler"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationHandler" unique_id=797888822]
 root_node = NodePath("../..")
-libraries = {
-&"": ExtResource("21_y617q"),
-&"CrimsonRed": ExtResource("22_8eyfg")
-}
+libraries/ = ExtResource("21_y617q")
+libraries/CrimsonRed = ExtResource("22_8eyfg")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1099560921]
 visible = false
 scale = Vector2(25, 50)
 mesh = SubResource("QuadMesh_tvfjf")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1710388725]
 script = ExtResource("39_ayguc")
 
-[node name="Control" type="Control" parent="Camera2D"]
+[node name="Control" type="Control" parent="Camera2D" unique_id=221681312]
+z_index = 1
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -162,7 +181,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("41_2q4k2")
 
-[node name="ManaBar" type="ProgressBar" parent="Camera2D/Control"]
+[node name="ManaBar" type="ProgressBar" parent="Camera2D/Control" unique_id=67778431]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -175,12 +194,12 @@ grow_horizontal = 2
 theme = ExtResource("43_7tnb4")
 show_percentage = false
 
-[node name="Locked" type="Control" parent="Camera2D/Control"]
+[node name="Locked" type="Control" parent="Camera2D/Control" unique_id=1460985510]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="HealthBar" type="ProgressBar" parent="Camera2D/Control/Locked"]
+[node name="HealthBar" type="ProgressBar" parent="Camera2D/Control/Locked" unique_id=1737805377]
 layout_mode = 0
 offset_left = -616.0
 offset_top = 308.0
@@ -190,16 +209,16 @@ theme = ExtResource("43_7tnb4")
 theme_override_styles/fill = SubResource("StyleBoxFlat_w36ex")
 value = 62.19
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=195966125]
 visible = false
 position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_fmlfo")
 
-[node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
+[node name="Footsteps" type="AudioStreamPlayer2D" parent="." unique_id=1087268395]
 stream = SubResource("AudioStream_uoipf")
 
-[node name="PlayerController" parent="." instance=ExtResource("39_610ub")]
+[node name="PlayerController" parent="." unique_id=726150015 instance=ExtResource("39_610ub")]
 
-[node name="Mana" parent="." instance=ExtResource("42_lnwue")]
+[node name="Mana" parent="." unique_id=1548554336 instance=ExtResource("42_lnwue")]
 
-[node name="Health" parent="." instance=ExtResource("46_7wro5")]
+[node name="Health" parent="." unique_id=629662058 instance=ExtResource("46_7wro5")]

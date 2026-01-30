@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ua751p45hudl"]
+[gd_scene format=3 uid="uid://ua751p45hudl"]
 
 [ext_resource type="Script" uid="uid://e00kjp4mioul" path="res://src/characters/components/controllers/behavior_tree/tasks/FindTarget.cs" id="1_t46cu"]
 
-[node name="FindTarget" type="Node"]
+[node name="FindTarget" type="Node" unique_id=2044176681]
 script = ExtResource("1_t46cu")

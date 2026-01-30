@@ -113,7 +113,7 @@ public partial class Move : Ability
         double delta, Godot.Vector2 direction)
     {
         Godot.Vector2 newVelocity;
-        Godot.Vector2 currVelocity = parent.GetRealVelocity();
+        Godot.Vector2 currVelocity = parent.Velocity;
 
         if (currVelocity.Normalized() == (direction.Normalized() * -1.0f))
         {
@@ -132,8 +132,10 @@ public partial class Move : Ability
         Godot.Vector2 newVelocity = UpdateWalk(currWalkSpeed, maxWalkSpeed,
             delta, direction);
 
-        if (currWalkSpeed != 0.0 && currWalkSpeed <= maxWalkSpeed)
+        if (!Mathf.IsZeroApprox(currWalkSpeed) && currWalkSpeed <= maxWalkSpeed)
+        {
             playFootstepSound();
+        }
 
         parent.SetVelocity(newVelocity);
         // parent.MoveAndSlide();

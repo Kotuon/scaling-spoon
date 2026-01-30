@@ -61,7 +61,7 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
         return default(T);
     }
 
-    public void Damage(float amount)
+    public virtual void Damage(float amount)
     {
         Health health = GetComponent<Health>();
         if (health == null) return;
@@ -71,7 +71,7 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
         EmitSignal(SignalName.damaged, amount);
     }
 
-    public void Dies()
+    public virtual void Dies()
     {
         Visible = false;
     }

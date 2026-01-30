@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://busqgtqfhsinf"]
+
+[ext_resource type="Script" uid="uid://ulo43jr37fs7" path="res://src/characters/components/controllers/behavior_tree/tasks/FireProjectile.cs" id="1_1qqh7"]
+
+[node name="FireProjectile" type="Node" unique_id=1237154939]
+script = ExtResource("1_1qqh7")

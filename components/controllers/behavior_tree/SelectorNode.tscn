@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5ptcrgmvdwa3"]
+[gd_scene format=3 uid="uid://c5ptcrgmvdwa3"]
 
 [ext_resource type="Script" uid="uid://dq2gdap0pu1ew" path="res://src/characters/components/controllers/behavior_tree/Selector.cs" id="1_vqp1v"]
 
-[node name="SelectorNode" type="Node"]
+[node name="SelectorNode" type="Node" unique_id=1525591875]
 script = ExtResource("1_vqp1v")

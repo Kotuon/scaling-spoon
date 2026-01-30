@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=4 format=3 uid="uid://clercpxyi78aa"]
+[gd_resource type="Theme" format=3 uid="uid://clercpxyi78aa"]
 
 [ext_resource type="FontFile" uid="uid://cnv5trghp6um2" path="res://assets/fonts/OpenDyslexic-Regular.otf" id="1_cvl15"]
 [ext_resource type="StyleBox" uid="uid://cyftvskk6ab0b" path="res://themes/progress_bar_background_default.tres" id="1_gpopv"]

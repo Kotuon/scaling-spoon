@@ -3,16 +3,10 @@ namespace Game.Entity;
 using Godot;
 using System;
 
-public partial class ManaSphere : Area2D
+public partial class ManaSphere : AreaTriggerItem
 {
-    public override void _Ready()
-    {
-        base._Ready();
-
-        BodyEntered += ResolveCollision;
-    }
-
-    private void ResolveCollision(Node node)
+    [Export] float restore_amount = 10.0f;
+    protected override void ResolveCollisionEnter(Node node)
     {
         if (node is not Player)
             return;

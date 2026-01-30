@@ -5,8 +5,7 @@ using System;
 
 public partial class Throw : Ability
 {
-    [Export]
-    public PackedScene proj;
+    [Export] public PackedScene proj;
 
     public Throw() : base("throw")
     {
@@ -16,8 +15,6 @@ public partial class Throw : Ability
     public override void _Ready()
     {
         base._Ready();
-
-        
     }
 
     
@@ -27,7 +24,7 @@ public partial class Throw : Ability
 
         move.canMove = false;
 
-        animHandler.PlayAnimation("throw_init", mouseRef.mouseDir);
+        animHandler.PlayAnimation(abilityName + "_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
     }
 
@@ -35,25 +32,28 @@ public partial class Throw : Ability
     {
         base.Update(delta);
 
-        if (animHandler.GetCurrentAnimation().Find("throw_init") == -1)
-            animHandler.PlayAnimation("throw_update", mouseRef.mouseDir);
+        if (animHandler.GetCurrentAnimation().Find(abilityName + "_init") == -1)
+        {
+            animHandler.PlayAnimation(
+                abilityName + "_update", mouseRef.mouseDir);
+        }
     }
 
     public override void End()
     {
         base.End();
 
-        animHandler.PlayAnimation("throw_end", mouseRef.mouseDir);
+        animHandler.PlayAnimation(abilityName + "_end", mouseRef.mouseDir);
         animHandler.canAdvance = false;
     }
     
-    public void SpawnProjectile(Vector2 startPos)
+    public void SpawnProjectile()
     {
         var inst = (Projectile)proj.Instantiate();
-        GetNode("../../..").AddChild(inst);
+        // GetNode("../../..").AddChild(inst);
+        parent.GetParent().AddChild(inst);
 
-        // startPos = (mouseRef.Position - parent.Position).Normalized();
-        startPos = mouseRef.mouseDir * 60.0f;
+        Vector2 startPos = mouseRef.mouseDir * 60.0f;
         
         var dir = (startPos - mouseRef.mouseDir).Normalized();
 

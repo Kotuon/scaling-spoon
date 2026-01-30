@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 
 public partial class Projectile : CharacterBody2D
 {
-    [Export]
-    public float speed = 1000.0f;
+    [Export] public float speed = 1000.0f;
     public GodotObject owner;
     private Vector2 _launchDir;
     public Vector2 launchDir
@@ -24,7 +23,6 @@ public partial class Projectile : CharacterBody2D
     {
         base._PhysicsProcess(delta);
 
-        // var result = MoveAndSlide();
         var collision = MoveAndCollide(Velocity * (float)delta);
 
         if (collision != null && collision.GetCollider() != owner)
@@ -34,7 +32,7 @@ public partial class Projectile : CharacterBody2D
             if (collision.GetCollider() is IDamageable)
             {
                 // call damage function
-                (collision.GetCollider() as IDamageable).Damage(0.0f);
+                (collision.GetCollider() as IDamageable).Damage(1.0f);
             }
 
             _ = Timeout();

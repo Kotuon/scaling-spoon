@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://c18ymgdnfq2m7"]
+
+[ext_resource type="Script" uid="uid://brohi7puthsg3" path="res://src/items/ManaDrain.cs" id="1_3430t"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_aod7j"]
+radius = 9.0
+height = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aod7j"]
+
+[node name="ManaDrain" type="Area2D" unique_id=256835386]
+script = ExtResource("1_3430t")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1445980750]
+modulate = Color(0.69, 0, 0.24149993, 1)
+mesh = SubResource("SphereMesh_aod7j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=291894623]
+shape = SubResource("CircleShape2D_aod7j")
