@@ -31,7 +31,9 @@ shader_parameter/saturation = 2.0
 radius = 20.0
 
 [node name="Projectile" unique_id=1042229995 instance=ExtResource("1_mi77h")]
-speed = 250.0
+initialSpeed = 200.0
+finalSpeed = 600.0
+timeToAccelerate = 1.0
 
 [node name="Sprite2D2" type="Sprite2D" parent="." index="0" unique_id=1355664310]
 visible = false

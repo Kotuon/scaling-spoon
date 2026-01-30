@@ -12,7 +12,7 @@ height = 18.0
 script = ExtResource("1_3430t")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1445980750]
-modulate = Color(0.69, 0, 0.24149993, 1)
+modulate = Color(0.69, 0, 0.24149993, 0.50980395)
 mesh = SubResource("SphereMesh_aod7j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=291894623]

@@ -34,14 +34,14 @@ public partial class Dash : Ability
 
     public Dash() : base("dash")
     {
-        
+
     }
 
     public override void _Input(InputEvent @event)
     {
         base._Input(@event);
 
-        if (!isActive && !onCooldown && 
+        if (!isActive && !onCooldown &&
             @event.GetActionStrength(abilityName) != 0.0f)
             Trigger();
     }
@@ -60,13 +60,13 @@ public partial class Dash : Ability
 
     public override void Update(double delta)
     {
-        if (!manaManager.UseMana(cost * (float)delta) || 
+        if (!manaManager.UseMana(cost * (float)delta) ||
             !move.canMove)
         {
             End();
             return;
         }
-        
+
         base.Update(delta);
 
         var dir = parent.GetComponent<Controller>().moveInput;

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 public partial class Projectile : CharacterBody2D
 {
-    [Export] public float speed = 1000.0f;
+    [Export] public float initialSpeed = 1000.0f;
+    [Export] public float finalSpeed = 1000.0f;
+    [Export] public float timeToAccelerate = 0.0f;
     public GodotObject owner;
     private Vector2 _launchDir;
     public Vector2 launchDir
@@ -13,15 +15,34 @@ public partial class Projectile : CharacterBody2D
         set
         {
             _launchDir = value;
-            Velocity = _launchDir * speed;
+            currSpeed = initialSpeed;
+            // Velocity = _launchDir * initialSpeed;
         }
 
         get => _launchDir;
     }
 
+    private float currSpeed;
+    private bool hasLaunched = false;
+
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
+
+        // Velocity = launchDir
+
+        if (!hasLaunched)
+        {
+            Tween tween = GetTree().CreateTween();
+            tween.TweenProperty(
+                this, "currSpeed", finalSpeed, timeToAccelerate
+            );
+            hasLaunched = true;
+        }
+        else
+        {
+            Velocity = launchDir * currSpeed;
+        }
 
         var collision = MoveAndCollide(Velocity * (float)delta);
 

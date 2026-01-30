@@ -13,15 +13,15 @@ public partial class Move : Ability
     // Walking
     [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
-    
+
     private float _currWalkSpeed;
     public float currWalkSpeed
     {
         set
-        {   
+        {
             _currWalkSpeed = value;
         }
-        
+
         get => _currWalkSpeed;
     }
     public float lastWalkSpeed { get; private set; }
@@ -43,11 +43,11 @@ public partial class Move : Ability
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 
     public bool movementOverride = false;
-    public bool canMove  = true;
+    public bool canMove = true;
 
     public Move() : base("move")
     {
-        
+
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -103,13 +103,14 @@ public partial class Move : Ability
         return currSpeed;
     }
 
-    private void UpdateSpeed(float slowSpeed, double delta, Godot.Vector2 direction)
+    private void UpdateSpeed(float slowSpeed, double delta,
+        Godot.Vector2 direction)
     {
         currWalkSpeed = UpdateSpeed(currWalkSpeed, maxWalkSpeed, slowSpeed,
             delta, direction);
     }
 
-    public Godot.Vector2 UpdateWalk(float currSpeed, float maxSpeed, 
+    public Godot.Vector2 UpdateWalk(float currSpeed, float maxSpeed,
         double delta, Godot.Vector2 direction)
     {
         Godot.Vector2 newVelocity;
@@ -126,7 +127,8 @@ public partial class Move : Ability
         return newVelocity;
     }
 
-    private void UpdateWalk(float slowSpeed, double delta, Godot.Vector2 direction)
+    private void UpdateWalk(float slowSpeed, double delta,
+        Godot.Vector2 direction)
     {
         UpdateSpeed(slowSpeed, delta, direction);
         Godot.Vector2 newVelocity = UpdateWalk(currWalkSpeed, maxWalkSpeed,
@@ -150,7 +152,7 @@ public partial class Move : Ability
     {
         if (footstepPlayer == null)
             return;
-        
+
         if (footstepPlayer.Playing)
             return;
 

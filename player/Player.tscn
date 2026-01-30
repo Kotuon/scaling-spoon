@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://c6h4sa3coyrp4" path="res://items/SpearProjectile.tscn" id="16_8eyfg"]
 [ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
 [ext_resource type="Shader" uid="uid://smdmcyt21hsa" path="res://shaders/bloom.gdshader" id="19_w36ex"]
+[ext_resource type="Texture2D" uid="uid://c58rc15tgrkw3" path="res://assets/art/PlayerCrimsonRed/Idle Default.png" id="20_76mgg"]
 [ext_resource type="AnimationLibrary" uid="uid://bgrso2rsp1hwf" path="res://animation_libraries/LegacyPlayer.res" id="21_y617q"]
 [ext_resource type="AnimationLibrary" uid="uid://031ukdeoj808" path="res://animation_libraries/CrimsonRed.res" id="22_8eyfg"]
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
@@ -79,7 +80,7 @@ seamless = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7wro5"]
 shader = ExtResource("19_w36ex")
 shader_parameter/color = Color(0.48020002, 0.98, 0.97167003, 0.7137255)
-shader_parameter/width = 2.2290001058775
+shader_parameter/width = 0.0
 shader_parameter/pattern = 1
 shader_parameter/inside = false
 shader_parameter/add_margins = true
@@ -89,8 +90,6 @@ shader_parameter/flip = false
 shader_parameter/density = 4.0
 shader_parameter/speed = Vector2(0, 0.01)
 shader_parameter/noise = SubResource("NoiseTexture2D_7wro5")
-
-[sub_resource type="QuadMesh" id="QuadMesh_tvfjf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w36ex"]
 bg_color = Color(0.98, 0.48020002, 0.48020002, 1)
@@ -151,8 +150,9 @@ process_material = SubResource("ParticleProcessMaterial_w36ex")
 texture_filter = 1
 material = SubResource("ShaderMaterial_7wro5")
 scale = Vector2(3, 3)
-hframes = 13
-vframes = 12
+texture = ExtResource("20_76mgg")
+hframes = 6
+vframes = 5
 
 [node name="AnimationHandler" parent="." unique_id=806842331 instance=ExtResource("30_a0lmo")]
 
@@ -160,11 +160,6 @@ vframes = 12
 root_node = NodePath("../..")
 libraries/ = ExtResource("21_y617q")
 libraries/CrimsonRed = ExtResource("22_8eyfg")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1099560921]
-visible = false
-scale = Vector2(25, 50)
-mesh = SubResource("QuadMesh_tvfjf")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1710388725]
 script = ExtResource("39_ayguc")
