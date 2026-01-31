@@ -14,8 +14,9 @@
 [ext_resource type="AudioStream" uid="uid://ce3f4rk32x4bi" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_I.wav" id="11_5pdkm"]
 [ext_resource type="AudioStream" uid="uid://vs8ssnu2hgu4" path="res://assets/audio/footsteps/Fantasy_Game_Footstep_Stone_Light_J.wav" id="12_f4gi0"]
 [ext_resource type="PackedScene" uid="uid://cxhf6esdftcfc" path="res://components/abilities/Shield.tscn" id="14_76mgg"]
-[ext_resource type="PackedScene" uid="uid://c6h4sa3coyrp4" path="res://items/SpearProjectile.tscn" id="16_8eyfg"]
+[ext_resource type="PackedScene" uid="uid://c6h4sa3coyrp4" path="res://items/projectiles/SpearProjectile.tscn" id="16_8eyfg"]
 [ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
+[ext_resource type="PackedScene" uid="uid://cf7fmwdpsr8kx" path="res://components/abilities/Combo.tscn" id="18_ddnt4"]
 [ext_resource type="Shader" uid="uid://smdmcyt21hsa" path="res://shaders/bloom.gdshader" id="19_w36ex"]
 [ext_resource type="Texture2D" uid="uid://c58rc15tgrkw3" path="res://assets/art/PlayerCrimsonRed/Idle Default.png" id="20_76mgg"]
 [ext_resource type="AnimationLibrary" uid="uid://bgrso2rsp1hwf" path="res://animation_libraries/LegacyPlayer.res" id="21_y617q"]
@@ -111,6 +112,7 @@ height = 52.0
 [sub_resource type="AudioStream" id="AudioStream_uoipf"]
 
 [node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler")]
+z_index = 1
 script = ExtResource("1_dnad5")
 move = NodePath("AbilityManager/Move")
 animationHandler = NodePath("AnimationHandler")
@@ -132,6 +134,8 @@ cost = 0.0
 
 [node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]
 cost = 10.0
+
+[node name="Combo" parent="AbilityManager" unique_id=848838239 instance=ExtResource("18_ddnt4")]
 
 [node name="Mouse" parent="." unique_id=1452754236 instance=ExtResource("30_ddnt4")]
 visible = false

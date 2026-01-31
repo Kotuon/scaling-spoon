@@ -20,15 +20,30 @@ public partial class Health : Component
         }
     }
 
+    public bool block = false;
+
     public override void _Ready()
     {
         base._Ready();
         curr = max;
+
+        Shield shield = parent.GetComponent<Shield>();
+        if (shield != null)
+        {
+            shield.startShield += () =>
+            {
+                block = true;
+            };
+            shield.endShield += () =>
+            {
+                block = false;
+            };
+        }
     }
 
     public void Use(float cost)
     {
-        if (Mathf.IsZeroApprox(cost))
+        if (Mathf.IsZeroApprox(cost) || block)
             return;
 
         if (curr - cost <= 0.0f)

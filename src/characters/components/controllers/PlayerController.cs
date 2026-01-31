@@ -29,10 +29,10 @@ public partial class PlayerController : Controller
     }
 
 
-[Export]
-    public Godot.Collections.Dictionary<string, Ability> actionMap = 
-        new Godot.Collections.Dictionary<string, Ability>();
-        
+    [Export]
+    public Godot.Collections.Dictionary<string, Ability> actionMap =
+            new Godot.Collections.Dictionary<string, Ability>();
+
     public override void _Ready()
     {
         base._Ready();
@@ -53,21 +53,14 @@ public partial class PlayerController : Controller
         foreach (var action in actionMap)
         {
             Ability ability = action.Value;
-            
+
             if (@event.IsActionPressed(action.Key))
             {
-                if (!ability.isActive && !ability.onCooldown)
-                {
-                    ability.Trigger();
-                }
+                ability.Pressed();
             }
             if (@event.IsActionReleased(action.Key))
             {
-                if (ability.isActive)
-                {
-                    ability.StartCooldown();
-                    ability.End();
-                }
+                ability.Released();
             }
         }
     }

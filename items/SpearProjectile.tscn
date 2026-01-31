@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://c6h4sa3coyrp4"]
-
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectile.tscn" id="1_wsq50"]
-
-[node name="Projectile" unique_id=457382493 instance=ExtResource("1_wsq50")]

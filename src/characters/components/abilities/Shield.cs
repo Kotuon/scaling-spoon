@@ -11,9 +11,12 @@ using Game.Entity;
 
 public partial class Shield : Ability
 {
+    [Signal] public delegate void startShieldEventHandler();
+    [Signal] public delegate void endShieldEventHandler();
+
     public Shield() : base("shield")
     {
-        
+
     }
 
     public override void _Ready()
@@ -27,11 +30,13 @@ public partial class Shield : Ability
     public override void Trigger()
     {
         base.Trigger();
-        
+
         move.canMove = false;
 
         animHandler.PlayAnimation("shield_init", mouseRef.mouseDir);
         mouseRef.useMouseDirection = true;
+
+        EmitSignal(SignalName.startShield);
     }
 
     public override void Update(double delta)
@@ -48,6 +53,8 @@ public partial class Shield : Ability
 
         animHandler.PlayAnimation("shield_end", mouseRef.mouseDir);
         animHandler.canAdvance = false;
+
+        EmitSignal(SignalName.endShield);
     }
 
     private void WasDamaged(float damageAmount)
@@ -55,6 +62,6 @@ public partial class Shield : Ability
         if (!isActive) return;
 
         Mana mana = parent.GetComponent<Mana>();
-        mana.RestoreMana(damageAmount);
+        mana.RestoreMana(10.0f * damageAmount);
     }
 }
