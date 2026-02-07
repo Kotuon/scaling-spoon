@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bmt3rd76ixc6x"]
+
+[ext_resource type="Script" uid="uid://dv1exvt6wadrt" path="res://src/characters/components/abilities/Heal.cs" id="1_5b080"]
+
+[node name="Heal" type="Node2D" unique_id=1814607261]
+script = ExtResource("1_5b080")

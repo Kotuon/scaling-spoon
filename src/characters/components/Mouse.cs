@@ -111,20 +111,11 @@ public partial class Mouse : Component
     {
         base._Process(delta);
 
-        // var joystick = parent.GetComponent<Controller>().moveInput;
         var joystick = Input.GetVector("mouse_left", "mouse_right", "mouse_up",
             "mouse_down");
 
-        // joystick.X = CubicLerp(0.0f, 0.0f, 0.0f, 1.0f, Mathf.Abs(joystick.X)) * (joystick.X);
-        // joystick.Y = CubicLerp(0.0f, 0.0f, 0.0f, 1.0f, Mathf.Abs(joystick.Y)) * (joystick.Y);
-
-        // joystick = QuadraticBezier(Godot.Vector2.Zero, joystick * 0.25f,
-        //     joystick, joystick.Length());
-
         joystick = CubicBezier(Vector2.Zero, Vector2.Zero, joystick * 0.25f,
             joystick, joystick.Length());
-
-        GD.Print(joystick);
 
         joystick *= maxRadius;
 

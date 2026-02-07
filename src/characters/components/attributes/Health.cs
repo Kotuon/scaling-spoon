@@ -6,7 +6,7 @@ using System;
 public partial class Health : Component
 {
     [Signal] public delegate void health_changedEventHandler(float newValue);
-    [Export] public float max = 10.0f;
+    [Export] public float max = 100.0f;
 
     private float _curr;
     protected float curr

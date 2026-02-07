@@ -1,0 +1,260 @@
+[gd_scene format=3 uid="uid://dos6ofyhnifsq"]
+
+[ext_resource type="Script" uid="uid://qfvaw22kbwgl" path="res://src/items/InfusibleKey.cs" id="1_j15mf"]
+[ext_resource type="Shader" uid="uid://bafiutklb4bh3" path="res://shaders/InfusibleKey.gdshader" id="2_2ukul"]
+[ext_resource type="Texture2D" uid="uid://cebpu2g075ah3" path="res://assets/art/Environment/Props/animated/Obelisk1-animation1-activating-70x150.png" id="4_t5bob"]
+[ext_resource type="Texture2D" uid="uid://bu3a4q8buddsv" path="res://assets/art/Environment/Props/animated/Obelisk4-stand.png" id="5_51p8r"]
+[ext_resource type="Texture2D" uid="uid://b53qnh3rqguu2" path="res://assets/art/Environment/Props/animated/Obelisk1-animation2-activated-70x150.png" id="5_avecj"]
+[ext_resource type="FontFile" uid="uid://cnv5trghp6um2" path="res://assets/fonts/OpenDyslexic-Regular.otf" id="6_51p8r"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_owh75"]
+radius = 120.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2ukul"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t5u5j"]
+noise = SubResource("FastNoiseLite_2ukul")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t5u5j"]
+shader = ExtResource("2_2ukul")
+shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_t5u5j")
+
+[sub_resource type="QuadMesh" id="QuadMesh_j15mf"]
+
+[sub_resource type="Animation" id="Animation_t5bob"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_t5bob")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t5bob"]
+_data = {
+&"RESET": SubResource("Animation_t5bob")
+}
+
+[sub_resource type="Animation" id="Animation_t5u5j"]
+length = 1.7
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_t5bob")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [17]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2, 1.3000001, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+}
+
+[sub_resource type="Animation" id="Animation_avecj"]
+resource_name = "idle"
+length = 1.6
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_avecj")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2, 1.3000001, 1.4, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_avecj"]
+_data = {
+&"activate": SubResource("Animation_t5u5j"),
+&"idle": SubResource("Animation_avecj")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_syrrh"]
+font = ExtResource("6_51p8r")
+font_size = 24
+outline_size = 8
+outline_color = Color(0.0253638, 0.0253638, 0.025363795, 1)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_51p8r"]
+radius = 15.0
+height = 52.8
+
+[node name="InfusibleKey" type="Area2D" unique_id=927199951]
+collision_layer = 4
+script = ExtResource("1_j15mf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1704696261]
+z_index = 1
+scale = Vector2(2, 2)
+texture = ExtResource("4_t5bob")
+hframes = 17
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1737885583]
+position = Vector2(0, 100)
+scale = Vector2(2, 2)
+texture = ExtResource("5_51p8r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=414256172]
+visible = false
+position = Vector2(0, 40)
+shape = SubResource("CircleShape2D_owh75")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1401938018]
+visible = false
+material = SubResource("ShaderMaterial_t5u5j")
+scale = Vector2(20, 20)
+mesh = SubResource("QuadMesh_j15mf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1578152336]
+libraries/ = SubResource("AnimationLibrary_t5bob")
+libraries/Obelisk = SubResource("AnimationLibrary_avecj")
+
+[node name="Control" type="Control" parent="." unique_id=1831388088]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = -58.0
+offset_right = -58.0
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=317323176]
+layout_mode = 0
+offset_right = 117.0
+offset_bottom = 42.0
+color = Color(0.14, 0.14, 0.14, 0.40784314)
+
+[node name="Label" type="Label" parent="Control" unique_id=1837446379]
+layout_mode = 0
+offset_right = 117.0
+offset_bottom = 42.0
+text = "(F) Infuse"
+label_settings = SubResource("LabelSettings_syrrh")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1533300510]
+collision_layer = 4
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1023178416]
+position = Vector2(-1, 90)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_51p8r")

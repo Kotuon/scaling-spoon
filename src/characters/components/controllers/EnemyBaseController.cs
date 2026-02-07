@@ -31,11 +31,6 @@ public partial class EnemyBaseController : Controller
     public override void _Process(double delta)
     {
         base._Process(delta);
-
-        // if (parent.Position.DistanceTo(player.Position) > 200.0f)
-        //     moveInput = (player.Position - parent.Position).Normalized();
-        // else
-        //     moveInput = Vector2.Zero;
     }
 
 }

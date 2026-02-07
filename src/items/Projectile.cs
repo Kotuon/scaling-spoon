@@ -25,11 +25,11 @@ public partial class Projectile : CharacterBody2D
     private float currSpeed;
     private bool hasLaunched = false;
 
+    public float damage = 1.0f;
+
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-
-        // Velocity = launchDir
 
         if (!hasLaunched)
         {
@@ -53,7 +53,7 @@ public partial class Projectile : CharacterBody2D
             if (collision.GetCollider() is IDamageable)
             {
                 // call damage function
-                (collision.GetCollider() as IDamageable).Damage(1.0f);
+                (collision.GetCollider() as IDamageable).Damage(damage);
             }
 
             _ = Timeout();

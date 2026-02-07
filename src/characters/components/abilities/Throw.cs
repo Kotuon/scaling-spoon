@@ -6,10 +6,11 @@ using System;
 public partial class Throw : Ability
 {
     [Export] public PackedScene proj;
+    [Export] public float damage;
 
     public Throw() : base("throw")
     {
-        
+
     }
 
     public override void _Ready()
@@ -17,7 +18,7 @@ public partial class Throw : Ability
         base._Ready();
     }
 
-    
+
     public override void Trigger()
     {
         base.Trigger();
@@ -46,7 +47,7 @@ public partial class Throw : Ability
         animHandler.PlayAnimation(abilityName + "_end", mouseRef.mouseDir);
         animHandler.canAdvance = false;
     }
-    
+
     public void SpawnProjectile()
     {
         var inst = (Projectile)proj.Instantiate();
@@ -54,12 +55,14 @@ public partial class Throw : Ability
         parent.GetParent().AddChild(inst);
 
         Vector2 startPos = mouseRef.mouseDir * 60.0f;
-        
+
         var dir = (startPos - mouseRef.mouseDir).Normalized();
 
         inst.Position = startPos + parent.Position;
         inst.Rotation = dir.Angle();
         inst.launchDir = dir;
         inst.owner = parent;
+
+        inst.damage = damage;
     }
 }

@@ -9,6 +9,7 @@ height = 18.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_2do5a"]
 
 [node name="ManaSphere" type="Area2D" unique_id=1015641084]
+collision_layer = 4
 script = ExtResource("1_llyp5")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1474011876]

@@ -50,6 +50,7 @@ shape = SubResource("RectangleShape2D_o5cky")
 
 [node name="FireProjectile" parent="BehaviorTree/SequenceNode" unique_id=92826978 instance=ExtResource("11_iv83c")]
 proj = ExtResource("12_f6yug")
+damage = 1.0
 
 [node name="Wait" parent="BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("11_303ht")]
 wait_time = 5.0

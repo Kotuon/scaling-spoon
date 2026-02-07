@@ -7,6 +7,7 @@ using Game.Component;
 public partial class FireProjectile : BehaviorNode
 {
     [Export] public PackedScene proj;
+    [Export] public float damage;
     [Export] public StringName target_name = "Player";
 
     public override BehaviorNode.Status evaluate(Dictionary context)
@@ -25,10 +26,10 @@ public partial class FireProjectile : BehaviorNode
         }
 
         CharacterBase parent = context["parent"].As<CharacterBase>();
-        
+
         Vector2 target_position = (target as Node2D).Position;
-        
-        SpawnProjectile(parent, 
+
+        SpawnProjectile(parent,
             (target_position - parent.Position).Normalized());
 
         return BehaviorNode.Status.SUCCESS;
@@ -45,5 +46,7 @@ public partial class FireProjectile : BehaviorNode
         inst.Rotation = dir.Angle();
         inst.launchDir = dir;
         inst.owner = parent;
+
+        inst.damage = damage;
     }
 }
