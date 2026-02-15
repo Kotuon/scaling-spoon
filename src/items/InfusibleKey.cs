@@ -1,8 +1,8 @@
-using Game.Entity;
-using Godot;
-using System;
+namespace Game.Entity;
 
-public partial class InfusibleKey : Key, IInteractable
+using Godot;
+
+public partial class InfusibleKey : Entity.Key, IInteractable
 {
     [Export] public float neededMana = 10.0f;
     [Export] public float timeToInfuse = 1.0f;

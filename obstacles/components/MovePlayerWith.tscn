@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://2mt2p8ar6tdl"]
+
+[ext_resource type="Script" uid="uid://b76te0dj73jc8" path="res://src/obstacles/components/MovePlayerWith.cs" id="1_w0j6h"]
+
+[node name="MovePlayerWith" type="Node2D" unique_id=1285026002]
+script = ExtResource("1_w0j6h")

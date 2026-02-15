@@ -1,6 +1,5 @@
-using System;
-using System.Linq;
-using Game.Entity;
+namespace Game.Entity;
+
 using Godot;
 
 public partial class Door : AreaTriggerItem, IInteractable

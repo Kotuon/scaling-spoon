@@ -145,6 +145,12 @@ public partial class Move : Ability
         if (collision != null)
         {
             parent.EmitSignal(CharacterBase.SignalName.collision);
+
+            if (collision.GetCollider() is CharacterBase)
+            {
+                (collision.GetCollider() as CharacterBase).EmitSignal(
+                    CharacterBase.SignalName.collision);
+            }
         }
     }
 

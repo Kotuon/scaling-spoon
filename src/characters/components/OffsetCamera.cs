@@ -5,10 +5,10 @@ using Godot;
 using System;
 
 public partial class OffsetCamera : Camera2D
-{    
+{
     private Vector2 targetOffset = Vector2.Zero;
     private float targetSpeed = 0.125f;
-    
+
     private Player _parent;
 
     protected Player parent
@@ -18,7 +18,7 @@ public partial class OffsetCamera : Camera2D
         get
         {
             if (_parent == null)
-                _parent = (Player)GetNode<Player>("..");
+                _parent = GetParent() as Player;
             return _parent;
         }
     }

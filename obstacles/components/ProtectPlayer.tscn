@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bbh4ofv1kj4i2"]
+
+[ext_resource type="Script" uid="uid://bx40pgsj44wsh" path="res://src/obstacles/components/ProtectPlayer.cs" id="1_ywini"]
+
+[node name="ProtectPlayer" type="Node2D" unique_id=606663886]
+script = ExtResource("1_ywini")

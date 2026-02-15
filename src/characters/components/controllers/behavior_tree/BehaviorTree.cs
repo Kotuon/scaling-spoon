@@ -1,7 +1,7 @@
+namespace Game.Component;
+
 using Game.Entity;
-using Godot;
 using Godot.Collections;
-using System;
 
 public partial class BehaviorTree : BehaviorNode
 {
@@ -15,7 +15,7 @@ public partial class BehaviorTree : BehaviorNode
 
         root = (BehaviorNode)GetChild(0);
 
-        m_context.Add("parent", (CharacterBase)GetParent());
+        m_context.Add("parent", GetParent() as CharacterBase);
     }
 
 
@@ -23,6 +23,7 @@ public partial class BehaviorTree : BehaviorNode
     {
         base._Process(delta);
 
+        m_context["delta"] = delta;
         root.evaluate(m_context);
     }
 

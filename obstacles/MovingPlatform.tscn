@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bqaufvdqlmo2p"]
+
+[ext_resource type="Script" uid="uid://ch8a4evoar334" path="res://src/obstacles/Obstacle.cs" id="1_ysxfc"]
+[ext_resource type="PackedScene" uid="uid://bgedwrtbsgftl" path="res://obstacles/components/MoveToOffset.tscn" id="2_ckbiu"]
+[ext_resource type="PackedScene" uid="uid://2mt2p8ar6tdl" path="res://obstacles/components/MovePlayerWith.tscn" id="3_tppou"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ggmvn"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_ysxfc"]
+size = Vector2(100, 100)
+
+[node name="MovingPlatform" type="Area2D" unique_id=1962952148]
+script = ExtResource("1_ysxfc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1481255303]
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_ggmvn")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=356892484]
+modulate = Color(0.41233337, 1, 0.13999999, 0.49019608)
+mesh = SubResource("QuadMesh_ysxfc")
+
+[node name="MoveToOffset" parent="." unique_id=1077037432 instance=ExtResource("2_ckbiu")]
+
+[node name="MovePlayerWith" parent="." unique_id=1285026002 instance=ExtResource("3_tppou")]

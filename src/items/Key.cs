@@ -1,3 +1,5 @@
+namespace Game.Entity;
+
 using Godot;
 using System;
 

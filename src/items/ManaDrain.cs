@@ -1,7 +1,6 @@
 namespace Game.Entity;
 
 using Godot;
-using System;
 
 public partial class ManaDrain : AreaTriggerItem
 {
@@ -21,7 +20,7 @@ public partial class ManaDrain : AreaTriggerItem
             {
                 should_update = true;
                 _counter = time_between_drain;
-            }    
+            }
         }
         get => _counter;
     }
