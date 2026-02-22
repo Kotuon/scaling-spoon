@@ -28,7 +28,9 @@ public partial class MoveToOffset : ObstacleComponent
         base._Ready();
 
         startPosition = GetParent<Node2D>().Position;
-        targetPosition = Position;
+        targetPosition =
+            (Position * parent.GlobalScale).Rotated(parent.Rotation);
+
         totalTime = -startDelay;
     }
 
@@ -46,7 +48,7 @@ public partial class MoveToOffset : ObstacleComponent
             //     new Color(0.0f, 1.0f, 1.0f));
             DrawLine(Vector2.Zero, -Position,
                 new Color(0.0f, 1.0f, 1.0f));
-            DrawRect(new Rect2( - size / 2.0f, size / 1.0f),
+            DrawRect(new Rect2(-size / 2.0f, size / 1.0f),
                 new Color(0.0f, 1.0f, 1.0f, 125.0f / 255.0f));
         }
     }
@@ -70,7 +72,6 @@ public partial class MoveToOffset : ObstacleComponent
             if (totalTime < tCurveStart.MaxDomain)
             {
                 t = tCurveStart.Sample(totalTime);
-
             }
             else if (tCurveReturn == null)
             {
