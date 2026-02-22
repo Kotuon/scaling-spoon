@@ -8,7 +8,7 @@ public partial class Mana : Component
 {
     [Signal]
     public delegate void mana_changedEventHandler(float newValue);
-    
+
     [Export] public float max = 100.0f;
     private float _curr;
     public float curr
@@ -41,10 +41,13 @@ public partial class Mana : Component
     {
         if (Mathf.IsZeroApprox(cost))
             return true;
-        
+
         if (curr - cost <= 0.0f)
+        {
+            curr = 0.0f;
             return false;
-        
+        }
+
         curr -= cost;
 
         return true;
@@ -56,6 +59,14 @@ public partial class Mana : Component
             curr = max;
         else
             curr += restoreAmount;
+    }
+
+    public void ChangeMana(float changeAmount)
+    {
+        if (changeAmount < 0.0f)
+            UseMana(changeAmount * -1.0f);
+        else
+            RestoreMana(changeAmount);
     }
 
     private void UpdateAura(float new_mana)

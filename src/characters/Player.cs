@@ -34,7 +34,8 @@ public partial class Player : CharacterBase
 
     override public void Dies()
     {
-        GetTree().ReloadCurrentScene();
+        GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
+        // GetTree().ReloadCurrentScene();
         GD.Print("Dies");
     }
 }

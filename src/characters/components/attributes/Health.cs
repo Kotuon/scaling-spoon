@@ -6,7 +6,7 @@ using System;
 public partial class Health : Component
 {
     [Signal] public delegate void health_changedEventHandler(float newValue);
-    [Export] public float max = 10.0f;
+    [Export] public float max = 100.0f;
 
     private float _curr;
     protected float curr
@@ -20,15 +20,30 @@ public partial class Health : Component
         }
     }
 
+    public bool block = false;
+
     public override void _Ready()
     {
         base._Ready();
         curr = max;
+
+        Shield shield = parent.GetComponent<Shield>();
+        if (shield != null)
+        {
+            shield.startShield += () =>
+            {
+                block = true;
+            };
+            shield.endShield += () =>
+            {
+                block = false;
+            };
+        }
     }
 
     public void Use(float cost)
     {
-        if (Mathf.IsZeroApprox(cost))
+        if (Mathf.IsZeroApprox(cost) || block)
             return;
 
         if (curr - cost <= 0.0f)

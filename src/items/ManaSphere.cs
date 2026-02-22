@@ -14,7 +14,7 @@ public partial class ManaSphere : AreaTriggerItem
         Player player = node as Player;
 
         Mana manaManager = player.GetComponent<Mana>();
-        manaManager.RestoreMana(10.0f);
+        manaManager.RestoreMana(restore_amount);
 
         QueueFree();
     }

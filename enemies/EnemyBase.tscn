@@ -5,14 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="3_x7emw"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="4_ix6nc"]
 [ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/controllers/EnemyBaseController.tscn" id="4_uu2uj"]
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectile.tscn" id="5_sub67"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectiles/projectile.tscn" id="5_sub67"]
 [ext_resource type="PackedScene" uid="uid://bvbut14c1803" path="res://components/controllers/behavior_tree/BehaviorTree.tscn" id="7_rbfrs"]
 [ext_resource type="PackedScene" uid="uid://cu8i6jnyok2qy" path="res://components/controllers/behavior_tree/SequenceNode.tscn" id="8_4rh40"]
 [ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/tasks/FindTarget.tscn" id="9_4rh40"]
 [ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/tasks/MoveToTarget.tscn" id="10_rrd6m"]
 [ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/tasks/Wait.tscn" id="11_303ht"]
 [ext_resource type="PackedScene" uid="uid://busqgtqfhsinf" path="res://components/controllers/behavior_tree/tasks/FireProjectile.tscn" id="11_iv83c"]
-[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/BossProjectile.tscn" id="12_f6yug"]
+[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/BossProjectile.tscn" id="12_f6yug"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
 
@@ -50,6 +50,7 @@ shape = SubResource("RectangleShape2D_o5cky")
 
 [node name="FireProjectile" parent="BehaviorTree/SequenceNode" unique_id=92826978 instance=ExtResource("11_iv83c")]
 proj = ExtResource("12_f6yug")
+damage = 1.0
 
 [node name="Wait" parent="BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("11_303ht")]
 wait_time = 5.0

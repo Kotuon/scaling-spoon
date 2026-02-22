@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cwsxsbs7f4dmx"]
+
+[ext_resource type="Script" uid="uid://beqqyvufmvcnf" path="res://src/obstacles/components/CausePlayerDeath.cs" id="1_rvpjj"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_rvpjj"]
+size = Vector2(100, 100)
+
+[node name="CausePlayerDeath" type="Node2D" unique_id=390845581]
+script = ExtResource("1_rvpjj")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=415679068]
+modulate = Color(1, 0.13999999, 0.13999999, 0.49019608)
+mesh = SubResource("QuadMesh_rvpjj")

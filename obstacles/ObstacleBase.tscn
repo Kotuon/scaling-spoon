@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://y8cg5ma1vyn1"]
+
+[ext_resource type="Script" uid="uid://ch8a4evoar334" path="res://src/obstacles/Obstacle.cs" id="1_3ogv4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ogv4"]
+size = Vector2(19.999998, 19.999998)
+
+[sub_resource type="QuadMesh" id="QuadMesh_v06c3"]
+size = Vector2(100, 100)
+
+[node name="ObstacleBase" type="Area2D" unique_id=108340260]
+script = ExtResource("1_3ogv4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1859384174]
+position = Vector2(0, -2.3841858e-06)
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_3ogv4")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1495309902]
+modulate = Color(0.41233337, 1, 0.13999999, 0.49019608)
+mesh = SubResource("QuadMesh_v06c3")

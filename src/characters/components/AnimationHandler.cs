@@ -91,8 +91,7 @@ public partial class AnimationHandler : Component
     {
         if (!canAdvance)
         {
-            if (animationPlayer.CurrentAnimationPosition >=
-                animationPlayer.CurrentAnimationLength)
+            if (!IsCurrentlyPlaying())
             {
                 canAdvance = true;
                 parent.GetComponent<Move>().canMove = true;
@@ -213,5 +212,11 @@ public partial class AnimationHandler : Component
 
         shader.SetShaderParameter("hframes", sprite.Hframes);
         shader.SetShaderParameter("vframes", sprite.Vframes);
+    }
+
+    public bool IsCurrentlyPlaying()
+    {
+        return animationPlayer.CurrentAnimationPosition <
+                animationPlayer.CurrentAnimationLength;
     }
 }

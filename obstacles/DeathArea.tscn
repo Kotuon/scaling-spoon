@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://x6y5iptrq7lq"]
+
+[ext_resource type="Script" uid="uid://ch8a4evoar334" path="res://src/obstacles/Obstacle.cs" id="1_uune7"]
+[ext_resource type="PackedScene" uid="uid://cwsxsbs7f4dmx" path="res://obstacles/components/CausePlayerDeath.tscn" id="2_i2dsd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_653ww"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_uune7"]
+size = Vector2(100, 100)
+
+[node name="DeathArea" type="Area2D" unique_id=844039924]
+script = ExtResource("1_uune7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=809548904]
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_653ww")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=836576250]
+modulate = Color(1, 0.13999999, 0.13999999, 0.49019608)
+mesh = SubResource("QuadMesh_uune7")
+
+[node name="DeathArea" parent="." unique_id=390845581 instance=ExtResource("2_i2dsd")]

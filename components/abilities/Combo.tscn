@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cf7fmwdpsr8kx"]
+
+[ext_resource type="Script" uid="uid://ddu4yhs4vwim7" path="res://src/characters/components/abilities/Combo.cs" id="1_f8wj5"]
+
+[node name="Combo" type="Node2D" unique_id=848838239]
+script = ExtResource("1_f8wj5")
+cost = 0.0

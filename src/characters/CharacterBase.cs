@@ -41,7 +41,8 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
             }
         }
 
-        return default(T);
+        // return default(T);
+        return null;
     }
 
     public T GetComponent<T>(string name) where T : class
@@ -58,7 +59,8 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
 
         }
 
-        return default(T);
+        // return default(T);
+        return null;
     }
 
     public virtual void Damage(float amount)

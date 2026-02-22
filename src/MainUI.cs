@@ -8,7 +8,7 @@ using System.ComponentModel;
 public partial class MainUI : Control
 {
     [Export] public float progressBarTimeToChange = 0.25f;
-    
+
     private CharacterBase _parent;
     public CharacterBase parent
     {
@@ -59,15 +59,15 @@ public partial class MainUI : Control
             return _healthBar;
         }
     }
-    private Control _locked;
-    public Control locked
+    private CanvasLayer _locked;
+    public CanvasLayer locked
     {
         private set => _locked = value;
 
         get
         {
             if (_locked == null)
-                _locked = GetNode<Control>("Locked");
+                _locked = GetNode<CanvasLayer>("Locked");
             return _locked;
         }
     }
@@ -86,12 +86,10 @@ public partial class MainUI : Control
         healthBar.MaxValue = health.max;
     }
 
-    
+
     public override void _Process(double delta)
     {
         base._Process(delta);
-        
-        locked.Position = cameraRef.Position + cameraRef.Offset;
     }
 
     private void TweenProgressBarValue(ProgressBar bar, float newValue)

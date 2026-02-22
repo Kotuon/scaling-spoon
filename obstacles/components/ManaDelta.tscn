@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bs8alatsxswvu"]
+
+[ext_resource type="Script" uid="uid://bnar6sjq7ukrc" path="res://src/obstacles/components/ManaDelta.cs" id="1_qmwsf"]
+
+[node name="ManaDelta" type="Node2D" unique_id=227916968]
+script = ExtResource("1_qmwsf")

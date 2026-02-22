@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bgedwrtbsgftl"]
+
+[ext_resource type="Script" uid="uid://dcgxg1lqr41t7" path="res://src/obstacles/components/MoveToOffset.cs" id="1_fpxp5"]
+
+[node name="MoveToOffset" type="Node2D" unique_id=1077037432]
+script = ExtResource("1_fpxp5")

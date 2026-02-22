@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://3yf076ixuj2s"]
+
+[ext_resource type="PackedScene" uid="uid://c2rn8cegptpyo" path="res://levels/world1/groundlayer_world1_start.tscn" id="1_tlsf7"]
+[ext_resource type="TileSet" uid="uid://dfu653ra2w5sy" path="res://tilesets/default_ancient_ruins.tres" id="1_y5w56"]
+[ext_resource type="TileSet" uid="uid://bdu6qlhk1ohxy" path="res://tilesets/ancient_ruins_tileset.tres" id="2_tlsf7"]
+[ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="3_5cpd5"]
+[ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="4_ajx3t"]
+
+[node name="Level" type="Node2D" unique_id=1597067820]
+
+[node name="TileMaps" type="Node2D" parent="." unique_id=2077878477]
+
+[node name="GroundLayer" parent="TileMaps" unique_id=127766084 instance=ExtResource("1_tlsf7")]
+
+[node name="GroundPathLayer" type="TileMapLayer" parent="TileMaps" unique_id=799621274]
+tile_set = ExtResource("1_y5w56")
+collision_enabled = false
+
+[node name="StructureMainLayer" type="TileMapLayer" parent="TileMaps" unique_id=2013952483]
+position = Vector2(0, -0.5)
+tile_set = ExtResource("1_y5w56")
+
+[node name="UpperWaterLayer" type="TileMapLayer" parent="TileMaps" unique_id=1528653521]
+tile_set = ExtResource("1_y5w56")
+collision_enabled = false
+
+[node name="StructureDetailLayer" type="TileMapLayer" parent="TileMaps" unique_id=341614973]
+tile_set = ExtResource("2_tlsf7")
+
+[node name="UpperLayer" type="TileMapLayer" parent="TileMaps" unique_id=1967092469]
+y_sort_enabled = true
+tile_set = ExtResource("2_tlsf7")
+
+[node name="YSort" type="Node2D" parent="." unique_id=1474095499]
+y_sort_enabled = true
+
+[node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("3_5cpd5")]
+
+[node name="DetailLayer" type="TileMapLayer" parent="YSort" unique_id=244299717]
+z_index = 1
+y_sort_enabled = true
+scale = Vector2(2, 2)
+tile_set = ExtResource("4_ajx3t")
