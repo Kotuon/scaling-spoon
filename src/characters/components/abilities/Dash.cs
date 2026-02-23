@@ -60,8 +60,7 @@ public partial class Dash : Ability
 
     public override void Update(double delta)
     {
-        if (!manaManager.UseMana(cost * (float)delta) ||
-            !move.canMove)
+        if (!move.canMove)
         {
             End();
             return;

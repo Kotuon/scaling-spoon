@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://yslvwof6foy0"]
+
+[ext_resource type="Script" uid="uid://dflmrwqkm5m3e" path="res://src/characters/EnemyBase.cs" id="1_5x1vr"]
+[ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_l5jj5"]
+[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="3_y23lv"]
+[ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="4_saj1q"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectiles/projectile.tscn" id="5_mn8tp"]
+[ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/controllers/EnemyBaseController.tscn" id="6_e31si"]
+[ext_resource type="PackedScene" uid="uid://bvbut14c1803" path="res://components/controllers/behavior_tree/BehaviorTree.tscn" id="7_a5w1j"]
+[ext_resource type="PackedScene" uid="uid://cu8i6jnyok2qy" path="res://components/controllers/behavior_tree/SequenceNode.tscn" id="8_t24s0"]
+[ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/tasks/FindTarget.tscn" id="9_yj63f"]
+[ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/tasks/MoveToTarget.tscn" id="10_aonrn"]
+[ext_resource type="PackedScene" uid="uid://busqgtqfhsinf" path="res://components/controllers/behavior_tree/tasks/FireProjectile.tscn" id="11_oceqj"]
+[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/BossProjectile.tscn" id="12_kumi1"]
+[ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/tasks/Wait.tscn" id="13_bw0le"]
+[ext_resource type="Texture2D" uid="uid://dasvwtpvnpbhh" path="res://assets/art/Stone_golem/Stone-golem v2-all animations-224x192.png" id="14_l5jj5"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5cky"]
+size = Vector2(100, 100)
+
+[sub_resource type="Animation" id="Animation_l5jj5"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y23lv"]
+_data = {
+&"idle": SubResource("Animation_l5jj5")
+}
+
+[node name="EnemyBase" type="CharacterBody2D" unique_id=1265510272]
+script = ExtResource("1_5x1vr")
+
+[node name="AbilityManager" parent="." unique_id=782651209 instance=ExtResource("2_l5jj5")]
+position = Vector2(93.97739, -42.386307)
+
+[node name="Move" parent="AbilityManager" unique_id=578487199 instance=ExtResource("3_y23lv")]
+maxWalkSpeed = 100.0
+
+[node name="Throw" parent="AbilityManager" unique_id=54411854 instance=ExtResource("4_saj1q")]
+proj = ExtResource("5_mn8tp")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2035412392]
+scale = Vector2(100, 100)
+mesh = SubResource("QuadMesh_o5cky")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=316593584]
+shape = SubResource("RectangleShape2D_o5cky")
+
+[node name="EnemyBaseController" parent="." unique_id=1880682395 instance=ExtResource("6_e31si")]
+
+[node name="BehaviorTree" parent="." unique_id=1657930568 instance=ExtResource("7_a5w1j")]
+
+[node name="SequenceNode" parent="BehaviorTree" unique_id=243264643 instance=ExtResource("8_t24s0")]
+
+[node name="FindTarget" parent="BehaviorTree/SequenceNode" unique_id=26824330 instance=ExtResource("9_yj63f")]
+
+[node name="MoveToTarget" parent="BehaviorTree/SequenceNode" unique_id=1211423973 instance=ExtResource("10_aonrn")]
+
+[node name="FireProjectile" parent="BehaviorTree/SequenceNode" unique_id=92826978 instance=ExtResource("11_oceqj")]
+proj = ExtResource("12_kumi1")
+damage = 1.0
+
+[node name="Wait" parent="BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("13_bw0le")]
+wait_time = 5.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1241708918]
+texture = ExtResource("14_l5jj5")
+hframes = 17
+vframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1380796075]
+libraries/golem = SubResource("AnimationLibrary_y23lv")

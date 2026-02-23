@@ -37,20 +37,28 @@ public partial class Mana : Component
         base._Process(delta);
     }
 
-    public bool UseMana(float cost)
+    public bool CanUseMana(float cost)
     {
         if (Mathf.IsZeroApprox(cost))
             return true;
 
-        if (curr - cost <= 0.0f)
+        if (curr - cost >= 0.0f)
         {
-            curr = 0.0f;
-            return false;
+            return true;
         }
 
-        curr -= cost;
+        return false;
+    }
 
-        return true;
+    public bool UseMana(float cost)
+    {
+        if (CanUseMana(cost))
+        {
+            curr = Mathf.Clamp(curr - cost, 0.0f, max);
+            return true;
+        }
+
+        return false;
     }
 
     public void RestoreMana(float restoreAmount)

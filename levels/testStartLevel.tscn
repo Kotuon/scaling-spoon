@@ -5,6 +5,7 @@
 [ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="2_ccpn1"]
 [ext_resource type="PackedScene" uid="uid://dos6ofyhnifsq" path="res://items/InfusibleKey.tscn" id="3_ccpn1"]
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="6_xnt02"]
+[ext_resource type="PackedScene" uid="uid://2s7pvqrw0cuh" path="res://items/mana_interactions/ManaSphere.tscn" id="6_yadsg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ccpn1"]
 
@@ -77,3 +78,6 @@ position = Vector2(1343, 1215)
 
 [node name="InfusibleKey2" parent="." unique_id=1213264490 instance=ExtResource("3_ccpn1")]
 position = Vector2(735, 1374)
+
+[node name="ManaSphere" parent="." unique_id=1015641084 instance=ExtResource("6_yadsg")]
+position = Vector2(654, 5253)

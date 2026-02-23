@@ -198,7 +198,7 @@ outline_color = Color(0.0253638, 0.0253638, 0.025363795, 1)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_51p8r"]
 radius = 15.0
-height = 52.8
+height = 38.0
 
 [node name="InfusibleKey" type="Area2D" unique_id=927199951]
 collision_layer = 4
@@ -206,13 +206,13 @@ script = ExtResource("1_j15mf")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1704696261]
 z_index = 1
-position = Vector2(1, -101)
+position = Vector2(1, -91)
 scale = Vector2(2, 2)
 texture = ExtResource("4_t5bob")
 hframes = 17
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1737885583]
-position = Vector2(0, -1)
+position = Vector2(0, 9)
 scale = Vector2(2, 2)
 texture = ExtResource("3_51p8r")
 
@@ -253,10 +253,10 @@ text = "(F) Infuse"
 label_settings = SubResource("LabelSettings_syrrh")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1533300510]
-position = Vector2(0, -101)
+position = Vector2(0, -80)
 collision_layer = 4
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1023178416]
-position = Vector2(-1, 90)
+position = Vector2(-1, 94)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_51p8r")

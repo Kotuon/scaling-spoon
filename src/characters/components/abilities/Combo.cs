@@ -98,5 +98,8 @@ public partial class Combo : Ability
     }
 
 
-
+    private void UpdateHitbox(Vector2 input)
+    {
+        // move attack hitbox based on input direction
+    }
 }

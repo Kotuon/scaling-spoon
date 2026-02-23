@@ -17,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://c6h4sa3coyrp4" path="res://items/projectiles/SpearProjectile.tscn" id="16_8eyfg"]
 [ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
 [ext_resource type="PackedScene" uid="uid://cf7fmwdpsr8kx" path="res://components/abilities/Combo.tscn" id="18_ddnt4"]
-[ext_resource type="PackedScene" uid="uid://bmt3rd76ixc6x" path="res://components/abilities/Heal.tscn" id="19_a0lmo"]
 [ext_resource type="Shader" uid="uid://smdmcyt21hsa" path="res://shaders/bloom.gdshader" id="19_w36ex"]
 [ext_resource type="Texture2D" uid="uid://c58rc15tgrkw3" path="res://assets/art/PlayerCrimsonRed/Idle Default.png" id="20_76mgg"]
 [ext_resource type="AnimationLibrary" uid="uid://bgrso2rsp1hwf" path="res://animation_libraries/LegacyPlayer.res" id="21_y617q"]
@@ -354,18 +353,18 @@ cost = 0.0
 
 [node name="Shield" parent="AbilityManager" unique_id=647591326 instance=ExtResource("14_76mgg")]
 cost = 0.0
+Enabled = false
 
 [node name="Throw" parent="AbilityManager" unique_id=2083118973 instance=ExtResource("32_234y4")]
 proj = ExtResource("16_8eyfg")
 damage = 1.0
-cost = 0.0
+cost = 80.0
 
 [node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]
 cost = 10.0
 
 [node name="Combo" parent="AbilityManager" unique_id=848838239 instance=ExtResource("18_ddnt4")]
-
-[node name="Heal" parent="AbilityManager" unique_id=1814607261 instance=ExtResource("19_a0lmo")]
+position = Vector2(0, 50)
 
 [node name="Mouse" parent="." unique_id=1452754236 instance=ExtResource("30_ddnt4")]
 visible = false
@@ -450,6 +449,8 @@ stream = SubResource("AudioStream_uoipf")
 [node name="Spren" type="CharacterBody2D" parent="." unique_id=378260796]
 visible = false
 position = Vector2(47, -57)
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("32_y2u3w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spren" unique_id=2091866736]
