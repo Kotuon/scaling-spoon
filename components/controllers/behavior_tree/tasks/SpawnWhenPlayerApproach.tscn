@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ctmjqcfm8tjbq"]
+
+[ext_resource type="Script" uid="uid://bbnwhyagas68t" path="res://src/characters/components/controllers/behavior_tree/tasks/SpawnWhenPlayerApproach.cs" id="1_ovsba"]
+
+[node name="SpawnWhenPlayerApproach" type="Node" unique_id=1889695998]
+script = ExtResource("1_ovsba")

@@ -42,8 +42,8 @@ public partial class Move : Ability
 
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 
-    public bool movementOverride = false;
-    public bool canMove = true;
+    [Export] public bool movementOverride = false;
+    [Export] public bool canMove = true;
 
     public Move() : base("move")
     {

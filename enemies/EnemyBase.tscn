@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/tasks/MoveToTarget.tscn" id="10_rrd6m"]
 [ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/tasks/Wait.tscn" id="11_303ht"]
 [ext_resource type="PackedScene" uid="uid://busqgtqfhsinf" path="res://components/controllers/behavior_tree/tasks/FireProjectile.tscn" id="11_iv83c"]
-[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/BossProjectile.tscn" id="12_f6yug"]
+[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/GolemProjectile.tscn" id="12_f6yug"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
 

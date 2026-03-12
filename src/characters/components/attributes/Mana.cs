@@ -2,6 +2,7 @@ using Game.Component;
 
 using Godot;
 using System;
+using System.Data.Common;
 
 
 public partial class Mana : Component
@@ -82,6 +83,7 @@ public partial class Mana : Component
         Sprite2D sprite = parent.GetComponent<Sprite2D>();
 
         ShaderMaterial shader = sprite.Material as ShaderMaterial;
+        if (shader == null) return;
 
         float input = (new_mana / max) * 2.5f;
 

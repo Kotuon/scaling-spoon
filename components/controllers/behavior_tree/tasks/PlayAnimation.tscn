@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dr4en2sbp3v5a"]
+
+[ext_resource type="Script" uid="uid://cn7h7gad3chh3" path="res://src/characters/components/controllers/behavior_tree/tasks/PlayAnimation.cs" id="1_myobs"]
+
+[node name="FireProjectileFromAnimation" type="Node" unique_id=746764344]
+script = ExtResource("1_myobs")

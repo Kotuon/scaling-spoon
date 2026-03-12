@@ -1,13 +1,17 @@
+namespace Game.Component;
+
 using Godot;
 using Godot.Collections;
-using System;
 using Game.Entity;
-using Game.Component;
+using System.Security.Cryptography.X509Certificates;
+
 
 public partial class MoveToTarget : BehaviorNode
 {
     [Export] public StringName target_name = "Player";
     [Export] public float reach_distance = 400.0f;
+    [Export] public float timeout = 10.0f;
+    protected float counter = 0.0f;
     public override BehaviorNode.Status evaluate(Dictionary context)
     {
         if (!context.ContainsKey(target_name))
@@ -39,7 +43,7 @@ public partial class MoveToTarget : BehaviorNode
         return BehaviorNode.Status.RUNNING;
     }
 
-    private bool has_reached_target(Vector2 p1, Vector2 p2)
+    protected bool has_reached_target(Vector2 p1, Vector2 p2)
     {
         float distance = p1.DistanceTo(p2);
         return distance < reach_distance;

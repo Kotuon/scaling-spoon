@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://14luvm2djfio"]
+
+[ext_resource type="Script" uid="uid://di6gj5dpbvckl" path="res://src/characters/components/controllers/behavior_tree/tasks/MoveToTargetWithNav.cs" id="1_s7bjr"]
+
+[node name="MoveToTargetWithNav" type="Node" unique_id=172716820]
+script = ExtResource("1_s7bjr")

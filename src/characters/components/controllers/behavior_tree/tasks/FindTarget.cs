@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System;
 
 public partial class FindTarget : BehaviorNode
 {
@@ -17,3 +16,4 @@ public partial class FindTarget : BehaviorNode
         return BehaviorNode.Status.SUCCESS;
     }
 }
+

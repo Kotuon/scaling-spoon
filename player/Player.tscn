@@ -22,7 +22,7 @@
 [ext_resource type="AnimationLibrary" uid="uid://bgrso2rsp1hwf" path="res://animation_libraries/LegacyPlayer.res" id="21_y617q"]
 [ext_resource type="AnimationLibrary" uid="uid://031ukdeoj808" path="res://animation_libraries/CrimsonRed.res" id="22_8eyfg"]
 [ext_resource type="Script" uid="uid://kfmb813eywll" path="res://src/characters/components/PlayerCollider.cs" id="29_uyl0s"]
-[ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/AnimationHandler.tscn" id="30_a0lmo"]
+[ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/PlayerAnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="32_234y4"]
 [ext_resource type="Texture2D" uid="uid://cwfhbcqgsufs6" path="res://assets/art/Spren/silly luck creature-idle.png" id="32_u8vxv"]
@@ -336,12 +336,12 @@ _data = {
 &"run": SubResource("Animation_y2u3w")
 }
 
-[node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler")]
+[node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler") groups=["Characters", "Player"]]
 z_index = 1
 collision_mask = 14
 script = ExtResource("1_dnad5")
 move = NodePath("AbilityManager/Move")
-animationHandler = NodePath("AnimationHandler")
+animationHandler = NodePath("PlayerAnimationHandler")
 
 [node name="AbilityManager" parent="." unique_id=346779894 instance=ExtResource("2_t7u8x")]
 
@@ -387,9 +387,9 @@ texture = ExtResource("20_76mgg")
 hframes = 6
 vframes = 5
 
-[node name="AnimationHandler" parent="." unique_id=806842331 instance=ExtResource("30_a0lmo")]
+[node name="PlayerAnimationHandler" parent="." unique_id=806842331 instance=ExtResource("30_a0lmo")]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationHandler" unique_id=797888822]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerAnimationHandler" unique_id=797888822]
 root_node = NodePath("../..")
 libraries/ = ExtResource("21_y617q")
 libraries/CrimsonRed = ExtResource("22_8eyfg")
@@ -404,19 +404,17 @@ layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
+offset_right = 4.0
+offset_bottom = 4.0
 grow_vertical = 0
 script = ExtResource("41_2q4k2")
 
 [node name="ManaBar" type="ProgressBar" parent="Camera2D/Control" unique_id=67778431]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -50.0
-offset_top = 37.065
-offset_right = 50.0
-offset_bottom = 51.065
-grow_horizontal = 2
+layout_mode = 0
+offset_left = -40.0
+offset_top = 38.0
+offset_right = 40.0
+offset_bottom = 48.0
 theme = ExtResource("43_7tnb4")
 show_percentage = false
 

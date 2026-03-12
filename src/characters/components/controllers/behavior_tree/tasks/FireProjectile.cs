@@ -40,7 +40,7 @@ public partial class FireProjectile : BehaviorNode
         var inst = (Projectile)proj.Instantiate();
         parent.GetParent().AddChild(inst);
 
-        Vector2 startPos = dir * 80.0f;
+        Vector2 startPos = dir * 40.0f;
 
         inst.Position = startPos + parent.Position;
         inst.Rotation = dir.Angle();

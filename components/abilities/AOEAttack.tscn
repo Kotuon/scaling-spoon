@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bnhxc2t3rkayi"]
+
+[ext_resource type="Script" uid="uid://58cia6mgufbf" path="res://src/characters/components/abilities/AOEAttack.cs" id="1_uwqtp"]
+[ext_resource type="Texture2D" uid="uid://tp3lknyy0d0b" path="res://assets/art/Environment/Tilesets/Tileset-Terrain.png" id="2_fyccp"]
+[ext_resource type="Shader" uid="uid://dg7g0wlixyyky" path="res://shaders/AOEAttack.gdshader" id="2_y0t30"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwqtp"]
+size = Vector2(100, 100)
+
+[sub_resource type="Gradient" id="Gradient_7xtns"]
+offsets = PackedFloat32Array(0, 0.09116809, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.46666667, 0.46666667, 0.46666667, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_w1tki"]
+gradient = SubResource("Gradient_7xtns")
+
+[sub_resource type="Gradient" id="Gradient_fyccp"]
+offsets = PackedFloat32Array(0, 0.08262108, 0.7065527, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7xtns"]
+gradient = SubResource("Gradient_fyccp")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fyccp"]
+noise_type = 3
+seed = 4
+frequency = 0.1
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_fyccp"]
+noise = SubResource("FastNoiseLite_fyccp")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7xtns"]
+noise_type = 3
+seed = 16
+frequency = 0.025
+fractal_type = 2
+fractal_octaves = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7xtns"]
+noise = SubResource("FastNoiseLite_7xtns")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyccp"]
+shader = ExtResource("2_y0t30")
+shader_parameter/noise_1 = SubResource("NoiseTexture2D_fyccp")
+shader_parameter/noise_2 = SubResource("NoiseTexture2D_7xtns")
+shader_parameter/scroll_1 = Vector2(0, 0)
+shader_parameter/scroll_2 = Vector2(0, 0)
+shader_parameter/distortion_strength = 1.0
+shader_parameter/tint_color = Color(0.8352941, 0.78039217, 0.5568628, 1)
+shader_parameter/top_color = Color(0.54901963, 0.6666667, 0.33333334, 1)
+shader_parameter/light_start = 0.2690000127775
+shader_parameter/light_end = 0.9450000448875
+shader_parameter/gradiant = SubResource("GradientTexture1D_7xtns")
+shader_parameter/flash_value = SubResource("GradientTexture1D_w1tki")
+shader_parameter/is_running = true
+shader_parameter/input_value = 0.50000002375
+
+[sub_resource type="QuadMesh" id="QuadMesh_uwqtp"]
+
+[node name="AoeAttack" type="Node2D" unique_id=1890103906]
+script = ExtResource("1_uwqtp")
+
+[node name="AOEArea" type="Area2D" parent="." unique_id=230557869]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AOEArea" unique_id=1496460216]
+visible = false
+shape = SubResource("RectangleShape2D_uwqtp")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1409076044]
+visible = false
+position = Vector2(714, 30)
+texture = ExtResource("2_fyccp")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1037823328]
+material = SubResource("ShaderMaterial_fyccp")
+scale = Vector2(100, 100)
+mesh = SubResource("QuadMesh_uwqtp")

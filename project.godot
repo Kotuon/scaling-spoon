@@ -24,6 +24,11 @@ window/size/viewport_height=720
 
 project/assembly_name="scaling-spoon"
 
+[global_group]
+
+Player=""
+Characters=""
+
 [input]
 
 walk_left={

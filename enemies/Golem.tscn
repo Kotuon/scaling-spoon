@@ -4,48 +4,301 @@
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_l5jj5"]
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="3_y23lv"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="4_saj1q"]
-[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectiles/projectile.tscn" id="5_mn8tp"]
+[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/GolemProjectile.tscn" id="5_l5jj5"]
+[ext_resource type="PackedScene" uid="uid://bnhxc2t3rkayi" path="res://components/abilities/AOEAttack.tscn" id="6_a5w1j"]
 [ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/controllers/EnemyBaseController.tscn" id="6_e31si"]
 [ext_resource type="PackedScene" uid="uid://bvbut14c1803" path="res://components/controllers/behavior_tree/BehaviorTree.tscn" id="7_a5w1j"]
 [ext_resource type="PackedScene" uid="uid://cu8i6jnyok2qy" path="res://components/controllers/behavior_tree/SequenceNode.tscn" id="8_t24s0"]
 [ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/tasks/FindTarget.tscn" id="9_yj63f"]
-[ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/tasks/MoveToTarget.tscn" id="10_aonrn"]
-[ext_resource type="PackedScene" uid="uid://busqgtqfhsinf" path="res://components/controllers/behavior_tree/tasks/FireProjectile.tscn" id="11_oceqj"]
-[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/BossProjectile.tscn" id="12_kumi1"]
+[ext_resource type="PackedScene" uid="uid://ctmjqcfm8tjbq" path="res://components/controllers/behavior_tree/tasks/SpawnWhenPlayerApproach.tscn" id="10_e31si"]
+[ext_resource type="PackedScene" uid="uid://14luvm2djfio" path="res://components/controllers/behavior_tree/tasks/MoveToTargetWithNav.tscn" id="10_y23lv"]
+[ext_resource type="PackedScene" uid="uid://dr4en2sbp3v5a" path="res://components/controllers/behavior_tree/tasks/PlayAnimation.tscn" id="12_l5jj5"]
 [ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/tasks/Wait.tscn" id="13_bw0le"]
 [ext_resource type="Texture2D" uid="uid://dasvwtpvnpbhh" path="res://assets/art/Stone_golem/Stone-golem v2-all animations-224x192.png" id="14_l5jj5"]
+[ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/attributes/Mana.tscn" id="15_saj1q"]
+[ext_resource type="PackedScene" uid="uid://lt50sga1o0p" path="res://components/AnimationHandler.tscn" id="15_y23lv"]
+[ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="16_mn8tp"]
+[ext_resource type="PackedScene" uid="uid://ds22gsmigjntg" path="res://enemies/components/EnemyMouse.tscn" id="17_mn8tp"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5cky"]
-size = Vector2(100, 100)
+[sub_resource type="CircleShape2D" id="CircleShape2D_5x1vr"]
+radius = 22.05
 
-[sub_resource type="Animation" id="Animation_l5jj5"]
-resource_name = "idle"
+[sub_resource type="Animation" id="Animation_y23lv"]
+length = 0.001
+step = 0.104
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_saj1q"]
+_data = {
+&"RESET": SubResource("Animation_y23lv")
+}
+
+[sub_resource type="Animation" id="Animation_mn8tp"]
+resource_name = "clap"
+length = 1.7
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2, 1.3000001, 1.4, 1.5, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityManager/Throw")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"SpawnProjectile"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityManager/Move:canMove")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.7),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_a5w1j"]
+resource_name = "death"
+length = 1.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80]
+}
+
+[sub_resource type="Animation" id="Animation_e31si"]
+resource_name = "hit"
+length = 1.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
+}
+
+[sub_resource type="Animation" id="Animation_t24s0"]
+resource_name = "idle_default"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_oceqj"]
+resource_name = "spawn"
+length = 1.3
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [80, 79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityManager/Move:canMove")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityManager/Move:movementOverride")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_yj63f"]
+resource_name = "stomp"
+length = 0.55
+step = 0.104
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [17, 18]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityManager/AoeAttack")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"DealDamageInArea"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityManager/Move:canMove")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_aonrn"]
+resource_name = "wait_to_spawn"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [80]
+}
+
+[sub_resource type="Animation" id="Animation_saj1q"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [17, 18, 19, 20, 21, 22, 23, 24]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y23lv"]
 _data = {
-&"idle": SubResource("Animation_l5jj5")
+&"clap": SubResource("Animation_mn8tp"),
+&"death": SubResource("Animation_a5w1j"),
+&"hit": SubResource("Animation_e31si"),
+&"idle_default": SubResource("Animation_t24s0"),
+&"spawn": SubResource("Animation_oceqj"),
+&"stomp": SubResource("Animation_yj63f"),
+&"wait_to_spawn": SubResource("Animation_aonrn"),
+&"walk": SubResource("Animation_saj1q")
 }
 
-[node name="EnemyBase" type="CharacterBody2D" unique_id=1265510272]
+[node name="Golem" type="CharacterBody2D" unique_id=1265510272]
+texture_filter = 1
+scale = Vector2(1.5, 1.5)
+collision_layer = 16
+collision_mask = 19
 script = ExtResource("1_5x1vr")
 
 [node name="AbilityManager" parent="." unique_id=782651209 instance=ExtResource("2_l5jj5")]
-position = Vector2(93.97739, -42.386307)
 
 [node name="Move" parent="AbilityManager" unique_id=578487199 instance=ExtResource("3_y23lv")]
-maxWalkSpeed = 100.0
+maxWalkSpeed = 400.0
+cooldown = 0.0
+cost = 0.0
 
 [node name="Throw" parent="AbilityManager" unique_id=54411854 instance=ExtResource("4_saj1q")]
-proj = ExtResource("5_mn8tp")
+proj = ExtResource("5_l5jj5")
+startDistance = 10.0
+cooldown = 0.0
+cost = 0.0
+
+[node name="AoeAttack" parent="AbilityManager" unique_id=1890103906 instance=ExtResource("6_a5w1j")]
+scale = Vector2(1.5, 1.5)
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2035412392]
+visible = false
 scale = Vector2(100, 100)
 mesh = SubResource("QuadMesh_o5cky")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=316593584]
-shape = SubResource("RectangleShape2D_o5cky")
 
 [node name="EnemyBaseController" parent="." unique_id=1880682395 instance=ExtResource("6_e31si")]
 
@@ -53,15 +306,47 @@ shape = SubResource("RectangleShape2D_o5cky")
 
 [node name="SequenceNode" parent="BehaviorTree" unique_id=243264643 instance=ExtResource("8_t24s0")]
 
-[node name="FindTarget" parent="BehaviorTree/SequenceNode" unique_id=26824330 instance=ExtResource("9_yj63f")]
+[node name="SequenceNode" parent="BehaviorTree/SequenceNode" unique_id=1527081677 instance=ExtResource("8_t24s0")]
 
-[node name="MoveToTarget" parent="BehaviorTree/SequenceNode" unique_id=1211423973 instance=ExtResource("10_aonrn")]
+[node name="FindTarget" parent="BehaviorTree/SequenceNode/SequenceNode" unique_id=26824330 instance=ExtResource("9_yj63f")]
 
-[node name="FireProjectile" parent="BehaviorTree/SequenceNode" unique_id=92826978 instance=ExtResource("11_oceqj")]
-proj = ExtResource("12_kumi1")
-damage = 1.0
+[node name="SpawnWhenPlayerApproach" parent="BehaviorTree/SequenceNode/SequenceNode" unique_id=1889695998 instance=ExtResource("10_e31si")]
+spawnDistance = 200.0
+
+[node name="Wait6" parent="BehaviorTree/SequenceNode" unique_id=1468860412 instance=ExtResource("13_bw0le")]
+wait_time = 2.0
+
+[node name="FireProjectileFromAnimation" parent="BehaviorTree/SequenceNode" unique_id=746764344 instance=ExtResource("12_l5jj5")]
+animationName = "clap"
+
+[node name="Wait4" parent="BehaviorTree/SequenceNode" unique_id=2140954659 instance=ExtResource("13_bw0le")]
+wait_time = 2.0
+
+[node name="FireProjectileFromAnimation2" parent="BehaviorTree/SequenceNode" unique_id=1852619135 instance=ExtResource("12_l5jj5")]
+animationName = "clap"
+
+[node name="Wait2" parent="BehaviorTree/SequenceNode" unique_id=1315140300 instance=ExtResource("13_bw0le")]
+wait_time = 2.0
+
+[node name="FindTarget" parent="BehaviorTree/SequenceNode" unique_id=2044176681 instance=ExtResource("9_yj63f")]
+
+[node name="MoveToTargetWithNav" parent="BehaviorTree/SequenceNode" unique_id=172716820 instance=ExtResource("10_y23lv")]
+reach_distance = 60.0
+timeout = 4.0
 
 [node name="Wait" parent="BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("13_bw0le")]
+wait_time = 0.1
+
+[node name="PlayStompAnimation" parent="BehaviorTree/SequenceNode" unique_id=1261812796 instance=ExtResource("12_l5jj5")]
+animationName = "stomp"
+
+[node name="Wait5" parent="BehaviorTree/SequenceNode" unique_id=895094606 instance=ExtResource("13_bw0le")]
+wait_time = 0.5
+
+[node name="FireProjectileFromAnimation3" parent="BehaviorTree/SequenceNode" unique_id=1367773339 instance=ExtResource("12_l5jj5")]
+animationName = "clap"
+
+[node name="Wait3" parent="BehaviorTree/SequenceNode" unique_id=545281459 instance=ExtResource("13_bw0le")]
 wait_time = 5.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1241708918]
@@ -69,5 +354,24 @@ texture = ExtResource("14_l5jj5")
 hframes = 17
 vframes = 5
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1380796075]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=316593584]
+position = Vector2(-1.5, 2.5)
+shape = SubResource("CircleShape2D_5x1vr")
+
+[node name="AnimationHandler" parent="." unique_id=436147934 instance=ExtResource("15_y23lv")]
+animationLibrary = "golem"
+canAdvance = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimationHandler" unique_id=1380796075]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_saj1q")
 libraries/golem = SubResource("AnimationLibrary_y23lv")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=847295861]
+debug_enabled = true
+
+[node name="Mana" parent="." unique_id=1018752184 instance=ExtResource("15_saj1q")]
+
+[node name="Health" parent="." unique_id=842163972 instance=ExtResource("16_mn8tp")]
+
+[node name="EnemyMouse" parent="." unique_id=1005007858 instance=ExtResource("17_mn8tp")]

@@ -10,6 +10,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ccpn1"]
 
 [node name="Level" type="Node2D" unique_id=1597067820]
+texture_filter = 1
 
 [node name="TileMaps" type="Node2D" parent="." unique_id=2077878477]
 scale = Vector2(2, 2)

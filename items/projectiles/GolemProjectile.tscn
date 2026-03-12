@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://c6nwwnsg6du8f"]
+
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectiles/projectile.tscn" id="1_mi77h"]
+[ext_resource type="Texture2D" uid="uid://tp3lknyy0d0b" path="res://assets/art/Environment/Tilesets/Tileset-Terrain.png" id="2_atqp7"]
+[ext_resource type="Texture2D" uid="uid://ohx4kv8lx8uq" path="res://assets/art/Stone_golem/clap.png" id="3_io7nw"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yadl0"]
+radius = 5.0
+
+[node name="Projectile" unique_id=1042229995 instance=ExtResource("1_mi77h")]
+texture_filter = 1
+initialSpeed = 200.0
+finalSpeed = 600.0
+timeToAccelerate = 1.0
+
+[node name="Sprite2D2" type="Sprite2D" parent="." index="0" unique_id=1355664310]
+visible = false
+position = Vector2(662.6667, -18)
+texture = ExtResource("2_atqp7")
+
+[node name="Sprite2D" parent="." index="1" unique_id=125337897]
+position = Vector2(0, 0)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_io7nw")
+
+[node name="Hitbox" parent="." index="2" unique_id=1029148984]
+position = Vector2(0, 0)
+shape = SubResource("CircleShape2D_yadl0")

@@ -8,6 +8,9 @@ public partial class Throw : Ability
     [Export] public PackedScene proj;
     [Export] public float damage;
 
+    [Export(PropertyHint.Range, "10, 800, or_greater, or_less")]
+    public float startDistance = 60.0f;
+
     public Throw() : base("throw")
     {
 
@@ -22,6 +25,8 @@ public partial class Throw : Ability
     public override void Trigger()
     {
         base.Trigger();
+
+        if (!isActive) return;
 
         move.canMove = false;
 
@@ -51,10 +56,10 @@ public partial class Throw : Ability
     public void SpawnProjectile()
     {
         var inst = (Projectile)proj.Instantiate();
-        // GetNode("../../..").AddChild(inst);
+
         parent.GetParent().AddChild(inst);
 
-        Vector2 startPos = mouseRef.mouseDir * 60.0f;
+        Vector2 startPos = mouseRef.mouseDir * startDistance;
 
         var dir = (startPos - mouseRef.mouseDir).Normalized();
 

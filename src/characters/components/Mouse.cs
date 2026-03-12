@@ -2,8 +2,7 @@
 namespace Game.Component;
 
 using Godot;
-// using System.Numerics;
-
+using Game.Math;
 
 public partial class Mouse : Component
 {
@@ -29,7 +28,9 @@ public partial class Mouse : Component
             {
                 icon.Visible = false;
 
-                parent.GetComponent<OffsetCamera>().CancelOffset();
+                var camera = parent.GetComponent<OffsetCamera>();
+                if (camera != null)
+                    camera.CancelOffset();
             }
 
             _useMouseDirection = value;
@@ -49,7 +50,7 @@ public partial class Mouse : Component
         }
     }
 
-    private MeshInstance2D icon;
+    protected MeshInstance2D icon;
 
     public override void _Ready()
     {
@@ -63,50 +64,7 @@ public partial class Mouse : Component
 
         Visible = true;
         icon.Visible = false;
-
-        Input.MouseMode = Input.MouseModeEnum.ConfinedHidden;
     }
-
-    private float QuadLerp(float a, float b, float c, float t)
-    {
-        float p0 = Mathf.Lerp(a, b, t);
-        float p1 = Mathf.Lerp(b, c, t);
-        float p2 = Mathf.Lerp(p0, p1, t);
-
-        return p2;
-    }
-    private float CubicLerp(float a, float b, float c, float d, float t)
-    {
-        float p0 = Mathf.Lerp(a, b, t);
-        float p1 = Mathf.Lerp(b, c, t);
-        float p2 = Mathf.Lerp(c, d, t);
-
-        float p3 = Mathf.Lerp(p0, p1, t);
-        float p4 = Mathf.Lerp(p1, p2, t);
-
-        float p5 = Mathf.Lerp(p3, p4, t);
-
-        return p5;
-    }
-    private Godot.Vector2 QuadraticBezier(Godot.Vector2 p0, Godot.Vector2 p1, Godot.Vector2 p2, float t)
-    {
-        Godot.Vector2 q0 = p0.Lerp(p1, t);
-        Godot.Vector2 q1 = p1.Lerp(p2, t);
-
-        return q0.Lerp(q1, t);
-    }
-    private Vector2 CubicBezier(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t)
-{
-    Vector2 q0 = p0.Lerp(p1, t);
-    Vector2 q1 = p1.Lerp(p2, t);
-    Vector2 q2 = p2.Lerp(p3, t);
-
-    Vector2 r0 = q0.Lerp(q1, t);
-    Vector2 r1 = q1.Lerp(q2, t);
-
-    Vector2 s = r0.Lerp(r1, t);
-    return s;
-}
     public override void _Process(double delta)
     {
         base._Process(delta);
@@ -114,7 +72,7 @@ public partial class Mouse : Component
         var joystick = Input.GetVector("mouse_left", "mouse_right", "mouse_up",
             "mouse_down");
 
-        joystick = CubicBezier(Vector2.Zero, Vector2.Zero, joystick * 0.25f,
+        joystick = Curves.CubicBezier(Vector2.Zero, Vector2.Zero, joystick * 0.25f,
             joystick, joystick.Length());
 
         joystick *= maxRadius;
@@ -138,5 +96,6 @@ public partial class Mouse : Component
             );
         }
     }
+
 
 }
