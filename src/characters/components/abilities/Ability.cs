@@ -125,6 +125,7 @@ public partial class Ability : Component
     public virtual void Trigger()
     {
         isActive = manaManager.CanUseMana(cost);
+        manaManager.UseMana(cost);
     }
 
     public virtual void Update(double delta)

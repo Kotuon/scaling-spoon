@@ -60,7 +60,6 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
 
         }
 
-        // return default(T);
         return null;
     }
 

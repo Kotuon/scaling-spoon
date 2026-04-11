@@ -34,7 +34,7 @@ public partial class HomingProjectile : Projectile
             // float strength = 100.0f;
             // launchDir = (launchDir + targetDir * strength).Normalized();
 
-            float strength = 0.1f;
+            float strength = 0.05f;
             if (isHoming)
             {
                 var newDir =

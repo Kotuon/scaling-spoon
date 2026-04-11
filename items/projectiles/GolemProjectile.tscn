@@ -13,7 +13,7 @@ texture_filter = 1
 script = ExtResource("2_xmp7q")
 initialSpeed = 400.0
 finalSpeed = 800.0
-timeToAccelerate = 1.0
+timeToAccelerate = 0.5
 
 [node name="Sprite2D2" type="Sprite2D" parent="." index="0" unique_id=1355664310]
 visible = false

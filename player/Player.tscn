@@ -361,7 +361,9 @@ damage = 1.0
 cost = 80.0
 
 [node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]
-cost = 10.0
+updateCost = 15.0
+thresholdPercent = 0.1
+cost = 0.0
 
 [node name="Combo" parent="AbilityManager" unique_id=848838239 instance=ExtResource("18_ddnt4")]
 position = Vector2(0, 50)

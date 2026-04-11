@@ -288,6 +288,7 @@ cost = 0.0
 
 [node name="Throw" parent="AbilityManager" unique_id=54411854 instance=ExtResource("4_saj1q")]
 proj = ExtResource("5_l5jj5")
+damage = 10.0
 startDistance = 10.0
 cooldown = 0.0
 cost = 0.0

@@ -10,6 +10,10 @@ public partial class Dash : Ability
     private GpuParticles2D dashParticles;
     [Export]
     public float speed { get; set; } = 800.0f;
+    [Export]
+    public float updateCost = 0.1f;
+    [Export]
+    public float thresholdPercent = 0.3f;
 
     private float _currSpeed;
     protected float currSpeed
@@ -23,7 +27,7 @@ public partial class Dash : Ability
         {
             var retSpeed = move.currWalkSpeed;
 
-            if (retSpeed > move.maxWalkSpeed)
+            if (retSpeed > move.maxWalkSpeed * thresholdPercent)
                 SetDashParticles(true);
             else
                 SetDashParticles(false);
@@ -49,7 +53,7 @@ public partial class Dash : Ability
 
     public override void Trigger()
     {
-        if (move.currWalkSpeed < move.maxWalkSpeed)
+        if (move.currWalkSpeed < move.maxWalkSpeed * thresholdPercent)
             return;
 
         base.Trigger();
@@ -60,11 +64,14 @@ public partial class Dash : Ability
 
     public override void Update(double delta)
     {
-        if (!move.canMove)
+        float frameCost = (float)delta * updateCost;
+
+        if (!move.canMove || !manaManager.CanUseMana(frameCost))
         {
             End();
             return;
         }
+        manaManager.UseMana(frameCost);
 
         base.Update(delta);
 

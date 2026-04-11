@@ -32,7 +32,7 @@ public partial class Projectile : CharacterBody2D
     {
         base._Process(delta);
 
-        GD.Print(currSpeed);
+        // GD.Print(currSpeed);
         Rotation = Velocity.Angle();
     }
 
