@@ -1,6 +1,6 @@
-using Game.Entity;
+
 using Godot;
-using System;
+using System.Net;
 using System.Threading.Tasks;
 
 public partial class Projectile : CharacterBody2D
@@ -22,10 +22,19 @@ public partial class Projectile : CharacterBody2D
         get => _launchDir;
     }
 
-    private float currSpeed;
-    private bool hasLaunched = false;
+    protected float currSpeed;
+    protected bool hasLaunched = false;
 
     public float damage = 1.0f;
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        GD.Print(currSpeed);
+        Rotation = Velocity.Angle();
+    }
+
 
     public override void _PhysicsProcess(double delta)
     {
@@ -46,6 +55,11 @@ public partial class Projectile : CharacterBody2D
 
         var collision = MoveAndCollide(Velocity * (float)delta);
 
+        HandleCollision(collision);
+    }
+
+    protected void HandleCollision(KinematicCollision2D collision)
+    {
         if (collision != null && collision.GetCollider() != owner)
         {
             DestroyProjectile();

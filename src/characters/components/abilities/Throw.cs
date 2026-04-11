@@ -69,5 +69,10 @@ public partial class Throw : Ability
         inst.owner = parent;
 
         inst.damage = damage;
+
+        if (inst is HomingProjectile)
+        {
+            (inst as HomingProjectile).target = mouseRef;
+        }
     }
 }

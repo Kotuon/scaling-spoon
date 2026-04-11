@@ -46,7 +46,7 @@ public partial class MoveToTargetWithNav : MoveToTarget
 
 
         if (has_reached_target(
-            (target as Node2D).Position, parent.GlobalPosition))
+            (target as Node2D).GlobalPosition, parent.GlobalPosition))
         {
             controller.moveInput = Vector2.Zero;
             counter = 0.0f;
@@ -58,6 +58,7 @@ public partial class MoveToTargetWithNav : MoveToTarget
         counter += context["delta"].As<float>();
         if (counter >= timeout)
         {
+            controller.moveInput = Vector2.Zero;
             counter = 0.0f;
             return BehaviorNode.Status.SUCCESS;
         }

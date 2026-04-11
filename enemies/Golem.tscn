@@ -331,11 +331,11 @@ wait_time = 2.0
 [node name="FindTarget" parent="BehaviorTree/SequenceNode" unique_id=2044176681 instance=ExtResource("9_yj63f")]
 
 [node name="MoveToTargetWithNav" parent="BehaviorTree/SequenceNode" unique_id=172716820 instance=ExtResource("10_y23lv")]
-reach_distance = 60.0
+reach_distance = 85.0
 timeout = 4.0
 
 [node name="Wait" parent="BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("13_bw0le")]
-wait_time = 0.1
+wait_time = 0.4
 
 [node name="PlayStompAnimation" parent="BehaviorTree/SequenceNode" unique_id=1261812796 instance=ExtResource("12_l5jj5")]
 animationName = "stomp"
@@ -347,7 +347,7 @@ wait_time = 0.5
 animationName = "clap"
 
 [node name="Wait3" parent="BehaviorTree/SequenceNode" unique_id=545281459 instance=ExtResource("13_bw0le")]
-wait_time = 5.0
+wait_time = 0.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1241708918]
 texture = ExtResource("14_l5jj5")
