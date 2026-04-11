@@ -23,12 +23,12 @@ public partial class EnemyMouse : Mouse
     {
         icon.Visible = true;
 
-        Vector2 target = playerRef.GlobalPosition +
-            (playerRef.Velocity);
+        // Vector2 target = playerRef.GlobalPosition +
+        //     (playerRef.Velocity);
 
-        GlobalPosition =
-            (target - parent.GlobalPosition).Normalized() *
-            100.0f + parent.GlobalPosition;
+        GlobalPosition = playerRef.GlobalPosition;
+            // (target - parent.GlobalPosition).Normalized() *
+            // 100.0f + parent.GlobalPosition;
     }
 
 }

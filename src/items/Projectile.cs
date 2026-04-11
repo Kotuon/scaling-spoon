@@ -15,7 +15,8 @@ public partial class Projectile : CharacterBody2D
         set
         {
             _launchDir = value;
-            currSpeed = initialSpeed;
+            if (!hasLaunched)
+                currSpeed = initialSpeed;
             // Velocity = _launchDir * initialSpeed;
         }
 

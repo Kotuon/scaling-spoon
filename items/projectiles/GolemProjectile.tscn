@@ -11,8 +11,8 @@ radius = 5.0
 [node name="Projectile" unique_id=1042229995 instance=ExtResource("1_mi77h")]
 texture_filter = 1
 script = ExtResource("2_xmp7q")
-initialSpeed = 200.0
-finalSpeed = 8000.0
+initialSpeed = 400.0
+finalSpeed = 800.0
 timeToAccelerate = 1.0
 
 [node name="Sprite2D2" type="Sprite2D" parent="." index="0" unique_id=1355664310]

@@ -5,7 +5,7 @@ using Game.Component;
 public partial class HomingProjectile : Projectile
 {
     public Mouse target;
-
+    private bool isHoming = true;
     public override void _PhysicsProcess(double delta)
     {
         // if (target is null)
@@ -20,14 +20,30 @@ public partial class HomingProjectile : Projectile
             tween.TweenProperty(
                 this, "currSpeed", finalSpeed, timeToAccelerate
             );
+            tween.Finished += () =>
+            {
+                isHoming = false;
+                launchDir = Velocity.Normalized();
+            };
             hasLaunched = true;
         }
         else
         {
             var targetDir = target.mouseDir;
 
-            float strength = 100.0f;
-            launchDir = (launchDir + targetDir * strength).Normalized();
+            // float strength = 100.0f;
+            // launchDir = (launchDir + targetDir * strength).Normalized();
+
+            float strength = 0.1f;
+            if (isHoming)
+            {
+                var newDir =
+                    (target.GlobalPosition - GlobalPosition).Normalized();
+
+                launchDir =
+                    (launchDir * (1.0f - strength) +
+                    newDir * strength).Normalized();
+            }
 
             Velocity = launchDir * currSpeed;
         }
