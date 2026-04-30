@@ -59,6 +59,7 @@ public partial class Dash : Ability
         base.Trigger();
         if (!isActive) return;
 
+        currSpeed = move.maxWalkSpeed;
         move.movementOverride = true;
     }
 

@@ -6,17 +6,28 @@
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="3_fee4r"]
 [ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="4_b2c4i"]
 [ext_resource type="PackedScene" uid="uid://2s7pvqrw0cuh" path="res://items/mana_interactions/ManaSphere.tscn" id="5_p4wga"]
+[ext_resource type="Script" uid="uid://gp3y3xie3y8e" path="res://levels/TriggerWalls.cs" id="7_30b43"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b2c4i"]
-vertices = PackedVector2Array(547.9297, 196.21875, 347.6875, 407.85938, -348.85156, 405.1328, 547.0625, -211.09375, 355.90625, -404.64844, -353.3203, -397.32813, -541.0625, 205.64844, -541.9297, -207.11719)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 0, 2), PackedInt32Array(4, 3, 2), PackedInt32Array(5, 4, 2), PackedInt32Array(5, 2, 6), PackedInt32Array(5, 6, 7)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-387, -477, 389, -485, 627, -244, 628, 228, 382, 488, -383, 485, -621, 238, -622, -240)])
+vertices = PackedVector2Array(434.0625, -472.96094, 729.8672, -204.89063, 729.8672, 199.53906, 475.72656, 468.1172, -518.75, 472.32813, -504.42188, -488.0703, -787.4531, -202.74219, -789.75, 213.5)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(0, 3, 4), PackedInt32Array(5, 0, 4), PackedInt32Array(6, 5, 4), PackedInt32Array(6, 4, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-537.2197, -568.60986, 465.47086, -552.4664, 809.8654, -240.35875, 809.8654, 231.39012, 510.3139, 547.982, -550.67267, 552.4663, -869.95514, 247.53362, -867.2646, -235.87444)])
 sample_partition_type = 1
 source_geometry_mode = 1
 agent_radius = 80.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b2c4i"]
+size = Vector2(1050, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w0lom"]
+size = Vector2(500, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_30b43"]
+size = Vector2(20, 500)
+
 [node name="TestArena" type="Node2D" unique_id=1491301583]
 texture_filter = 1
+scale = Vector2(1.115, 1.115)
 
 [node name="TileMaps" type="Node2D" parent="." unique_id=1049899744]
 scale = Vector2(3, 3)
@@ -73,4 +84,45 @@ position = Vector2(10, 2475)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=667283695]
 visible = false
+position = Vector2(-1.7937222, -1.7937219)
 navigation_polygon = SubResource("NavigationPolygon_b2c4i")
+
+[node name="ArenaWalls" type="StaticBody2D" parent="." unique_id=1056478063]
+collision_layer = 2
+script = ExtResource("7_30b43")
+
+[node name="Top" type="CollisionShape2D" parent="ArenaWalls" unique_id=1731704562]
+position = Vector2(-26.794998, -600.897)
+shape = SubResource("RectangleShape2D_b2c4i")
+
+[node name="Bottom" type="CollisionShape2D" parent="ArenaWalls" unique_id=1671142169]
+position = Vector2(-26.794998, 600.897)
+shape = SubResource("RectangleShape2D_b2c4i")
+
+[node name="BottomLeft" type="CollisionShape2D" parent="ArenaWalls" unique_id=1571095377]
+position = Vector2(-729.14795, 423.31836)
+rotation = 0.7853982
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="TopRight" type="CollisionShape2D" parent="ArenaWalls" unique_id=1482561907]
+position = Vector2(678.0268, -424.2152)
+rotation = 0.7853982
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="BottomRight" type="CollisionShape2D" parent="ArenaWalls" unique_id=1832479659]
+position = Vector2(678.027, 424.215)
+rotation = 5.497787
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="TopLeft" type="CollisionShape2D" parent="ArenaWalls" unique_id=924044890]
+position = Vector2(-730.0448, -426.00894)
+rotation = 5.497787
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="Right" type="CollisionShape2D" parent="ArenaWalls" unique_id=335737586]
+position = Vector2(855, 0)
+shape = SubResource("RectangleShape2D_30b43")
+
+[node name="Left" type="CollisionShape2D" parent="ArenaWalls" unique_id=74259672]
+position = Vector2(-910, 0)
+shape = SubResource("RectangleShape2D_30b43")

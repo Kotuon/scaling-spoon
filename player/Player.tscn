@@ -352,6 +352,7 @@ cooldown = 0.0
 cost = 0.0
 
 [node name="Shield" parent="AbilityManager" unique_id=647591326 instance=ExtResource("14_76mgg")]
+cooldown = 5.0
 cost = 0.0
 Enabled = false
 
@@ -362,7 +363,7 @@ cost = 80.0
 
 [node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]
 updateCost = 15.0
-thresholdPercent = 0.1
+thresholdPercent = 0.01
 cost = 0.0
 
 [node name="Combo" parent="AbilityManager" unique_id=848838239 instance=ExtResource("18_ddnt4")]

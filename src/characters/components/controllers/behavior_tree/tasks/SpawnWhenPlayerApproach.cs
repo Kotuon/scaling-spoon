@@ -47,6 +47,7 @@ public partial class SpawnWhenPlayerApproach : BehaviorNode
 
             animHandler.PlayAnimation("spawn", Vector2.Right);
             animHandler.canAdvance = false;
+            context["parent"].As<EnemyBase>().EmitSignal(EnemyBase.SignalName.HasSpawned);
         }
 
         return BehaviorNode.Status.RUNNING;

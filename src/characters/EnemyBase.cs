@@ -6,6 +6,7 @@ using System;
 
 public partial class EnemyBase : CharacterBase
 {
+    [Signal] public delegate void HasSpawnedEventHandler();
     public override void _Ready()
     {
         base._Ready();
