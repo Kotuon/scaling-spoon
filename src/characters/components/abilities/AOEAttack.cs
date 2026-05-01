@@ -4,6 +4,7 @@ using Godot;
 
 public partial class AOEAttack : Ability
 {
+    [Export] public PackedScene proj;
     [Export] float damage = 0.0f;
     private Area2D _area;
     protected Area2D area
@@ -78,5 +79,28 @@ public partial class AOEAttack : Ability
         MeshInstance2D mesh = GetNode<MeshInstance2D>("MeshInstance2D");
         ShaderMaterial shader = mesh.Material as ShaderMaterial;
         shader.SetShaderParameter("input_value", value);
+    }
+
+    public void LaunchProjectiles(int num_to_launch)
+    {
+        float dir = (float)GD.RandRange(0.0, 2.0 * (double)Mathf.Pi);
+        float str = 60.0f;
+
+        for (int i = 0; i < num_to_launch; ++i)
+        {
+            var inst = proj.Instantiate<Projectile>();
+            parent.GetParent().AddChild(inst);
+
+            Vector2 start_pos = parent.Position + Vector2.FromAngle(dir) * str;
+
+            inst.Position = start_pos;
+            inst.Rotation = dir;
+            inst.launchDir = Vector2.FromAngle(dir);
+            inst.owner = parent;
+
+            inst.damage = damage;
+
+            dir += 2 * Mathf.Pi / num_to_launch;
+        }
     }
 }

@@ -21,7 +21,7 @@ public partial class EnemyMouse : Mouse
     }
     public override void _Process(double delta)
     {
-        icon.Visible = true;
+        icon.Visible = false;
 
         // Vector2 target = playerRef.GlobalPosition +
         //     (playerRef.Velocity);

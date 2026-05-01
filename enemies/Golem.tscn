@@ -3,11 +3,16 @@
 [ext_resource type="Script" uid="uid://dflmrwqkm5m3e" path="res://src/characters/EnemyBase.cs" id="1_5x1vr"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="2_l5jj5"]
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="3_y23lv"]
+[ext_resource type="AudioStream" uid="uid://darabtto2ajj0" path="res://assets/audio/footsteps/Fantasy_Game_Crafting_Material_Stone_Light_Hit_1.wav" id="4_kumi1"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="4_saj1q"]
+[ext_resource type="AudioStream" uid="uid://ddci5mopkckx0" path="res://assets/audio/footsteps/Fantasy_Game_Crafting_Material_Stone_Light_Hit_2.wav" id="5_bw0le"]
 [ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/GolemProjectile.tscn" id="5_l5jj5"]
 [ext_resource type="PackedScene" uid="uid://bnhxc2t3rkayi" path="res://components/abilities/AOEAttack.tscn" id="6_a5w1j"]
 [ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/controllers/EnemyBaseController.tscn" id="6_e31si"]
+[ext_resource type="AudioStream" uid="uid://i3vsexypt5jk" path="res://assets/audio/footsteps/Fantasy_Game_Crafting_Material_Stone_Light_Hit_4.wav" id="6_m2d1y"]
 [ext_resource type="PackedScene" uid="uid://bvbut14c1803" path="res://components/controllers/behavior_tree/BehaviorTree.tscn" id="7_a5w1j"]
+[ext_resource type="PackedScene" uid="uid://erm6gnj1vyvg" path="res://items/projectiles/GolemProjectile2.tscn" id="7_t24s0"]
+[ext_resource type="AudioStream" uid="uid://ddekvlug380et" path="res://assets/audio/footsteps/Fantasy_Game_Crafting_Material_Stone_Light_Hit_5.wav" id="7_wfqfu"]
 [ext_resource type="PackedScene" uid="uid://cu8i6jnyok2qy" path="res://components/controllers/behavior_tree/SequenceNode.tscn" id="8_t24s0"]
 [ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/tasks/FindTarget.tscn" id="9_yj63f"]
 [ext_resource type="PackedScene" uid="uid://ctmjqcfm8tjbq" path="res://components/controllers/behavior_tree/tasks/SpawnWhenPlayerApproach.tscn" id="10_e31si"]
@@ -19,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://lt50sga1o0p" path="res://components/AnimationHandler.tscn" id="15_y23lv"]
 [ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="16_mn8tp"]
 [ext_resource type="PackedScene" uid="uid://ds22gsmigjntg" path="res://enemies/components/EnemyMouse.tscn" id="17_mn8tp"]
+[ext_resource type="AudioStream" uid="uid://cbnu33mbh86o8" path="res://assets/audio/spawn/Fantasy_Game_Magic_Earth_Long_Cast_Spell_A.wav" id="25_bw0le"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
 
@@ -40,6 +46,30 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityManager/Move:canMove")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityManager/Move:currWalkSpeed")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_saj1q"]
 _data = {
@@ -48,7 +78,7 @@ _data = {
 
 [sub_resource type="Animation" id="Animation_mn8tp"]
 resource_name = "clap"
-length = 1.7
+length = 3.0
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -57,7 +87,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2, 1.3000001, 1.4, 1.5, 1.6),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 0.9, 1, 1.1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
@@ -69,9 +99,12 @@ tracks/1/path = NodePath("AbilityManager/Throw")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.7),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [1.8],
+"method": &"playAbilityAudio"
+}, {
 "args": [],
 "method": &"SpawnProjectile"
 }]
@@ -83,7 +116,7 @@ tracks/2/path = NodePath("AbilityManager/Move:canMove")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(1.7),
+"times": PackedFloat32Array(3),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -91,7 +124,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_a5w1j"]
 resource_name = "death"
-length = 1.3
+length = 1.5
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -100,7 +133,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2),
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80]
@@ -108,7 +141,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_e31si"]
 resource_name = "hit"
-length = 1.2
+length = 2.0
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -117,7 +150,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.7, 1.8, 1.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
@@ -125,7 +158,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_t24s0"]
 resource_name = "idle_default"
-length = 0.8
+length = 1.6
 loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
@@ -135,7 +168,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
@@ -143,7 +176,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_oceqj"]
 resource_name = "spawn"
-length = 1.3
+length = 1.9
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -152,7 +185,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004, 1, 1.1, 1.2),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [80, 79, 78, 77, 76, 75, 74, 73, 72, 71, 70, 69, 68]
@@ -164,7 +197,7 @@ tracks/1/path = NodePath("AbilityManager/Move:canMove")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1.3),
+"times": PackedFloat32Array(1.9),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
@@ -176,7 +209,7 @@ tracks/2/path = NodePath("AbilityManager/Move:movementOverride")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(1.3),
+"times": PackedFloat32Array(1.9),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -184,7 +217,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_yj63f"]
 resource_name = "stomp"
-length = 0.55
+length = 1.1
 step = 0.104
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -193,7 +226,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [17, 18]
@@ -205,9 +238,12 @@ tracks/1/path = NodePath("AbilityManager/AoeAttack")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
 "values": [{
+"args": [1.13],
+"method": &"playAbilityAudio"
+}, {
 "args": [],
 "method": &"DealDamageInArea"
 }]
@@ -219,10 +255,24 @@ tracks/2/path = NodePath("AbilityManager/Move:canMove")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.5),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AbilityManager/AoeAttack")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [6],
+"method": &"LaunchProjectiles"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_aonrn"]
@@ -244,7 +294,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_saj1q"]
 resource_name = "walk"
-length = 0.8
+length = 1.6
 loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
@@ -254,10 +304,39 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [17, 18, 19, 20, 21, 22, 23, 24]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AbilityManager/Move:currWalkSpeed")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.7, 1, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [100.0, 0.0, 0.0, 100.0, 0.0, 0.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AbilityManager/Move")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"playFootstepSound"
+}, {
+"args": [],
+"method": &"playFootstepSound"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_y23lv"]
@@ -281,8 +360,11 @@ script = ExtResource("1_5x1vr")
 
 [node name="AbilityManager" parent="." unique_id=782651209 instance=ExtResource("2_l5jj5")]
 
-[node name="Move" parent="AbilityManager" unique_id=578487199 instance=ExtResource("3_y23lv")]
-maxWalkSpeed = 400.0
+[node name="Move" parent="AbilityManager" unique_id=578487199 node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("3_y23lv")]
+footstepSounds = Array[AudioStream]([ExtResource("4_kumi1"), ExtResource("5_bw0le"), ExtResource("6_m2d1y"), ExtResource("7_wfqfu")])
+footstepPlayer = NodePath("../../Footstep_AudioPlayer")
+playSound = false
+ignorePlayingFootstep = true
 cooldown = 0.0
 cost = 0.0
 
@@ -295,6 +377,8 @@ cost = 0.0
 
 [node name="AoeAttack" parent="AbilityManager" unique_id=1890103906 instance=ExtResource("6_a5w1j")]
 scale = Vector2(1.5, 1.5)
+proj = ExtResource("7_t24s0")
+damage = 10.0
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2035412392]
 visible = false
@@ -342,7 +426,7 @@ wait_time = 0.45
 animationName = "stomp"
 
 [node name="Wait5" parent="BehaviorTree/SequenceNode" unique_id=895094606 instance=ExtResource("13_bw0le")]
-wait_time = 0.5
+wait_time = 1.5
 
 [node name="FireProjectileFromAnimation3" parent="BehaviorTree/SequenceNode" unique_id=1367773339 instance=ExtResource("12_l5jj5")]
 animationName = "clap"
@@ -356,6 +440,7 @@ hframes = 17
 vframes = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=316593584]
+visible = false
 position = Vector2(-1.5, 2.5)
 shape = SubResource("CircleShape2D_5x1vr")
 
@@ -376,3 +461,10 @@ debug_enabled = true
 [node name="Health" parent="." unique_id=842163972 instance=ExtResource("16_mn8tp")]
 
 [node name="EnemyMouse" parent="." unique_id=1005007858 instance=ExtResource("17_mn8tp")]
+visible = false
+
+[node name="Footstep_AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=349720604]
+pitch_scale = 0.4
+
+[node name="Spawn_AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=2058013843]
+stream = ExtResource("25_bw0le")

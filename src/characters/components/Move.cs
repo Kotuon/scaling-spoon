@@ -11,11 +11,11 @@ using System.Numerics;
 public partial class Move : Ability
 {
     // Walking
-    [Export]
     public float maxWalkSpeed { get; set; } = 350.0f;
 
     private float _currWalkSpeed;
-    public float currWalkSpeed
+
+    [Export] public float currWalkSpeed
     {
         set
         {
@@ -44,6 +44,8 @@ public partial class Move : Ability
 
     [Export] public bool movementOverride = false;
     [Export] public bool canMove = true;
+    [Export] private bool playSound = true;
+    [Export] private bool ignorePlayingFootstep = false;
 
     public Move() : base("move")
     {
@@ -134,7 +136,8 @@ public partial class Move : Ability
         Godot.Vector2 newVelocity = UpdateWalk(currWalkSpeed, maxWalkSpeed,
             delta, direction);
 
-        if (!Mathf.IsZeroApprox(currWalkSpeed) && currWalkSpeed <= maxWalkSpeed)
+        if (playSound && !Mathf.IsZeroApprox(currWalkSpeed) &&
+            currWalkSpeed <= maxWalkSpeed)
         {
             playFootstepSound();
         }
@@ -154,12 +157,12 @@ public partial class Move : Ability
         }
     }
 
-    private void playFootstepSound()
+    public void playFootstepSound()
     {
         if (footstepPlayer == null)
             return;
 
-        if (footstepPlayer.Playing)
+        if (footstepPlayer.Playing && !ignorePlayingFootstep)
             return;
 
         if (footstepSounds.Length == 0)
@@ -168,5 +171,11 @@ public partial class Move : Ability
         int randomIndex = rng.RandiRange(0, footstepSounds.Length - 1);
         footstepPlayer.Stream = footstepSounds[randomIndex];
         footstepPlayer.Play();
+    }
+
+    // For animations
+    public void SetCurrSpeed(float new_speed)
+    {
+        currWalkSpeed = new_speed;
     }
 }

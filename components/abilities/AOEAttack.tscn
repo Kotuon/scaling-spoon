@@ -3,9 +3,10 @@
 [ext_resource type="Script" uid="uid://58cia6mgufbf" path="res://src/characters/components/abilities/AOEAttack.cs" id="1_uwqtp"]
 [ext_resource type="Texture2D" uid="uid://tp3lknyy0d0b" path="res://assets/art/Environment/Tilesets/Tileset-Terrain.png" id="2_fyccp"]
 [ext_resource type="Shader" uid="uid://dg7g0wlixyyky" path="res://shaders/AOEAttack.gdshader" id="2_y0t30"]
+[ext_resource type="AudioStream" uid="uid://cevpjdoj7ccex" path="res://assets/audio/attack/Fantasy_Game_Magic_Earth_Spell_A.wav" id="4_7xtns"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uwqtp"]
-size = Vector2(100, 100)
+[sub_resource type="CircleShape2D" id="CircleShape2D_fyccp"]
+radius = 33.01515
 
 [sub_resource type="Gradient" id="Gradient_7xtns"]
 offsets = PackedFloat32Array(0, 0.09116809, 1)
@@ -65,8 +66,7 @@ script = ExtResource("1_uwqtp")
 [node name="AOEArea" type="Area2D" parent="." unique_id=230557869]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AOEArea" unique_id=1496460216]
-visible = false
-shape = SubResource("RectangleShape2D_uwqtp")
+shape = SubResource("CircleShape2D_fyccp")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1409076044]
 visible = false
@@ -77,3 +77,7 @@ texture = ExtResource("2_fyccp")
 material = SubResource("ShaderMaterial_fyccp")
 scale = Vector2(100, 100)
 mesh = SubResource("QuadMesh_uwqtp")
+
+[node name="Ability_AudioPlayer" type="AudioStreamPlayer2D" parent="." unique_id=693587461]
+stream = ExtResource("4_7xtns")
+pitch_scale = 0.9

@@ -9,17 +9,19 @@ public partial class SpawnWhenPlayerApproach : BehaviorNode
     [Export] public float spawnDistance;
     private bool hasSpawned = false;
     private bool hasStarted = false;
+    private bool animStarted = false;
     public override BehaviorNode.Status evaluate(Dictionary context)
     {
+        // Already finished
         if (hasSpawned)
             return BehaviorNode.Status.SUCCESS;
 
-        var parent = context["parent"].As<CharacterBase>();
+        var parent = context["parent"].As<EnemyBase>();
         var target = context["Player"].As<Node2D>();
 
         float dist = parent.GlobalPosition.DistanceTo(target.GlobalPosition);
-        // GD.Print(dist);
 
+        // Error condition
         var animHandler = parent.GetComponent<AnimationHandler>();
         if (animHandler == null)
         {
@@ -27,13 +29,15 @@ public partial class SpawnWhenPlayerApproach : BehaviorNode
             return BehaviorNode.Status.ERROR;
         }
 
-        if (!animHandler.IsCurrentlyPlaying() && hasStarted)
+        // Spawn animation is finished
+        if (!animHandler.IsCurrentlyPlaying() && animStarted)
         {
             hasSpawned = true;
 
             return BehaviorNode.Status.SUCCESS;
         }
 
+        // Starts audio effect
         if (!hasStarted && dist <= spawnDistance)
         {
             hasStarted = true;
@@ -45,9 +49,18 @@ public partial class SpawnWhenPlayerApproach : BehaviorNode
                 move.movementOverride = true;
             }
 
+            parent.EmitSignal(EnemyBase.SignalName.HasSpawned);
+        }
+
+        var time = parent.spawn_audioplayer.GetPlaybackPosition() +
+            AudioServer.GetTimeSinceLastMix() - AudioServer.GetOutputLatency();
+
+        if (hasStarted && time >= 2.7)
+        {
             animHandler.PlayAnimation("spawn", Vector2.Right);
             animHandler.canAdvance = false;
-            context["parent"].As<EnemyBase>().EmitSignal(EnemyBase.SignalName.HasSpawned);
+
+            animStarted = true;
         }
 
         return BehaviorNode.Status.RUNNING;

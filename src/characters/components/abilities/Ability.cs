@@ -3,6 +3,8 @@ namespace Game.Component;
 using Godot;
 using System;
 using Game.Entity;
+using System.ComponentModel;
+
 
 public partial class Ability : Component
 {
@@ -82,6 +84,25 @@ public partial class Ability : Component
 
     [Export] public float cost = 1.0f;
 
+    private AudioStreamPlayer2D _ability_audioplayer;
+    protected AudioStreamPlayer2D ability_audioplayer
+    {
+        set => _ability_audioplayer = value;
+        get
+        {
+            if (_ability_audioplayer == null)
+            {
+                if (HasNode("Ability_AudioPlayer"))
+                {
+                    _ability_audioplayer =
+                        GetNode<AudioStreamPlayer2D>("Ability_AudioPlayer");
+                }
+            }
+
+            return _ability_audioplayer;
+        }
+    }
+
     public Ability(string abilityName_)
     {
         abilityName = abilityName_;
@@ -150,5 +171,10 @@ public partial class Ability : Component
     private void EndCooldown()
     {
         onCooldown = false;
+    }
+
+    public void playAbilityAudio(float start_time)
+    {
+        ability_audioplayer.Play(start_time);
     }
 }

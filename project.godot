@@ -28,6 +28,8 @@ project/assembly_name="scaling-spoon"
 
 Player=""
 Characters=""
+Boss=""
+Enemies=""
 
 [input]
 

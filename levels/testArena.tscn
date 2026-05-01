@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="4_b2c4i"]
 [ext_resource type="PackedScene" uid="uid://2s7pvqrw0cuh" path="res://items/mana_interactions/ManaSphere.tscn" id="5_p4wga"]
 [ext_resource type="Script" uid="uid://gp3y3xie3y8e" path="res://levels/TriggerWalls.cs" id="7_30b43"]
+[ext_resource type="Script" uid="uid://dtw1pn34pxwmo" path="res://levels/CameraOverrideBoss.cs" id="8_w0lom"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b2c4i"]
 vertices = PackedVector2Array(434.0625, -472.96094, 729.8672, -204.89063, 729.8672, 199.53906, 475.72656, 468.1172, -518.75, 472.32813, -504.42188, -488.0703, -787.4531, -202.74219, -789.75, 213.5)
@@ -24,6 +25,9 @@ size = Vector2(500, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30b43"]
 size = Vector2(20, 500)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f8i2q"]
+size = Vector2(700, 500)
 
 [node name="TestArena" type="Node2D" unique_id=1491301583]
 texture_filter = 1
@@ -68,10 +72,10 @@ y_sort_enabled = true
 scale = Vector2(2, 2)
 
 [node name="Player" parent="YSort" unique_id=229953308 instance=ExtResource("3_fee4r")]
-position = Vector2(0, 182.5)
+position = Vector2(0, 504.4843)
 scale = Vector2(0.5, 0.5)
 
-[node name="Golem" parent="YSort" unique_id=1265510272 instance=ExtResource("3_b2c4i")]
+[node name="Golem" parent="YSort" unique_id=1265510272 groups=["Boss", "Enemies"] instance=ExtResource("3_b2c4i")]
 
 [node name="DetailLayer" type="TileMapLayer" parent="YSort" unique_id=652114195]
 z_index = 1
@@ -126,3 +130,12 @@ shape = SubResource("RectangleShape2D_30b43")
 [node name="Left" type="CollisionShape2D" parent="ArenaWalls" unique_id=74259672]
 position = Vector2(-910, 0)
 shape = SubResource("RectangleShape2D_30b43")
+
+[node name="CameraOverrideBoss" type="Area2D" parent="." unique_id=1030604436 node_paths=PackedStringArray("bossToTrack")]
+scale = Vector2(3, 3)
+script = ExtResource("8_w0lom")
+bossToTrack = NodePath("../YSort/Golem")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraOverrideBoss" unique_id=888107746]
+position = Vector2(0, 50.523174)
+shape = SubResource("RectangleShape2D_f8i2q")
