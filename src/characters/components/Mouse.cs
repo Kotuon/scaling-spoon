@@ -72,8 +72,8 @@ public partial class Mouse : Component
         var joystick = Input.GetVector("mouse_left", "mouse_right", "mouse_up",
             "mouse_down");
 
-        joystick = Curves.CubicBezier(Vector2.Zero, Vector2.Zero, joystick * 0.25f,
-            joystick, joystick.Length());
+        joystick = Curves.CubicBezier(Vector2.Zero, Vector2.Zero,
+            joystick * 0.25f, joystick, joystick.Length());
 
         joystick *= maxRadius;
 
@@ -92,7 +92,8 @@ public partial class Mouse : Component
         if (useMouseDirection)
         {
             parent.GetComponent<OffsetCamera>().TriggerOffset(
-                (GlobalPosition - parent.GlobalPosition) * offsetPercent
+                (GlobalPosition - parent.GlobalPosition).Normalized()
+                * maxRadius * offsetPercent, 0.025f
             );
         }
     }

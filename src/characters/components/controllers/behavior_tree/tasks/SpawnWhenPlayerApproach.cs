@@ -50,6 +50,9 @@ public partial class SpawnWhenPlayerApproach : BehaviorNode
             }
 
             parent.EmitSignal(EnemyBase.SignalName.HasSpawned);
+            // Shake camera (half)
+            var camera = (target as Player).GetComponent<OffsetCamera>();
+            camera.add_trauma(0.25f);
         }
 
         var time = parent.spawn_audioplayer.GetPlaybackPosition() +
@@ -61,6 +64,10 @@ public partial class SpawnWhenPlayerApproach : BehaviorNode
             animHandler.canAdvance = false;
 
             animStarted = true;
+
+            // Shake camera full
+            var camera = (target as Player).GetComponent<OffsetCamera>();
+            camera.add_trauma(0.25f);
         }
 
         return BehaviorNode.Status.RUNNING;

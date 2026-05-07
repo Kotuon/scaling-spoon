@@ -1,16 +1,26 @@
 namespace Game.Component;
 
+using System;
+using System.Net;
 using Game.Entity;
 using Godot;
-using System;
 
 public partial class OffsetCamera : Camera2D
 {
+    [Export] private FastNoiseLite shake_noise;
+    [Export(PropertyHint.Range, "0, 1,")] private float decay = 0.8f;
+    [Export(PropertyHint.Range, "2, 3,")] private float trauma_strength = 2.0f;
+    [Export] private Vector2 max_shake_offset = new Vector2(100.0f, 75.0f);
+    [Export] private float max_roll = 0.0f;
+    private float trauma;
+    private float noise_y = 0.0f;
+    private Vector2 shake_offset = Vector2.Zero;
 
     private Node2D targetToTrack = null;
+    private Vector2 targetOrigin = Vector2.Zero;
     private Vector2 targetOffset = Vector2.Zero;
     private Vector2 targetZoom;
-    private float targetSpeed = 0.125f;
+    private float targetSpeed = 1.0f; // 0.125f
     private float trackStr = 0.5f;
 
     private Player _parent;
@@ -28,8 +38,7 @@ public partial class OffsetCamera : Camera2D
     }
 
     private Vector2 defaultZoom;
-
-    private bool useOffset = false;
+    [Export] private bool debug_draw = true;
 
     public partial class ZoomValues
     {
@@ -62,9 +71,8 @@ public partial class OffsetCamera : Camera2D
         targetZoom = defaultZoom;
     }
 
-
-    public void StartNodeTrack(Node2D target, float zoom_min, float zoom_max,
-        float dist_min, float dist_max, float str = 0.5f, float speed = 0.0075f)
+    public void StartNodeTrack(Node2D target, Vector2 lock_pos, float zoom_min, float zoom_max,
+        float dist_min, float dist_max, float str = 0.5f, float speed = 0.004f)
     {
         targetToTrack = target;
         targetSpeed = speed;
@@ -72,12 +80,21 @@ public partial class OffsetCamera : Camera2D
         zoom_values = new ZoomValues(zoom_min, zoom_max, dist_min, dist_max);
 
         trackStr = str;
+
+        // targetOrigin = lock_pos;
+        tween_vector2("targetOrigin", lock_pos, 1.25f);
     }
 
     public void CancelNodeTrack()
     {
         targetToTrack = null;
-        targetOffset = Vector2.Zero;
+
+        // tween_vector2("targetOffset", Vector2.Zero);
+
+        targetOffset = (targetOrigin - parent.GlobalPosition);
+        tween_vector2("targetOffset", Vector2.Zero, 1.0f);
+        targetOrigin = parent.GlobalPosition;
+
         targetZoom = defaultZoom;
     }
 
@@ -85,13 +102,16 @@ public partial class OffsetCamera : Camera2D
     {
         if (targetToTrack != null) return;
 
-        targetOffset = target;
+        // targetOffset = target;
+        tween_vector2("targetOffset", target);
         targetSpeed = speed;
     }
 
     public void CancelOffset()
     {
-        targetOffset = Vector2.Zero;
+        // targetOffset = Vector2.Zero;
+        tween_vector2("targetOffset", Vector2.Zero);
+        targetSpeed = 0.125f;
     }
 
     public override void _Process(double delta)
@@ -105,33 +125,65 @@ public partial class OffsetCamera : Camera2D
     {
         if (targetToTrack != null)
         {
+            var avg = targetToTrack.GlobalPosition * trackStr +
+                parent.GlobalPosition * (1.0f - trackStr);
+
             var between = targetToTrack.GlobalPosition - parent.GlobalPosition;
-
             float dist = between.Length();
-            GD.Print(dist);
 
-            targetOffset = between.Normalized() * dist * trackStr;
+            tween_vector2("targetOffset", ToLocal(avg));
 
             float new_zoom = zoom_values.get_new_zoom(dist);
             targetZoom = new Vector2(new_zoom, new_zoom);
-
-            // float new_zoom =
-
-            // targetOffset =
-            //     between * between.Length() / 2.0f;
         }
-        Offset = Offset.Lerp(targetOffset, targetSpeed);
+        else
+        {
+            targetOrigin = parent.GlobalPosition;
+        }
+
+        // if (trauma > 0.0)
+        // {
+        //     trauma = Mathf.Max(trauma - decay, 0.0f);
+        //     shake();
+        //     Offset = shake_offset;
+        // }
+        // else
+        // {
+        //     Position = Position.Lerp(Vector2.Zero, targetSpeed);
+        // }
+
+        GlobalPosition = targetOrigin + targetOffset;
+
         Zoom = Zoom.Lerp(targetZoom, targetSpeed);
         QueueRedraw();
+    }
 
+    public void add_trauma(float amount)
+    {
+        trauma = Mathf.Min(trauma + amount, 1.0f);
+    }
+
+    private void shake()
+    {
+        var amount = Mathf.Pow(trauma, trauma_strength);
+        noise_y += 1.0f;
+        Rotation = max_roll * amount *
+            shake_noise.GetNoise2D(shake_noise.Seed, noise_y);
+        shake_offset.X = max_shake_offset.X * amount *
+            shake_noise.GetNoise2D(shake_noise.Seed * 2, noise_y);
+        shake_offset.Y = max_shake_offset.Y * amount *
+            shake_noise.GetNoise2D(shake_noise.Seed * 3, noise_y);
     }
 
     public override void _Draw()
     {
+        if (!debug_draw) return;
+
         base._Draw();
 
         // target
-        DrawCircle(targetOffset, 10.0f, new Color(1, 0, 0, .5f));
+        DrawCircle(ToLocal(targetOrigin + targetOffset), 10.0f, new Color(1, 0, 0, .5f));
+        DrawCircle(ToLocal(GlobalPosition), 30.0f, new Color(1, 1, 0, .5f));
 
         // Player
         DrawCircle(ToLocal(parent.GlobalPosition), 5.0f, new Color(0, 0, 1, .5f));
@@ -140,4 +192,10 @@ public partial class OffsetCamera : Camera2D
             DrawCircle(ToLocal(targetToTrack.GlobalPosition), 20.0f, new Color(0, 1, 0, .5f));
     }
 
+    private void tween_vector2(string vec_name, Vector2 target,
+        float time = 0.25f)
+    {
+        Tween tween = GetTree().CreateTween();
+        tween.TweenProperty(this, vec_name, target, time);
+    }
 }

@@ -26,12 +26,8 @@ size = Vector2(500, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30b43"]
 size = Vector2(20, 500)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f8i2q"]
-size = Vector2(700, 500)
-
 [node name="TestArena" type="Node2D" unique_id=1491301583]
 texture_filter = 1
-scale = Vector2(1.115, 1.115)
 
 [node name="TileMaps" type="Node2D" parent="." unique_id=1049899744]
 scale = Vector2(3, 3)
@@ -69,13 +65,12 @@ tile_set = ExtResource("2_p4wga")
 
 [node name="YSort" type="Node2D" parent="." unique_id=1107887874]
 y_sort_enabled = true
-scale = Vector2(2, 2)
 
 [node name="Player" parent="YSort" unique_id=229953308 instance=ExtResource("3_fee4r")]
-position = Vector2(0, 504.4843)
-scale = Vector2(0.5, 0.5)
+position = Vector2(0, 1008.968)
 
 [node name="Golem" parent="YSort" unique_id=1265510272 groups=["Boss", "Enemies"] instance=ExtResource("3_b2c4i")]
+scale = Vector2(3, 3)
 
 [node name="DetailLayer" type="TileMapLayer" parent="YSort" unique_id=652114195]
 z_index = 1
@@ -135,7 +130,13 @@ shape = SubResource("RectangleShape2D_30b43")
 scale = Vector2(3, 3)
 script = ExtResource("8_w0lom")
 bossToTrack = NodePath("../YSort/Golem")
+trackStrength = 0.75
+zoomMin = 0.6
+zoomMax = 0.7
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CameraOverrideBoss" unique_id=888107746]
-position = Vector2(0, 50.523174)
-shape = SubResource("RectangleShape2D_f8i2q")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CameraOverrideBoss" unique_id=785126473]
+polygon = PackedVector2Array(-83.408066, 199.10313, -187.74289, 198.20627, -304.93274, 79.22272, -302.24216, -88.78924, -187.74289, -204.18535, 165.02242, -205.0822, 286.9955, -83.109116, 288.1913, 82.810165, 168.01195, 202.98953, 69.35725, 206.57698, 38.56502, 306.12854, -50.523167, 307.0254)
+
+[node name="ManaSphere2" parent="." unique_id=687204231 instance=ExtResource("5_p4wga")]
+position = Vector2(0, 1138.117)
+restore_amount = 100.0

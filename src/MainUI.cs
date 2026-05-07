@@ -17,7 +17,7 @@ public partial class MainUI : Control
         get
         {
             if (_parent == null)
-                _parent = GetNode<CharacterBase>("../..");
+                _parent = GetParent().GetParent<CharacterBase>();
             return _parent;
         }
     }
@@ -90,6 +90,8 @@ public partial class MainUI : Control
     public override void _Process(double delta)
     {
         base._Process(delta);
+
+        GlobalPosition = parent.GlobalPosition;
     }
 
     private void TweenProgressBarValue(ProgressBar bar, float newValue)

@@ -82,10 +82,11 @@ public partial class Dash : Ability
 
         var velocity = move.UpdateWalk(currSpeed, speed, delta, dir);
 
-
-
+        // parent.GetComponent<OffsetCamera>().TriggerOffset(
+        //     velocity.Normalized() * 750.0f, 0.0035f
+        // );
         parent.GetComponent<OffsetCamera>().TriggerOffset(
-            velocity.Normalized() * 350.0f, 0.0035f
+            velocity.Normalized() * 350.0f, 0.025f
         );
 
         parent.SetVelocity(velocity);
