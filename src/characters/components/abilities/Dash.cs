@@ -86,7 +86,7 @@ public partial class Dash : Ability
         //     velocity.Normalized() * 750.0f, 0.0035f
         // );
         parent.GetComponent<OffsetCamera>().TriggerOffset(
-            velocity.Normalized() * 350.0f, 0.025f
+            velocity.Normalized() * 350.0f, 0.25f
         );
 
         parent.SetVelocity(velocity);

@@ -35,7 +35,5 @@ public partial class CameraOverrideBoss : Area2D
 
         var camera = (node as Player).GetComponent<OffsetCamera>();
         camera.CancelNodeTrack();
-
-        GD.Print("Exit");
     }
 }

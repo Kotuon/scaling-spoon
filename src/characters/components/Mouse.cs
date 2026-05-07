@@ -93,7 +93,7 @@ public partial class Mouse : Component
         {
             parent.GetComponent<OffsetCamera>().TriggerOffset(
                 (GlobalPosition - parent.GlobalPosition).Normalized()
-                * maxRadius * offsetPercent, 0.025f
+                * maxRadius * offsetPercent, 0.25f
             );
         }
     }

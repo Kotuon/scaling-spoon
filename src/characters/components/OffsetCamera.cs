@@ -63,6 +63,9 @@ public partial class OffsetCamera : Camera2D
 
     private ZoomValues zoom_values;
 
+    private bool running_tween = false;
+    private bool has_locked = false;
+
     public override void _Ready()
     {
         base._Ready();
@@ -82,35 +85,33 @@ public partial class OffsetCamera : Camera2D
         trackStr = str;
 
         // targetOrigin = lock_pos;
-        tween_vector2("targetOrigin", lock_pos, 1.25f);
+        // tween_vector2("targetOrigin", lock_pos, 2.5f);
+        has_locked = false;
+        targetOffset = Vector2.Zero;
     }
 
     public void CancelNodeTrack()
     {
         targetToTrack = null;
 
-        // tween_vector2("targetOffset", Vector2.Zero);
-
-        targetOffset = (targetOrigin - parent.GlobalPosition);
-        tween_vector2("targetOffset", Vector2.Zero, 1.0f);
+        targetOffset += (targetOrigin - parent.GlobalPosition);
+        tween_vector2("targetOffset", Vector2.Zero, 1.0f, true);
         targetOrigin = parent.GlobalPosition;
 
         targetZoom = defaultZoom;
     }
 
-    public void TriggerOffset(Vector2 target, float speed = 0.125f)
+    public void TriggerOffset(Vector2 target, float speed = 0.25f)
     {
         if (targetToTrack != null) return;
 
-        // targetOffset = target;
-        tween_vector2("targetOffset", target);
+        tween_vector2("targetOffset", target, speed, true);
         targetSpeed = speed;
     }
 
     public void CancelOffset()
     {
-        // targetOffset = Vector2.Zero;
-        tween_vector2("targetOffset", Vector2.Zero);
+        tween_vector2("targetOffset", Vector2.Zero, override_curr: true);
         targetSpeed = 0.125f;
     }
 
@@ -131,7 +132,18 @@ public partial class OffsetCamera : Camera2D
             var between = targetToTrack.GlobalPosition - parent.GlobalPosition;
             float dist = between.Length();
 
-            tween_vector2("targetOffset", ToLocal(avg));
+            float speed = 0.25f;
+            bool can_override = true;
+            if (!has_locked)
+            {
+                speed = 2.0f;
+                can_override = false;
+
+                var timer = GetTree().CreateTimer(speed);
+                timer.Timeout += () => has_locked = true;
+            }
+
+            tween_vector2("targetOrigin", avg, speed, can_override);
 
             float new_zoom = zoom_values.get_new_zoom(dist);
             targetZoom = new Vector2(new_zoom, new_zoom);
@@ -193,9 +205,15 @@ public partial class OffsetCamera : Camera2D
     }
 
     private void tween_vector2(string vec_name, Vector2 target,
-        float time = 0.25f)
+        float time = 0.25f, bool override_curr = false)
     {
+        if (running_tween && !override_curr) return;
+
+        running_tween = true;
+
         Tween tween = GetTree().CreateTween();
         tween.TweenProperty(this, vec_name, target, time);
+
+        tween.Finished += () => running_tween = false;
     }
 }
