@@ -9,7 +9,7 @@ public partial class Health : Component
     [Export] public float max = 100.0f;
 
     private float _curr;
-    protected float curr
+    public float curr
     {
         get => _curr;
 

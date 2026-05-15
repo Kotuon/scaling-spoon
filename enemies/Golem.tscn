@@ -26,8 +26,6 @@
 [ext_resource type="PackedScene" uid="uid://ds22gsmigjntg" path="res://enemies/components/EnemyMouse.tscn" id="17_mn8tp"]
 [ext_resource type="AudioStream" uid="uid://cbnu33mbh86o8" path="res://assets/audio/spawn/Fantasy_Game_Magic_Earth_Long_Cast_Spell_A.wav" id="25_bw0le"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
-
 [sub_resource type="CircleShape2D" id="CircleShape2D_5x1vr"]
 radius = 22.05
 
@@ -351,12 +349,14 @@ _data = {
 &"walk": SubResource("Animation_saj1q")
 }
 
-[node name="Golem" type="CharacterBody2D" unique_id=1265510272]
+[node name="Golem" type="CharacterBody2D" unique_id=1265510272 node_paths=PackedStringArray("move", "animationHandler")]
 texture_filter = 1
 scale = Vector2(1.5, 1.5)
 collision_layer = 16
 collision_mask = 19
 script = ExtResource("1_5x1vr")
+move = NodePath("AbilityManager/Move")
+animationHandler = NodePath("AnimationHandler")
 
 [node name="AbilityManager" parent="." unique_id=782651209 instance=ExtResource("2_l5jj5")]
 
@@ -380,11 +380,6 @@ scale = Vector2(1.5, 1.5)
 proj = ExtResource("7_t24s0")
 damage = 10.0
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2035412392]
-visible = false
-scale = Vector2(100, 100)
-mesh = SubResource("QuadMesh_o5cky")
-
 [node name="EnemyBaseController" parent="." unique_id=1880682395 instance=ExtResource("6_e31si")]
 
 [node name="BehaviorTree" parent="." unique_id=1657930568 instance=ExtResource("7_a5w1j")]
@@ -396,7 +391,7 @@ mesh = SubResource("QuadMesh_o5cky")
 [node name="FindTarget" parent="BehaviorTree/SequenceNode/SequenceNode" unique_id=26824330 instance=ExtResource("9_yj63f")]
 
 [node name="SpawnWhenPlayerApproach" parent="BehaviorTree/SequenceNode/SequenceNode" unique_id=1889695998 instance=ExtResource("10_e31si")]
-spawnDistance = 200.0
+spawnDistance = 300.0
 
 [node name="Wait6" parent="BehaviorTree/SequenceNode" unique_id=1468860412 instance=ExtResource("13_bw0le")]
 wait_time = 2.0

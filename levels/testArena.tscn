@@ -7,7 +7,7 @@
 [ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="4_b2c4i"]
 [ext_resource type="PackedScene" uid="uid://2s7pvqrw0cuh" path="res://items/mana_interactions/ManaSphere.tscn" id="5_p4wga"]
 [ext_resource type="Script" uid="uid://gp3y3xie3y8e" path="res://levels/TriggerWalls.cs" id="7_30b43"]
-[ext_resource type="Script" uid="uid://dtw1pn34pxwmo" path="res://levels/CameraOverrideBoss.cs" id="8_w0lom"]
+[ext_resource type="Script" uid="uid://dtw1pn34pxwmo" path="res://src/CameraOverrideBoss.cs" id="8_w0lom"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_b2c4i"]
 vertices = PackedVector2Array(434.0625, -472.96094, 729.8672, -204.89063, 729.8672, 199.53906, 475.72656, 468.1172, -518.75, 472.32813, -504.42188, -488.0703, -787.4531, -202.74219, -789.75, 213.5)
@@ -131,6 +131,7 @@ scale = Vector2(3, 3)
 script = ExtResource("8_w0lom")
 bossToTrack = NodePath("../YSort/Golem")
 trackStrength = 0.75
+trackSpeed = 0.003
 zoomMin = 0.6
 zoomMax = 0.7
 

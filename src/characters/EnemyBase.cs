@@ -6,36 +6,79 @@ using System;
 
 public partial class EnemyBase : CharacterBase
 {
-    [Signal] public delegate void HasSpawnedEventHandler();
-    private AudioStreamPlayer2D _spawn_audioplayer;
-    public AudioStreamPlayer2D spawn_audioplayer
-    {
-        set => _spawn_audioplayer = value;
-        get
-        {
-            if (_spawn_audioplayer == null)
-            {
-                _spawn_audioplayer =
-                    GetNode<AudioStreamPlayer2D>("Spawn_AudioPlayer");
-            }
+	[Export]
+	public Move move;
+	[Export]
+	public AnimationHandler animationHandler;
+	[Signal]
+	public delegate void HasSpawnedEventHandler();
+	[Signal]
+	public delegate void StartStunEventHandler();
+	[Signal]
+	public delegate void EndStunEventHandler();
+	private AudioStreamPlayer2D _spawn_audioplayer;
+	public AudioStreamPlayer2D spawn_audioplayer
+	{
+		set => _spawn_audioplayer = value;
+		get {
+			if (_spawn_audioplayer == null)
+			{
+				_spawn_audioplayer = GetNode<AudioStreamPlayer2D>("Spawn_AudioPlayer");
+			}
 
-            return _spawn_audioplayer;
-        }
-    }
-    public override void _Ready()
-    {
-        base._Ready();
+			return _spawn_audioplayer;
+		}
+	}
 
-        AddToGroup("Enemies", true);
+	private ProgressBar _healthBar = null;
+	public ProgressBar healthBar
+	{
+		set
+		{
+			_healthBar = value;
+			_healthBar.MaxValue = GetComponent<Health>().max;
+			_healthBar.MinValue = 0.0f;
+			_healthBar.Value = GetComponent<Health>().curr;
+		}
+		get => _healthBar;
+	}
 
-        GetComponent<AnimationHandler>().PlayAnimation(
-            "wait_to_spawn", Vector2.Right);
+	public override void _Ready()
+	{
+		base._Ready();
 
-        HasSpawned += PlaySpawnAudio;
-    }
+		AddToGroup("Enemies", true);
 
-    private void PlaySpawnAudio()
-    {
-        spawn_audioplayer.Play();
-    }
+		GetComponent<AnimationHandler>().PlayAnimation("wait_to_spawn", Vector2.Right);
+
+		HasSpawned += PlaySpawnAudio;
+
+		GetComponent<Health>().health_changed += UpdateHealth;
+	}
+
+	private void UpdateHealth(float newAmount)
+	{
+			healthBar.Value = newAmount;
+	}
+
+	private void PlaySpawnAudio()
+	{
+		spawn_audioplayer.Play();
+	}
+
+	public override void Damage(float amount)
+	{
+		base.Damage(amount);
+
+		if (animationHandler != null)
+		{
+			animationHandler.PlayAnimation("hit", Vector2.Zero);
+			animationHandler.canAdvance = false;
+			move.currWalkSpeed = 0.0f;
+		}
+
+		EmitSignal(SignalName.StartStun);
+		animationHandler.animationPlayer.AnimationFinished += (StringName s) =>
+		{ EmitSignal(SignalName.EndStun); };
+	}
 }
