@@ -101,12 +101,12 @@ public partial class OffsetCamera : Camera2D
         targetZoom = defaultZoom;
     }
 
-    public void TriggerOffset(Vector2 target, float speed = 0.25f)
+    public void TriggerOffset(Vector2 target, float timeToOffset = 0.25f)
     {
         if (targetToTrack != null) return;
 
-        tween_vector2("targetOffset", target, speed, true);
-        targetSpeed = speed;
+        tween_vector2("targetOffset", target, timeToOffset, true);
+        targetSpeed = timeToOffset;
     }
 
     public void CancelOffset()

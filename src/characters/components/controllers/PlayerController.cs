@@ -6,63 +6,52 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
-enum InputState : int
-{
+enum InputState : int {
     None,
     Pressed,
     Released,
 }
 
-public partial class PlayerController : Controller
-{
-    public override Vector2 moveInput
-    {
+public partial class PlayerController : Controller {
+    public override Vector2 moveInput {
         set => _moveInput = value;
-        get
-        {
-            _moveInput = Input.GetVector("walk_left",
-                "walk_right", "walk_up", "walk_down");
+        get {
+            _moveInput = Input.GetVector( "walk_left", "walk_right", "walk_up",
+                                          "walk_down" );
+
+            if ( !_moveInput.IsZeroApprox() ) lastInput = _moveInput;
 
             return _moveInput;
         }
     }
 
-
     [Export]
-    public Godot.Collections.Dictionary<string, Ability> actionMap =
-            new Godot.Collections.Dictionary<string, Ability>();
+    public Godot.Collections.Dictionary< string, Ability > actionMap = [];
 
-    public override void _Ready()
-    {
+    public override void _Ready() {
         base._Ready();
 
-        var actions = GetNode<AbilityManager>("../AbilityManager").GetChildren();
+        var actions =
+            GetNode< AbilityManager >( "../AbilityManager" ).GetChildren();
 
-        foreach (Node action in actions)
-        {
+        foreach ( Node action in actions ) {
             Ability ability = action as Ability;
-            actionMap.Add(ability.abilityName, ability);
+            actionMap.Add( ability.abilityName, ability );
         }
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        base._Input(@event);
+    public override void _Input( InputEvent @event ) {
+        base._Input( @event );
 
-        foreach (var action in actionMap)
-        {
+        foreach ( var action in actionMap ) {
             Ability ability = action.Value;
 
-            if (@event.IsActionPressed(action.Key))
-            {
+            if ( @event.IsActionPressed( action.Key ) ) {
                 ability.Pressed();
             }
-            if (@event.IsActionReleased(action.Key))
-            {
+            if ( @event.IsActionReleased( action.Key ) ) {
                 ability.Released();
             }
         }
     }
-
 }

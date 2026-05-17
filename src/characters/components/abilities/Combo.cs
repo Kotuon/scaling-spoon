@@ -1,105 +1,141 @@
 namespace Game.Component;
 
 using Godot;
-using System;
+using Godot.Collections;
+using Game.Entity;
 
-public partial class Combo : Ability
-{
-    private int maxAttack = 2;
-    private int currAttack = 0;
-    private bool triggerNext = false;
-    Combo() : base("combo")
-    {
+public partial class Combo : Ability {
+	[Export]
+	public float damage = 5.0f;
+	private int maxAttack = 2;
+	private int currAttack = 0;
+	private bool triggerNext = false;
 
-    }
+	private Area2D _damageArea = null;
+	protected Area2D damageArea { private
+		set => _damageArea = value;
+		get {
+			if ( _damageArea == null ) {
+				_damageArea = GetNode< Area2D >( "DamageArea" );
+			}
+			return _damageArea;
+		}
+	}
 
-    public override void _Ready()
-    {
-        base._Ready();
-    }
+	private Dictionary< StringName, Node2D > bodiesInDamageArea = [];
 
-    public override void Pressed()
-    {
-        // base.Pressed();
-        Trigger();
-    }
+	Combo() : base( "combo" ) {}
 
-    public override void Released()
-    {
-        // base.Released();
-    }
+	public override void _Ready() {
+		base._Ready();
 
-    public override void Trigger()
-    {
-        base.Trigger();
+		damageArea.BodyEntered += BodyEntered;
+		damageArea.BodyExited += BodyExited;
+	}
 
-        if (!triggerNext)
-            currAttack += 1;
+	public override void Pressed() {
+		// base.Pressed();
+		Trigger();
+	}
 
-        GD.Print(currAttack);
+	public override void Released() {
+		// base.Released();
+	}
 
-        if (currAttack > maxAttack)
-        {
-            triggerNext = false;
-            return;
-        }
+	public override void Trigger() {
+		base.Trigger();
 
-        if (currAttack == 1)
-        {
-            var inputDirection = parent.GetComponent<Controller>().moveInput;
-            animHandler.PlayAnimation(abilityName + "_init", inputDirection);
-        }
+		if ( !triggerNext ) currAttack += 1;
 
-        move.canMove = false;
-        triggerNext = true;
-    }
+		// GD.Print(currAttack);
 
-    public override void Update(double delta)
-    {
-        base.Update(delta);
+		if ( currAttack > maxAttack ) {
+			triggerNext = false;
+			return;
+		}
 
-        if (!isActive) return;
+		if ( currAttack == 1 ) {
+			var inputDirection = parent.GetComponent< Controller >().moveInput;
+			animHandler.PlayAnimation( abilityName + "_init", inputDirection );
+		}
 
-        if (animHandler.GetCurrentAnimation().Find(abilityName) == -1)
-        {
-            if (triggerNext)
-            {
-                var name = abilityName + "_" + currAttack.ToString();
-                GD.Print(name);
+		move.canMove = false;
+		triggerNext = true;
+	}
 
-                var inputDirection =
-                    parent.GetComponent<Controller>().moveInput;
-                animHandler.PlayAnimation(
-                    abilityName + "_" + currAttack.ToString(), inputDirection);
+	public override void _Process( double delta ) {
 
-                triggerNext = false;
-            }
-            else
-            {
-                StartCooldown();
-                End();
-            }
-        }
-    }
+		var inputDirection = parent.GetComponent< Controller >().lastInput;
+		UpdateHitbox( inputDirection );
 
+		base._Process( delta );
+	}
 
-    public override void End()
-    {
-        base.End();
+	public override void Update( double delta ) {
+		base.Update( delta );
 
-        GD.Print("End");
+		if ( !isActive ) return;
 
-        currAttack = 0;
-        triggerNext = false;
+		if ( animHandler.GetCurrentAnimation().Find( abilityName ) == -1 ) {
+			if ( triggerNext ) {
+				// var name = abilityName + "_" + currAttack.ToString();
+				// GD.Print(name);
 
-        var inputDirection = parent.GetComponent<Controller>().moveInput;
-        animHandler.PlayAnimation(abilityName + "_end", inputDirection);
-        animHandler.canAdvance = false;
-    }
+				var inputDirection =
+					parent.GetComponent< Controller >().lastInput;
+				animHandler.PlayAnimation(
+					abilityName + "_" + currAttack.ToString(), inputDirection );
 
+				UpdateHitbox( inputDirection );
 
-    private void UpdateHitbox(Vector2 input)
-    {
-        // move attack hitbox based on input direction
-    }
+				triggerNext = false;
+			} else {
+				StartCooldown();
+				End();
+			}
+		}
+	}
+
+	public void TriggerHit() {
+		foreach ( var ( _name, body ) in bodiesInDamageArea ) {
+			( body as IDamageable ).Damage( damage );
+		}
+	}
+
+	public override void End() {
+		base.End();
+
+		// GD.Print("End");
+
+		currAttack = 0;
+		triggerNext = false;
+
+		var inputDirection = parent.GetComponent< Controller >().moveInput;
+		animHandler.PlayAnimation( abilityName + "_end", inputDirection );
+		animHandler.canAdvance = false;
+	}
+
+	private void UpdateHitbox( Vector2 input ) {
+		// move attack hitbox based on input direction
+		float angle = input.Angle();
+
+		float length = Position.Length();
+
+		var newPosition = Vector2.FromAngle( angle ) * length;
+		Position = newPosition;
+	}
+
+	private void BodyEntered( Node2D body ) {
+		GD.Print( body.Name );
+		if ( body is IDamageable &&
+			 !bodiesInDamageArea.ContainsKey( body.Name ) ) {
+			bodiesInDamageArea.Add( body.Name, body );
+		}
+	}
+
+	private void BodyExited( Node2D body ) {
+		if ( bodiesInDamageArea.ContainsKey( body.Name ) ) {
+			bodiesInDamageArea.Remove( body.Name );
+		}
+	}
 }

@@ -409,6 +409,7 @@ script = ExtResource("39_ayguc")
 shake_noise = SubResource("FastNoiseLite_y2u3w")
 decay = 0.01
 trauma_strength = 2.5
+debug_draw = false
 
 [node name="Control" type="Control" parent="Camera2D" unique_id=221681312]
 z_index = 1
@@ -442,6 +443,7 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_w36ex")
 value = 62.19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=195966125]
+visible = false
 y_sort_enabled = true
 position = Vector2(0, 21)
 shape = SubResource("CapsuleShape2D_fmlfo")

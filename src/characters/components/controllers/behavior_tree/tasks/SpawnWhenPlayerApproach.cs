@@ -34,6 +34,8 @@ public partial class SpawnWhenPlayerApproach : BehaviorNode
         {
             hasSpawned = true;
 
+            parent.EmitSignal(EnemyBase.SignalName.FinishedSpawning);
+
             return BehaviorNode.Status.SUCCESS;
         }
 

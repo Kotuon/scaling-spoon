@@ -17,4 +17,11 @@ public partial class Controller : Component
             return _moveInput;
         }
     }
+
+    protected Vector2 _lastInput;
+    public Vector2 lastInput
+    {
+        set => _lastInput = value;
+        get => _lastInput;
+    }
 }
