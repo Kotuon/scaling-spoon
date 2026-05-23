@@ -44,7 +44,6 @@ public partial class MoveToTargetWithNav : MoveToTarget
 
         Controller controller = parent.GetComponent<Controller>();
 
-
         if (has_reached_target(
             (target as Node2D).GlobalPosition, parent.GlobalPosition))
         {
@@ -54,6 +53,7 @@ public partial class MoveToTargetWithNav : MoveToTarget
         }
 
         controller.moveInput = target_position - parent.GlobalPosition;
+        // GD.Print(controller.moveInput);
 
         counter += context["delta"].As<float>();
         if (counter >= timeout)

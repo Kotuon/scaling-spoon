@@ -56,7 +56,17 @@ public partial class AnimationHandler : Component {
     [Export]
     public bool canAdvance = true;
 
+    [Signal]
+    public delegate void AnimationFinishedEventHandler( StringName animName );
+
     ////////////////////////////////////////////////////////////////////////////
+    public override void _Ready() {
+        base._Ready();
+
+        animationPlayer.AnimationFinished += ( StringName animName ) => {
+            EmitSignal( SignalName.AnimationFinished, animName );
+        };
+    }
 
     public override void _Process( double delta ) {
         if ( !canAdvance ) {
@@ -125,13 +135,32 @@ public partial class AnimationHandler : Component {
         animationPlayer.Play( animationLibrary + "/" + animName );
     }
     public bool IsCurrentAnimationPlaying( String animName ) {
-        if ( IsCurrentlyPlaying() &&
-             animationPlayer.CurrentAnimation ==
-                 ( animationLibrary + "/" + animName ) ) {
+        if ( IsCurrentlyPlaying() && animationPlayer.CurrentAnimation.Equals(
+                                         animationLibrary + "/" + animName ) ) {
             return true;
         }
 
         return false;
+    }
+
+    public bool IsCurrentAnimationFinished( String animName ) {
+        StringName nameToCheck = animationLibrary + "/" + animName;
+        var currAnimName = animationPlayer.CurrentAnimation;
+
+        // GD.Print(" Does: " + nameToCheck + " == " + currAnimName);
+
+        bool isAnim = currAnimName.Equals( nameToCheck );
+
+        if ( !isAnim ) {
+            return false;
+        }
+
+        if ( animationPlayer.CurrentAnimationPosition <
+             animationPlayer.CurrentAnimationLength ) {
+            return false;
+        }
+
+        return true;
     }
 
     public void PlayAnimation( String animName, Vector2 inputDir, float speed,
