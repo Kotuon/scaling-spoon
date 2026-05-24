@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using Game.Entity;
 using Godot;
 
@@ -8,7 +7,7 @@ public partial class TriggerWalls : StaticBody2D {
     public override void _Ready() {
         base._Ready();
 
-        var boss = GetNode< EnemyBase >( "../YSort/Golem" );
+        var boss = GetNode< EnemyBase >( "../Golem" );
         boss.HasSpawned += OnTrigger;
         boss.Death += OnBossDeath;
 
@@ -24,6 +23,9 @@ public partial class TriggerWalls : StaticBody2D {
 
                 var effect = child.GetNode< Sprite2D >( "Effect" );
                 effect.Frame = effect.Hframes - 1;
+
+                var collider = child.GetNode< CollisionShape2D >( "Collider" );
+                collider.Disabled = true;
             }
         }
 
@@ -50,6 +52,9 @@ public partial class TriggerWalls : StaticBody2D {
             var effectPlayer =
                 pillar.GetNode< AnimationPlayer >( "Effect/AnimationPlayer" );
             effectPlayer.Play( "base" );
+
+            var collider = pillar.GetNode< CollisionShape2D >( "Collider" );
+            collider.Disabled = false;
         }
     }
 }

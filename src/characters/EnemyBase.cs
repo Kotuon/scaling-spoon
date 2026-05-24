@@ -64,6 +64,9 @@ public partial class EnemyBase : CharacterBase {
             };
 
         GetComponent< Health >().health_changed += UpdateHealth;
+
+        Damaged += TakenDamage;
+        Death += HasDied;
     }
 
     private void UpdateHealth( float newAmount ) {
@@ -76,14 +79,12 @@ public partial class EnemyBase : CharacterBase {
         if ( !canTakeDamage ) return;
 
         base.Damage( amount );
+    }
 
+    private void TakenDamage( float amount ) {
         foreach ( var action in unstunableActions ) {
             if ( animationHandler.IsCurrentAnimationPlaying( action ) ) return;
         }
-
-        // if ( animationHandler.IsCurrentAnimationPlaying( "hit" ) ) return;
-        // if ( animationHandler.IsCurrentAnimationPlaying( "clamp" ) ) return;
-        // if ( animationHandler.IsCurrentAnimationPlaying( "stomp" ) ) return;
 
         if ( animationHandler != null ) {
             animationHandler.PlayAnimation( "hit", Vector2.Zero );
@@ -97,9 +98,9 @@ public partial class EnemyBase : CharacterBase {
         EmitSignal( SignalName.StartStun );
     }
 
-    public override void Dies() {
-        base.Dies();
-
-        animationHandler.PlayAnimation("death", Vector2.Zero);
+    private void HasDied() {
+        animationHandler.PlayAnimation( "death", Vector2.Zero );
+        move.movementOverride = true;
+        MotionMode = MotionModeEnum.Floating;
     }
 }

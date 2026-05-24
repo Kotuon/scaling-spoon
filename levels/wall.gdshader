@@ -14,6 +14,8 @@ uniform sampler2D noise : repeat_enable, filter_nearest;
 
 uniform float distortion_str : hint_range(-1, 1) = 0.2;
 
+uniform float blur_str : hint_range(0, 5.0) = 1.0;
+
 void vertex() {
 	// Called for every vertex the material is visible on.
 	if (x_or_y == 0) {
@@ -29,7 +31,7 @@ void fragment() {
 	// Called for every pixel the material is visible on.
 	//COLOR = vec4(1.0, 1.0, 1.0, 1.0);
 	float depth = texture(noise, UV * TIME).r;
-	vec4 screen_col = texture(SCREEN_TEXTURE, (SCREEN_UV) - distortion_str * vec2(depth));
+	vec4 screen_col = textureLod(SCREEN_TEXTURE, (SCREEN_UV) - distortion_str * vec2(depth), blur_str);
 	
 	COLOR = screen_col + 0.10;
 

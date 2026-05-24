@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 
 public partial class CharacterBase : CharacterBody2D, IDamageable {
     [Signal]
-    public delegate void collisionEventHandler();
+    public delegate void CollisionEventHandler();
     [Signal]
-    public delegate void damagedEventHandler( float damageAmount );
+    public delegate void DamagedEventHandler( float damageAmount );
     [Signal]
     public delegate void DeathEventHandler();
     // [Export] protected Godot.Collections.Dictionary attributes;
@@ -55,9 +55,10 @@ public partial class CharacterBase : CharacterBody2D, IDamageable {
         Health health = GetComponent< Health >();
         if ( health == null ) return;
 
-        health.Use( amount );
-
-        EmitSignal( SignalName.damaged, amount );
+        if ( !health.Use( amount ) )
+            EmitSignal( SignalName.Damaged, amount );
+        else
+            Dies();
     }
 
     public virtual void Dies() {

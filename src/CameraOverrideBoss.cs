@@ -1,9 +1,9 @@
 using Godot;
 using Game.Entity;
 using Game.Component;
+using System.Reflection.Metadata;
 
-public partial class CameraOverrideBoss : Area2D
-{
+public partial class CameraOverrideBoss : Area2D {
     [Export]
     Node2D bossToTrack;
     [Export]
@@ -19,35 +19,49 @@ public partial class CameraOverrideBoss : Area2D
     [Export]
     float maxDistance = 700.0f;
 
-    public override void _Ready()
-    {
+    private Player playerRef = null;
+    private bool ignore = false;
+
+    public override void _Ready() {
         base._Ready();
 
         BodyEntered += Entered;
         BodyExited += Exited;
+
+        ( bossToTrack as CharacterBase ).Death += () => {
+            ignore = true;
+
+            if (playerRef == null) return;
+
+            var camera = playerRef.GetComponent< OffsetCamera >();
+            camera.CancelNodeTrack();
+        };
     }
 
-    private void Entered(Node2D node)
-    {
-        if (node is not Player)
-            return;
+    private void Entered( Node2D node ) {
+        if ( ignore || node is not Player ) return;
+        playerRef = ( node as Player );
 
-        var camera = (node as Player).GetComponent<OffsetCamera>();
-        camera.StartNodeTrack(bossToTrack, GlobalPosition, zoomMin, zoomMax, minDistance, maxDistance, trackStrength);
+        var camera = ( node as Player ).GetComponent< OffsetCamera >();
+        camera.StartNodeTrack( bossToTrack, GlobalPosition, zoomMin, zoomMax,
+                               minDistance, maxDistance, trackStrength );
 
-        var boss = (bossToTrack as EnemyBase);
+        var boss = ( bossToTrack as EnemyBase );
 
-        boss.healthBar = (ProgressBar)GD.Load<PackedScene>("res://menus/HealthBar.tscn").Instantiate();
+        boss.healthBar =
+            ( ProgressBar )GD
+                .Load< PackedScene >( "res://menus/HealthBar.tscn" )
+                .Instantiate();
 
-        (node as Player).GetNode("Camera2D/Control/Locked").AddChild(boss.healthBar);
+        ( node as Player )
+            .GetNode( "Camera2D/Control/Locked" )
+            .AddChild( boss.healthBar );
     }
 
-    private void Exited(Node2D node)
-    {
-        if (node is not Player)
-            return;
+    private void Exited( Node2D node ) {
+        if ( ignore || node is not Player ) return;
 
-        var camera = (node as Player).GetComponent<OffsetCamera>();
+        var camera = ( node as Player ).GetComponent< OffsetCamera >();
         camera.CancelNodeTrack();
     }
 }

@@ -6,81 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="3_fee4r"]
 [ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="4_b2c4i"]
 [ext_resource type="PackedScene" uid="uid://2s7pvqrw0cuh" path="res://items/mana_interactions/ManaSphere.tscn" id="5_p4wga"]
+[ext_resource type="PackedScene" uid="uid://bhspg1m0gixv8" path="res://levels/pillar.tscn" id="7_1dtt4"]
 [ext_resource type="Script" uid="uid://gp3y3xie3y8e" path="res://levels/TriggerWalls.cs" id="7_30b43"]
-[ext_resource type="Texture2D" uid="uid://bkm8ilpxaoeej" path="res://assets/art/Environment/Props/animated/altar-front pillars.png" id="8_82lsh"]
 [ext_resource type="Shader" uid="uid://dfas43rjiev6x" path="res://levels/wall.gdshader" id="8_dj3kb"]
-[ext_resource type="Texture2D" uid="uid://bsa61sq1sq3wb" path="res://assets/art/Environment/Props/animated/altar-aura fx.png" id="8_f8i2q"]
 [ext_resource type="Script" uid="uid://dtw1pn34pxwmo" path="res://src/CameraOverrideBoss.cs" id="8_w0lom"]
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_b2c4i"]
-vertices = PackedVector2Array(434.0625, -472.96094, 729.8672, -204.89063, 729.8672, 199.53906, 475.72656, 468.1172, -518.75, 472.32813, -504.42188, -488.0703, -787.4531, -202.74219, -789.75, 213.5)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(0, 3, 4), PackedInt32Array(5, 0, 4), PackedInt32Array(6, 5, 4), PackedInt32Array(6, 4, 7)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-537.2197, -568.60986, 465.47086, -552.4664, 809.8654, -240.35875, 809.8654, 231.39012, 510.3139, 547.982, -550.67267, 552.4663, -869.95514, 247.53362, -867.2646, -235.87444)])
-sample_partition_type = 1
-source_geometry_mode = 1
-agent_radius = 80.0
-
-[sub_resource type="Animation" id="Animation_f8i2q"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../PillarSprite:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_82lsh"]
-resource_name = "base"
-length = 0.8
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../PillarSprite:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_dj3kb"]
-_data = {
-&"RESET": SubResource("Animation_f8i2q"),
-&"base": SubResource("Animation_82lsh")
-}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w0lom"]
 size = Vector2(500, 20)
@@ -94,6 +23,7 @@ shader_parameter/speed = 10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6qjo5"]
 shader = ExtResource("8_dj3kb")
@@ -104,6 +34,7 @@ shader_parameter/speed = 3.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_ybaiv"]
 material = SubResource("ShaderMaterial_6qjo5")
@@ -120,6 +51,7 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_30b43"]
 size = Vector2(20, 500)
@@ -133,6 +65,7 @@ shader_parameter/speed = 10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wg4e6"]
 shader = ExtResource("8_dj3kb")
@@ -143,6 +76,7 @@ shader_parameter/speed = 3.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_3in51"]
 material = SubResource("ShaderMaterial_wg4e6")
@@ -159,6 +93,7 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aevqx"]
 shader = ExtResource("8_dj3kb")
@@ -169,6 +104,7 @@ shader_parameter/speed = 10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t3tmt"]
 shader = ExtResource("8_dj3kb")
@@ -179,6 +115,7 @@ shader_parameter/speed = 3.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_wg4e6"]
 material = SubResource("ShaderMaterial_t3tmt")
@@ -195,6 +132,7 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_dj3kb"]
 material = SubResource("ShaderMaterial_t3tmt")
@@ -211,6 +149,7 @@ shader_parameter/speed = 10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3in51"]
 shader = ExtResource("8_dj3kb")
@@ -221,6 +160,7 @@ shader_parameter/speed = 3.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_3unnk"]
 material = SubResource("ShaderMaterial_3in51")
@@ -237,6 +177,7 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1114x"]
 shader = ExtResource("8_dj3kb")
@@ -247,6 +188,7 @@ shader_parameter/speed = 10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8vpoc"]
 shader = ExtResource("8_dj3kb")
@@ -257,6 +199,7 @@ shader_parameter/speed = 3.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_t3tmt"]
 material = SubResource("ShaderMaterial_8vpoc")
@@ -273,6 +216,7 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3unnk"]
 shader = ExtResource("8_dj3kb")
@@ -283,6 +227,7 @@ shader_parameter/speed = 10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dj3kb"]
 shader = ExtResource("8_dj3kb")
@@ -293,6 +238,7 @@ shader_parameter/speed = 3.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_1dtt4"]
 material = SubResource("ShaderMaterial_dj3kb")
@@ -309,6 +255,7 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b2c4i"]
 size = Vector2(1050, 20)
@@ -322,6 +269,7 @@ shader_parameter/speed = 10.0
 shader_parameter/range = 0.2000000095
 shader_parameter/softness = 0.05000000167648
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_8vpoc"]
 material = SubResource("ShaderMaterial_t3tmt")
@@ -338,6 +286,7 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2000000095
 shader_parameter/softness = 0.05000000167648
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_dj3kb"]
 
@@ -354,6 +303,7 @@ shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/noise = SubResource("NoiseTexture2D_1dtt4")
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1dtt4"]
 shader = ExtResource("8_dj3kb")
@@ -364,6 +314,7 @@ shader_parameter/speed = 3.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_6qjo5"]
 material = SubResource("ShaderMaterial_1dtt4")
@@ -380,6 +331,15 @@ shader_parameter/speed = -10.0
 shader_parameter/range = 0.2
 shader_parameter/softness = 0.05
 shader_parameter/distortion_str = 0.2
+shader_parameter/blur_str = 2.0
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_b2c4i"]
+vertices = PackedVector2Array(434.0625, -472.96094, 729.8672, -204.89063, 729.8672, 199.53906, 475.72656, 468.1172, -518.75, 472.32813, -504.42188, -488.0703, -787.4531, -202.74219, -789.75, 213.5)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(0, 3, 4), PackedInt32Array(5, 0, 4), PackedInt32Array(6, 5, 4), PackedInt32Array(6, 4, 7)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-537.2197, -568.60986, 465.47086, -552.4664, 809.8654, -240.35875, 809.8654, 231.39012, 510.3139, 547.982, -550.67267, 552.4663, -869.95514, 247.53362, -867.2646, -235.87444)])
+sample_partition_type = 1
+source_geometry_mode = 1
+agent_radius = 80.0
 
 [node name="TestArena" type="Node2D" unique_id=1491301583]
 texture_filter = 1
@@ -421,10 +381,146 @@ tile_set = ExtResource("2_p4wga")
 [node name="YSort" type="Node2D" parent="." unique_id=1107887874]
 y_sort_enabled = true
 
+[node name="ArenaWalls" type="StaticBody2D" parent="YSort" unique_id=1056478063]
+z_index = 1
+y_sort_enabled = true
+collision_layer = 2
+script = ExtResource("7_30b43")
+
+[node name="Pillar8" parent="YSort/ArenaWalls" unique_id=1692178792 instance=ExtResource("7_1dtt4")]
+position = Vector2(-551, -593)
+
+[node name="TopLeft" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=924044890]
+position = Vector2(-730.0448, -426.00894)
+rotation = -0.7853983
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/TopLeft" unique_id=1441266778]
+material = SubResource("ShaderMaterial_rgguo")
+mesh = SubResource("QuadMesh_ybaiv")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/TopLeft" unique_id=1621607587]
+material = SubResource("ShaderMaterial_7g33o")
+mesh = SubResource("QuadMesh_ybaiv")
+
+[node name="Pillar9" parent="YSort/ArenaWalls" unique_id=1290404375 instance=ExtResource("7_1dtt4")]
+position = Vector2(-896, -243.00006)
+
+[node name="Left" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=74259672]
+position = Vector2(-910, 0)
+shape = SubResource("RectangleShape2D_30b43")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/Left" unique_id=145018763]
+material = SubResource("ShaderMaterial_ybaiv")
+mesh = SubResource("QuadMesh_3in51")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/Left" unique_id=1449252404]
+material = SubResource("ShaderMaterial_gw3xy")
+mesh = SubResource("QuadMesh_3in51")
+
+[node name="Pillar10" parent="YSort/ArenaWalls" unique_id=1092609949 instance=ExtResource("7_1dtt4")]
+position = Vector2(-893, 232)
+
+[node name="BottomLeft" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=1571095377]
+position = Vector2(-716.00006, 410.00006)
+rotation = 0.7853982
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/BottomLeft" unique_id=740270146]
+material = SubResource("ShaderMaterial_aevqx")
+mesh = SubResource("QuadMesh_wg4e6")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/BottomLeft" unique_id=925996681]
+material = SubResource("ShaderMaterial_3nsic")
+mesh = SubResource("QuadMesh_dj3kb")
+
+[node name="Pillar11" parent="YSort/ArenaWalls" unique_id=650244540 instance=ExtResource("7_1dtt4")]
+position = Vector2(498, -591)
+
+[node name="TopRight" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=1482561907]
+position = Vector2(678.0268, -424.2152)
+rotation = 0.7853982
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/TopRight" unique_id=488375142]
+material = SubResource("ShaderMaterial_1p354")
+mesh = SubResource("QuadMesh_3unnk")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/TopRight" unique_id=483392602]
+material = SubResource("ShaderMaterial_0hwmk")
+mesh = SubResource("QuadMesh_3unnk")
+
+[node name="Pillar12" parent="YSort/ArenaWalls" unique_id=1369043524 instance=ExtResource("7_1dtt4")]
+position = Vector2(845, -245)
+
+[node name="Right" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=335737586]
+position = Vector2(855, 0)
+shape = SubResource("RectangleShape2D_30b43")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/Right" unique_id=628063895]
+material = SubResource("ShaderMaterial_1114x")
+mesh = SubResource("QuadMesh_t3tmt")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/Right" unique_id=131731247]
+material = SubResource("ShaderMaterial_oggv7")
+mesh = SubResource("QuadMesh_t3tmt")
+
+[node name="Pillar13" parent="YSort/ArenaWalls" unique_id=1231642881 instance=ExtResource("7_1dtt4")]
+position = Vector2(846, 240.00002)
+
+[node name="BottomRight" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=1832479659]
+position = Vector2(657, 407)
+rotation = -0.7853983
+shape = SubResource("RectangleShape2D_w0lom")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/BottomRight" unique_id=928351786]
+material = SubResource("ShaderMaterial_3unnk")
+mesh = SubResource("QuadMesh_1dtt4")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/BottomRight" unique_id=1809970438]
+material = SubResource("ShaderMaterial_d65x2")
+mesh = SubResource("QuadMesh_1dtt4")
+
+[node name="Pillar14" parent="YSort/ArenaWalls" unique_id=113806597 instance=ExtResource("7_1dtt4")]
+position = Vector2(501, 591)
+
+[node name="Pillar15" parent="YSort/ArenaWalls" unique_id=1417307313 instance=ExtResource("7_1dtt4")]
+position = Vector2(-553, 588)
+
+[node name="Bottom" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=1671142169]
+position = Vector2(-16, 578)
+shape = SubResource("RectangleShape2D_b2c4i")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/Bottom" unique_id=937353784]
+material = SubResource("ShaderMaterial_4ijqo")
+mesh = SubResource("QuadMesh_8vpoc")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/Bottom" unique_id=1535713043]
+material = SubResource("ShaderMaterial_1s22r")
+mesh = SubResource("QuadMesh_8vpoc")
+
+[node name="Top" type="CollisionShape2D" parent="YSort/ArenaWalls" unique_id=1731704562]
+position = Vector2(-26.794998, -600.897)
+shape = SubResource("RectangleShape2D_b2c4i")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="YSort/ArenaWalls/Top" unique_id=802028684]
+material = SubResource("ShaderMaterial_1vwi5")
+position = Vector2(-3.2050018, -0.103027344)
+scale = Vector2(0.935, 1)
+mesh = SubResource("QuadMesh_6qjo5")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="YSort/ArenaWalls/Top" unique_id=221260180]
+material = SubResource("ShaderMaterial_kn3xw")
+scale = Vector2(0.935, 1)
+mesh = SubResource("QuadMesh_6qjo5")
+
 [node name="Player" parent="YSort" unique_id=229953308 instance=ExtResource("3_fee4r")]
 position = Vector2(0, 1008.968)
 
 [node name="Golem" parent="YSort" unique_id=1265510272 groups=["Boss", "Enemies"] instance=ExtResource("3_b2c4i")]
+z_index = 1
 
 [node name="DetailLayer" type="TileMapLayer" parent="YSort" unique_id=652114195]
 z_index = 1
@@ -440,254 +536,7 @@ visible = false
 position = Vector2(-1.7937222, -1.7937219)
 navigation_polygon = SubResource("NavigationPolygon_b2c4i")
 
-[node name="ArenaWalls" type="StaticBody2D" parent="." unique_id=1056478063]
-collision_layer = 2
-script = ExtResource("7_30b43")
-
-[node name="Pillar8" type="Node2D" parent="ArenaWalls" unique_id=1812607820 groups=["Pillars"]]
-position = Vector2(-537, -855)
-scale = Vector2(4.5, 4.5)
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar8" unique_id=1007526233]
-visible = false
-position = Vector2(3, 12)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar8" unique_id=337472955]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar8/Effect" unique_id=598989096]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="TopLeft" type="CollisionShape2D" parent="ArenaWalls" unique_id=924044890]
-position = Vector2(-730.0448, -426.00894)
-rotation = -0.7853983
-shape = SubResource("RectangleShape2D_w0lom")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/TopLeft" unique_id=1441266778]
-material = SubResource("ShaderMaterial_rgguo")
-mesh = SubResource("QuadMesh_ybaiv")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/TopLeft" unique_id=1621607587]
-material = SubResource("ShaderMaterial_7g33o")
-mesh = SubResource("QuadMesh_ybaiv")
-
-[node name="Pillar7" type="Node2D" parent="ArenaWalls" unique_id=498282715 groups=["Pillars"]]
-position = Vector2(-897, -518)
-scale = Vector2(4.5, 4.5)
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar7" unique_id=1655623021]
-visible = false
-position = Vector2(3, 12)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar7" unique_id=569529469]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar7/Effect" unique_id=1919685698]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="Left" type="CollisionShape2D" parent="ArenaWalls" unique_id=74259672]
-position = Vector2(-910, 0)
-shape = SubResource("RectangleShape2D_30b43")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/Left" unique_id=145018763]
-material = SubResource("ShaderMaterial_ybaiv")
-mesh = SubResource("QuadMesh_3in51")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/Left" unique_id=1449252404]
-material = SubResource("ShaderMaterial_gw3xy")
-mesh = SubResource("QuadMesh_3in51")
-
-[node name="Pillar6" type="Node2D" parent="ArenaWalls" unique_id=2107692096 groups=["Pillars"]]
-position = Vector2(-908.00006, -33)
-scale = Vector2(4.5, 4.5)
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar6" unique_id=472433512]
-visible = false
-position = Vector2(3, 12)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar6" unique_id=35223475]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar6/Effect" unique_id=1509763585]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="BottomLeft" type="CollisionShape2D" parent="ArenaWalls" unique_id=1571095377]
-position = Vector2(-716.00006, 410.00006)
-rotation = 0.7853982
-scale = Vector2(0.99999994, 0.99999994)
-shape = SubResource("RectangleShape2D_w0lom")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/BottomLeft" unique_id=740270146]
-material = SubResource("ShaderMaterial_aevqx")
-mesh = SubResource("QuadMesh_wg4e6")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/BottomLeft" unique_id=925996681]
-material = SubResource("ShaderMaterial_3nsic")
-mesh = SubResource("QuadMesh_dj3kb")
-
-[node name="Pillar5" type="Node2D" parent="ArenaWalls" unique_id=399435214 groups=["Pillars"]]
-position = Vector2(483, -843)
-scale = Vector2(4.5, 4.5)
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar5" unique_id=1279560899]
-visible = false
-position = Vector2(3.9999795, 12)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar5" unique_id=1596489004]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar5/Effect" unique_id=443342133]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="TopRight" type="CollisionShape2D" parent="ArenaWalls" unique_id=1482561907]
-position = Vector2(678.0268, -424.2152)
-rotation = 0.7853982
-scale = Vector2(0.99999994, 0.99999994)
-shape = SubResource("RectangleShape2D_w0lom")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/TopRight" unique_id=488375142]
-material = SubResource("ShaderMaterial_1p354")
-mesh = SubResource("QuadMesh_3unnk")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/TopRight" unique_id=483392602]
-material = SubResource("ShaderMaterial_0hwmk")
-mesh = SubResource("QuadMesh_3unnk")
-
-[node name="Pillar4" type="Node2D" parent="ArenaWalls" unique_id=1972094946 groups=["Pillars"]]
-position = Vector2(841, -531)
-scale = Vector2(4.5, 4.5)
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar4" unique_id=1974667641]
-visible = false
-position = Vector2(4, 12.666667)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar4" unique_id=832105818]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar4/Effect" unique_id=747337701]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="Right" type="CollisionShape2D" parent="ArenaWalls" unique_id=335737586]
-position = Vector2(855, 0)
-shape = SubResource("RectangleShape2D_30b43")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/Right" unique_id=628063895]
-material = SubResource("ShaderMaterial_1114x")
-mesh = SubResource("QuadMesh_t3tmt")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/Right" unique_id=131731247]
-material = SubResource("ShaderMaterial_oggv7")
-mesh = SubResource("QuadMesh_t3tmt")
-
-[node name="Pillar3" type="Node2D" parent="ArenaWalls" unique_id=140974877 groups=["Pillars"]]
-position = Vector2(867, -21)
-scale = Vector2(4.5, 4.5)
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar3" unique_id=692834730]
-visible = false
-position = Vector2(2.3333333, 10.333333)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar3" unique_id=940804963]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar3/Effect" unique_id=137406405]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="BottomRight" type="CollisionShape2D" parent="ArenaWalls" unique_id=1832479659]
-position = Vector2(657, 407)
-rotation = -0.7853983
-shape = SubResource("RectangleShape2D_w0lom")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/BottomRight" unique_id=928351786]
-material = SubResource("ShaderMaterial_3unnk")
-mesh = SubResource("QuadMesh_1dtt4")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/BottomRight" unique_id=1809970438]
-material = SubResource("ShaderMaterial_d65x2")
-mesh = SubResource("QuadMesh_1dtt4")
-
-[node name="Pillar2" type="Node2D" parent="ArenaWalls" unique_id=2107354592 groups=["Pillars"]]
-position = Vector2(556, 326.00003)
-scale = Vector2(4.5, 4.5)
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar2" unique_id=1604480541]
-visible = false
-position = Vector2(-2.3333335, 12)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar2" unique_id=1371957905]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar2/Effect" unique_id=383128215]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="Pillar" type="Node2D" parent="ArenaWalls" unique_id=42780273 groups=["Pillars"]]
-position = Vector2(-556, 341)
-scale = Vector2(4.5, 4.5)
-metadata/_edit_lock_ = true
-
-[node name="PillarSprite" type="Sprite2D" parent="ArenaWalls/Pillar" unique_id=626279863]
-visible = false
-position = Vector2(3, 12)
-texture = ExtResource("8_82lsh")
-hframes = 78
-
-[node name="Effect" type="Sprite2D" parent="ArenaWalls/Pillar" unique_id=1282647915]
-texture = ExtResource("8_f8i2q")
-hframes = 8
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ArenaWalls/Pillar/Effect" unique_id=670973152]
-libraries/ = SubResource("AnimationLibrary_dj3kb")
-
-[node name="Bottom" type="CollisionShape2D" parent="ArenaWalls" unique_id=1671142169]
-position = Vector2(-16, 578)
-shape = SubResource("RectangleShape2D_b2c4i")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/Bottom" unique_id=937353784]
-material = SubResource("ShaderMaterial_4ijqo")
-mesh = SubResource("QuadMesh_8vpoc")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/Bottom" unique_id=1535713043]
-material = SubResource("ShaderMaterial_1s22r")
-mesh = SubResource("QuadMesh_8vpoc")
-
-[node name="Top" type="CollisionShape2D" parent="ArenaWalls" unique_id=1731704562]
-position = Vector2(-26.794998, -600.897)
-shape = SubResource("RectangleShape2D_b2c4i")
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ArenaWalls/Top" unique_id=802028684]
-material = SubResource("ShaderMaterial_1vwi5")
-position = Vector2(-3.2050018, -0.103027344)
-scale = Vector2(0.935, 1)
-mesh = SubResource("QuadMesh_6qjo5")
-
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ArenaWalls/Top" unique_id=221260180]
-material = SubResource("ShaderMaterial_kn3xw")
-scale = Vector2(0.935, 1)
-mesh = SubResource("QuadMesh_6qjo5")
-
 [node name="CameraOverrideBoss" type="Area2D" parent="." unique_id=1030604436 node_paths=PackedStringArray("bossToTrack")]
-visible = false
 scale = Vector2(3, 3)
 script = ExtResource("8_w0lom")
 bossToTrack = NodePath("../YSort/Golem")

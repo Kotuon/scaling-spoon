@@ -16,6 +16,7 @@ public partial class BehaviorTree : BehaviorNode {
 
         m_context.Add( "parent", GetParent() as CharacterBase );
         m_context.Add( "blocked", false );
+        m_context.Add( "dead", false );
 
         var parent = GetParent() as EnemyBase;
 
@@ -23,11 +24,14 @@ public partial class BehaviorTree : BehaviorNode {
 
         parent.EndStun += () => { m_context["blocked"] = false; };
 
-        parent.Death += () => { m_context["blocked"] = true; GD.Print("Died"); };
+        parent.Death += () => {
+            m_context["dead"] = true;
+            GD.Print( "Died" );
+        };
     }
 
     public override void _Process( double delta ) {
-        if ( ( bool )m_context["blocked"] ) return;
+        if ( ( bool )m_context["blocked"] || ( bool )m_context["dead"] ) return;
 
         base._Process( delta );
 

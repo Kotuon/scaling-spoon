@@ -24,7 +24,7 @@ public partial class Shield : Ability
     {
         base._Ready();
 
-        parent.damaged += WasDamaged;
+        parent.Damaged += WasDamaged;
     }
 
 

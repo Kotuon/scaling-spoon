@@ -19,8 +19,7 @@ public partial class AnimationHandler : Component {
         set => _animationPlayer = value;
 
         get {
-            if ( _animationPlayer == null )
-                _animationPlayer = parent.GetComponent< AnimationPlayer >();
+            _animationPlayer ??= parent.GetComponent< AnimationPlayer >();
             return _animationPlayer;
         }
     }
@@ -29,7 +28,7 @@ public partial class AnimationHandler : Component {
         set => _sprite = value;
 
         get {
-            if ( _sprite == null ) _sprite = parent.GetComponent< Sprite2D >();
+            _sprite ??= parent.GetComponent< Sprite2D >();
             return _sprite;
         }
     }
@@ -38,9 +37,8 @@ public partial class AnimationHandler : Component {
         set {
             _flip = value;
             sprite.FlipH = _flip;
-            ShaderMaterial shader = sprite.Material as ShaderMaterial;
 
-            if ( shader == null ) return;
+            if ( sprite.Material is not ShaderMaterial shader ) return;
 
             shader.SetShaderParameter( "flip", _flip );
         }
@@ -55,6 +53,7 @@ public partial class AnimationHandler : Component {
 
     [Export]
     public bool canAdvance = true;
+    public bool freezeAnim = false;
 
     [Signal]
     public delegate void AnimationFinishedEventHandler( StringName animName );
@@ -66,9 +65,13 @@ public partial class AnimationHandler : Component {
         animationPlayer.AnimationFinished += ( StringName animName ) => {
             EmitSignal( SignalName.AnimationFinished, animName );
         };
+
+        parent.Death += () => { freezeAnim = true; };
     }
 
     public override void _Process( double delta ) {
+        if ( freezeAnim ) return;
+
         if ( !canAdvance ) {
             if ( !IsCurrentlyPlaying() ) {
                 canAdvance = true;
@@ -125,11 +128,11 @@ public partial class AnimationHandler : Component {
     public void PlayAnimation( String animName, Vector2 inputDir ) {
         currDir = GetAnimationDirection( inputDir );
 
-        flip = inputDir.X > 0 ? false : true;
+        flip = inputDir.X <= 0;
 
         if ( Mathf.IsZeroApprox( inputDir.LengthSquared() ) ) {
             currDir = GetAnimationDirection( lastNonZeroInput );
-            flip = lastNonZeroInput.X > 0 ? false : true;
+            flip = lastNonZeroInput.X <= 0;
         }
 
         animationPlayer.Play( animationLibrary + "/" + animName );
@@ -167,18 +170,18 @@ public partial class AnimationHandler : Component {
                                bool fromEnd ) {
         currDir = GetAnimationDirection( inputDir );
 
-        flip = inputDir.X > 0 ? false : true;
+        flip = inputDir.X <= 0;
 
         if ( Mathf.IsZeroApprox( inputDir.LengthSquared() ) ) {
             currDir = GetAnimationDirection( lastNonZeroInput );
-            flip = lastNonZeroInput.X > 0 ? false : true;
+            flip = lastNonZeroInput.X <= 0;
         }
 
         animationPlayer.Play( animationLibrary + "/" + animName, -1, speed,
                               fromEnd );
     }
 
-    protected Vector2 ClipSmallValues( Vector2 inputVec ) {
+    protected static Vector2 ClipSmallValues( Vector2 inputVec ) {
         if ( Mathf.Abs( inputVec.X ) < 0.1f ) inputVec.X = 0.0f;
         if ( Mathf.Abs( inputVec.Y ) < 0.1f ) inputVec.Y = 0.0f;
 

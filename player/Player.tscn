@@ -342,7 +342,9 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler") groups=["Characters", "Player"]]
 z_index = 1
-collision_mask = 14
+collision_mask = 30
+motion_mode = 1
+platform_on_leave = 2
 script = ExtResource("1_dnad5")
 move = NodePath("AbilityManager/Move")
 animationHandler = NodePath("PlayerAnimationHandler")
