@@ -1,9 +1,7 @@
 namespace Game.Component;
 
 using Godot;
-using System;
 using Game.Entity;
-using System.ComponentModel;
 
 
 public partial class Ability : Component

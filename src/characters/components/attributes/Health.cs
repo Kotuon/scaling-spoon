@@ -48,6 +48,7 @@ public partial class Health : Component
 
         if (curr - cost <= 0.0f)
         {
+            curr -= cost;
             parent.Dies();
             return;
         }

@@ -8,7 +8,7 @@
 [node name="Projectile" unique_id=1042229995 instance=ExtResource("1_frl0x")]
 texture_filter = 1
 scale = Vector2(4, 6)
-initialSpeed = 400.0
+initialSpeed = 200.0
 finalSpeed = 800.0
 timeToAccelerate = 0.5
 

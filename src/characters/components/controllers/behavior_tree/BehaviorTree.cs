@@ -1,6 +1,7 @@
 namespace Game.Component;
 
 using Game.Entity;
+using Godot;
 using Godot.Collections;
 
 public partial class BehaviorTree : BehaviorNode {
@@ -15,11 +16,14 @@ public partial class BehaviorTree : BehaviorNode {
 
         m_context.Add( "parent", GetParent() as CharacterBase );
         m_context.Add( "blocked", false );
-        ( GetParent() as EnemyBase ).StartStun +=
-            () => { m_context["blocked"] = true; };
 
-        ( GetParent() as EnemyBase ).EndStun +=
-            () => { m_context["blocked"] = false; };
+        var parent = GetParent() as EnemyBase;
+
+        parent.StartStun += () => { m_context["blocked"] = true; };
+
+        parent.EndStun += () => { m_context["blocked"] = false; };
+
+        parent.Death += () => { m_context["blocked"] = true; GD.Print("Died"); };
     }
 
     public override void _Process( double delta ) {

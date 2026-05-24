@@ -362,7 +362,7 @@ Enabled = false
 
 [node name="Throw" parent="AbilityManager" unique_id=2083118973 instance=ExtResource("32_234y4")]
 proj = ExtResource("16_8eyfg")
-damage = 1.0
+damage = 90.0
 cost = 80.0
 
 [node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]

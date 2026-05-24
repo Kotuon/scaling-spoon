@@ -327,10 +327,11 @@ _data = {
 
 [node name="Golem" type="CharacterBody2D" unique_id=1265510272 node_paths=PackedStringArray("move", "animationHandler")]
 texture_filter = 1
-scale = Vector2(1.5, 1.5)
+scale = Vector2(5, 5)
 collision_layer = 16
 collision_mask = 19
 script = ExtResource("1_5x1vr")
+unstunableActions = Array[StringName]([&"hit", &"clap", &"stomp"])
 move = NodePath("AbilityManager/Move")
 animationHandler = NodePath("AnimationHandler")
 
@@ -367,7 +368,7 @@ damage = 10.0
 [node name="FindTarget" parent="BehaviorTree/SequenceNode/SequenceNode" unique_id=26824330 instance=ExtResource("9_yj63f")]
 
 [node name="SpawnWhenPlayerApproach" parent="BehaviorTree/SequenceNode/SequenceNode" unique_id=1889695998 instance=ExtResource("10_e31si")]
-spawnDistance = 300.0
+spawnDistance = 500.0
 
 [node name="Wait6" parent="BehaviorTree/SequenceNode" unique_id=1468860412 instance=ExtResource("13_bw0le")]
 wait_time = 0.25
