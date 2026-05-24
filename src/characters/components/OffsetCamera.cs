@@ -61,7 +61,7 @@ public partial class OffsetCamera : Camera2D {
     private ZoomValues zoom_values;
 
     // private bool running_tween = false;
-    private Dictionary<String, bool> running_tween = [];
+    private readonly Dictionary< String, bool > running_tween = [];
     private bool has_locked = false;
 
     public override void _Ready() {
@@ -70,8 +70,9 @@ public partial class OffsetCamera : Camera2D {
         defaultZoom = Zoom;
         targetZoom = defaultZoom;
 
-        running_tween.Add("targetOrigin", false);
-        running_tween.Add("targetOffset", false);
+        running_tween.Add( "targetOrigin", false );
+        running_tween.Add( "targetOffset", false );
+        running_tween.Add( "targetZoom", false );
     }
 
     public void StartNodeTrack( Node2D target, Vector2 lock_pos, float zoom_min,
@@ -93,11 +94,13 @@ public partial class OffsetCamera : Camera2D {
 
         // targetOffset += targetOrigin - parent.GlobalPosition;
         targetOffset = GlobalPosition - parent.GlobalPosition;
-        // tween_vector2( "targetOffset", Vector2.Zero, 5.0f, true );
+        tween_vector2( "targetOffset", Vector2.Zero, 1.5f, true );
         // tween_vector2("targetOrigin", parent.GlobalPosition, 0.0f, true);
-        // targetOrigin = parent.GlobalPosition;
+        targetOrigin = parent.GlobalPosition;
 
-        targetZoom = defaultZoom;
+        // targetZoom = defaultZoom;
+
+        tween_vector2( "targetZoom", defaultZoom, 1.5f, true );
     }
 
     public void TriggerOffset( Vector2 target, float timeToOffset = 0.25f ) {
@@ -139,7 +142,9 @@ public partial class OffsetCamera : Camera2D {
             tween_vector2( "targetOrigin", avg, speed, can_override );
 
             float new_zoom = zoom_values.get_new_zoom( dist );
-            targetZoom = new Vector2( new_zoom, new_zoom );
+            // targetZoom = new Vector2( new_zoom, new_zoom );
+            tween_vector2( "targetZoom", new Vector2( new_zoom, new_zoom ),
+                           speed, can_override );
         } else {
             targetOrigin = parent.GlobalPosition;
         }
@@ -157,7 +162,8 @@ public partial class OffsetCamera : Camera2D {
 
         GlobalPosition = targetOrigin + targetOffset;
 
-        Zoom = Zoom.Lerp( targetZoom, targetSpeed );
+        // Zoom = Zoom.Lerp( targetZoom, targetSpeed );
+        Zoom = targetZoom;
         QueueRedraw();
     }
 

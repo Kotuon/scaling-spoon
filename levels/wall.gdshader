@@ -14,7 +14,7 @@ uniform sampler2D noise : repeat_enable, filter_nearest;
 
 uniform float distortion_str : hint_range(-1, 1) = 0.2;
 
-uniform float blur_str : hint_range(0, 5.0) = 1.0;
+uniform float blur_str : hint_range(0, 5.0) = 2.0;
 
 void vertex() {
 	// Called for every vertex the material is visible on.
@@ -38,10 +38,6 @@ void fragment() {
 	float center_short = x_or_y == 0 ? abs(UV.y - 0.5) : abs(UV.x - 0.5);
 	float mask_short = 1.0 - smoothstep(range, range + softness, center_short);
 	
-	//float offset = 0.250;
-	//float center_long = x_or_y == 0 ? abs(UV.x - offset) : abs(UV.y - offset);
-	//float mask_long = 1.0 - smoothstep(range, range + 0.71, center_long);
-	
 	float mask_long = 1.0;
 	if (x_or_y == 0) {
 		if (UV.x < 0.1)
@@ -55,7 +51,7 @@ void fragment() {
 			mask_long = 1.0 - smoothstep(0.9, 1.0, UV.y);
 	}
 	
-	COLOR.a = mask_short * mask_long * texture(noise, UV).r;
+	COLOR.a = mask_short * mask_long;// * (1.2 - texture(noise, UV).r);
 }
 
 //void light() {

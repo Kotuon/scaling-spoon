@@ -28,13 +28,20 @@ public partial class CameraOverrideBoss : Area2D {
         BodyEntered += Entered;
         BodyExited += Exited;
 
-        ( bossToTrack as CharacterBase ).Death += () => {
+        ( bossToTrack as CharacterBase ).Death += async () => {
+            await ToSignal( GetTree().CreateTimer( 2.0 ),
+                            SceneTreeTimer.SignalName.Timeout );
+
             ignore = true;
 
-            if (playerRef == null) return;
+            if ( playerRef == null ) return;
 
             var camera = playerRef.GetComponent< OffsetCamera >();
             camera.CancelNodeTrack();
+
+            var boss = bossToTrack as EnemyBase;
+
+            boss.healthBar.QueueFree();
         };
     }
 
