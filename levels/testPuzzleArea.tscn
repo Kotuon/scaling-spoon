@@ -80,43 +80,43 @@ tile_set = ExtResource("1_73fo0")
 
 [node name="Obstacles" type="Node2D" parent="." unique_id=1780127169]
 
-[node name="Node2D" type="Node2D" parent="Obstacles" unique_id=23413054]
+[node name="MovingPlatform" type="Node2D" parent="Obstacles" unique_id=23413054]
 position = Vector2(-800, 0)
 rotation = -1.5707964
 
-[node name="ObstacleBase" type="Area2D" parent="Obstacles/Node2D" unique_id=108340260]
+[node name="ObstacleBase" type="Area2D" parent="Obstacles/MovingPlatform" unique_id=108340260]
 script = ExtResource("6_73fo0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/Node2D/ObstacleBase" unique_id=1859384174]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/MovingPlatform/ObstacleBase" unique_id=1859384174]
 position = Vector2(18.499998, 1.5000008)
 scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_3ogv4")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="Obstacles/Node2D/ObstacleBase" unique_id=1495309902]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Obstacles/MovingPlatform/ObstacleBase" unique_id=1495309902]
 modulate = Color(0.41233337, 1, 0.13999999, 0.49019608)
 mesh = SubResource("QuadMesh_v06c3")
 
-[node name="MoveToOffset" parent="Obstacles/Node2D/ObstacleBase" unique_id=1077037432 instance=ExtResource("2_8mfid")]
+[node name="MoveToOffset" parent="Obstacles/MovingPlatform/ObstacleBase" unique_id=1077037432 instance=ExtResource("2_8mfid")]
 position = Vector2(0, -584.66)
 tCurveStart = SubResource("Curve_ybhjh")
 tCurveReturn = SubResource("Curve_kwb7f")
 
-[node name="MovePlayerWith" parent="Obstacles/Node2D/ObstacleBase" unique_id=1285026002 instance=ExtResource("3_73fo0")]
+[node name="MovePlayerWith" parent="Obstacles/MovingPlatform/ObstacleBase" unique_id=1285026002 instance=ExtResource("3_73fo0")]
 
-[node name="ProtectPlayer" parent="Obstacles/Node2D/ObstacleBase" unique_id=606663886 instance=ExtResource("4_ia5x7")]
+[node name="ProtectPlayer" parent="Obstacles/MovingPlatform/ObstacleBase" unique_id=606663886 instance=ExtResource("4_ia5x7")]
 
-[node name="Sprite2D" type="Sprite2D" parent="Obstacles/Node2D/ObstacleBase" unique_id=1824753773]
+[node name="Sprite2D" type="Sprite2D" parent="Obstacles/MovingPlatform/ObstacleBase" unique_id=1824753773]
 position = Vector2(20, 8.742278e-07)
 rotation = 1.5707964
 scale = Vector2(2, 2)
 texture = ExtResource("6_4xs3d")
 
-[node name="ObstacleBase4" parent="Obstacles/Node2D" unique_id=344280903 instance=ExtResource("1_qaqhw")]
+[node name="ObstacleBase4" parent="Obstacles/MovingPlatform" unique_id=344280903 instance=ExtResource("1_qaqhw")]
 visible = false
 position = Vector2(0, -292.32996)
 scale = Vector2(3.8, 6)
 
-[node name="CausePlayerDeath" parent="Obstacles/Node2D/ObstacleBase4" unique_id=390845581 instance=ExtResource("5_gfo1g")]
+[node name="CausePlayerDeath" parent="Obstacles/MovingPlatform/ObstacleBase4" unique_id=390845581 instance=ExtResource("5_gfo1g")]
 
 [node name="ObstacleBase" type="Area2D" parent="Obstacles" unique_id=1149239277]
 position = Vector2(800, 184)

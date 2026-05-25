@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="3_fee4r"]
 [ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="4_b2c4i"]
 [ext_resource type="PackedScene" uid="uid://2s7pvqrw0cuh" path="res://items/mana_interactions/ManaSphere.tscn" id="5_p4wga"]
-[ext_resource type="PackedScene" uid="uid://bhspg1m0gixv8" path="res://levels/pillar.tscn" id="7_1dtt4"]
+[ext_resource type="PackedScene" uid="uid://bhspg1m0gixv8" path="res://levels/props/pillar.tscn" id="7_1dtt4"]
 [ext_resource type="Script" uid="uid://gp3y3xie3y8e" path="res://levels/TriggerWalls.cs" id="7_30b43"]
 [ext_resource type="Shader" uid="uid://dfas43rjiev6x" path="res://levels/wall.gdshader" id="8_dj3kb"]
 [ext_resource type="Script" uid="uid://dtw1pn34pxwmo" path="res://src/CameraOverrideBoss.cs" id="8_w0lom"]

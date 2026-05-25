@@ -1,20 +1,66 @@
 [gd_scene format=3 uid="uid://2s7pvqrw0cuh"]
 
 [ext_resource type="Script" uid="uid://b7qgix8x70b30" path="res://src/items/ManaSphere.cs" id="1_llyp5"]
+[ext_resource type="Shader" uid="uid://bafiutklb4bh3" path="res://shaders/InfusibleKey.gdshader" id="1_pbj56"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_llyp5"]
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pbj56"]
+noise_type = 3
+frequency = 0.005
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tug5k"]
+noise = SubResource("FastNoiseLite_pbj56")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pbj56"]
+shader = ExtResource("1_pbj56")
+shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
+shader_parameter/speed = 0.65
+shader_parameter/alpha_scale = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_pbj56"]
+size = Vector2(20, 20)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tug5k"]
+shader = ExtResource("1_pbj56")
+shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
+shader_parameter/speed = 0.65
+shader_parameter/alpha_scale = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_pbj56"]
 radius = 9.0
 height = 18.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rerfb"]
+shader = ExtResource("1_pbj56")
+shader_parameter/color = Color(1, 1, 1, 0)
+shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
+shader_parameter/speed = 0.65
+shader_parameter/alpha_scale = 0.26
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2do5a"]
 
 [node name="ManaSphere" type="Area2D" unique_id=1015641084]
+scale = Vector2(4, 4)
 collision_layer = 4
 script = ExtResource("1_llyp5")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1474011876]
 modulate = Color(0.26, 0.85199976, 1, 1)
-mesh = SubResource("SphereMesh_llyp5")
+material = SubResource("ShaderMaterial_pbj56")
+mesh = SubResource("QuadMesh_pbj56")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="." unique_id=273439607]
+modulate = Color(0.26, 0.85199976, 1, 1)
+material = SubResource("ShaderMaterial_tug5k")
+mesh = SubResource("SphereMesh_pbj56")
+
+[node name="MeshInstance2D3" type="MeshInstance2D" parent="." unique_id=145559663]
+modulate = Color(0.26, 0.85199976, 1, 1)
+material = SubResource("ShaderMaterial_rerfb")
+mesh = SubResource("SphereMesh_pbj56")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1879048778]
+visible = false
 shape = SubResource("CircleShape2D_2do5a")

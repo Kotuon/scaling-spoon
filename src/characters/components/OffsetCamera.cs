@@ -60,8 +60,9 @@ public partial class OffsetCamera : Camera2D {
 
     private ZoomValues zoom_values;
 
-    // private bool running_tween = false;
-    private readonly Dictionary< String, bool > running_tween = [];
+    // private bool is_running_tween = false;
+    private readonly Dictionary< String, bool > is_running_tween = [];
+    private readonly Dictionary< String, Tween > tween_ref = [];
     private bool has_locked = false;
 
     public override void _Ready() {
@@ -70,9 +71,13 @@ public partial class OffsetCamera : Camera2D {
         defaultZoom = Zoom;
         targetZoom = defaultZoom;
 
-        running_tween.Add( "targetOrigin", false );
-        running_tween.Add( "targetOffset", false );
-        running_tween.Add( "targetZoom", false );
+        is_running_tween.Add( "targetOrigin", false );
+        is_running_tween.Add( "targetOffset", false );
+        is_running_tween.Add( "targetZoom", false );
+
+        tween_ref.Add( "targetOrigin", null );
+        tween_ref.Add( "targetOffset", null );
+        tween_ref.Add( "targetZoom", null );
     }
 
     public void StartNodeTrack( Node2D target, Vector2 lock_pos, float zoom_min,
@@ -86,7 +91,8 @@ public partial class OffsetCamera : Camera2D {
         trackStr = str;
 
         has_locked = false;
-        targetOffset = Vector2.Zero;
+        // targetOffset = Vector2.Zero;
+        tween_vector2( "targetOffset", Vector2.Zero, 0.05f, true );
     }
 
     public void CancelNodeTrack() {
@@ -111,6 +117,8 @@ public partial class OffsetCamera : Camera2D {
     }
 
     public void CancelOffset() {
+        if ( targetToTrack != null ) return;
+
         tween_vector2( "targetOffset", Vector2.Zero, override_curr: true );
         targetSpeed = 0.125f;
     }
@@ -132,7 +140,7 @@ public partial class OffsetCamera : Camera2D {
             float speed = 0.25f;
             bool can_override = true;
             if ( !has_locked ) {
-                speed = 2.0f;
+                speed = 1.0f;
                 can_override = false;
 
                 var timer = GetTree().CreateTimer( speed );
@@ -162,7 +170,6 @@ public partial class OffsetCamera : Camera2D {
 
         GlobalPosition = targetOrigin + targetOffset;
 
-        // Zoom = Zoom.Lerp( targetZoom, targetSpeed );
         Zoom = targetZoom;
         QueueRedraw();
     }
@@ -207,13 +214,16 @@ public partial class OffsetCamera : Camera2D {
     private void tween_vector2( string vec_name, Vector2 target,
                                 float time = 0.25f,
                                 bool override_curr = false ) {
-        if ( running_tween[vec_name] && !override_curr ) return;
+        if ( is_running_tween[vec_name] && !override_curr ) return;
 
-        running_tween[vec_name] = true;
+        is_running_tween[vec_name] = true;
 
-        Tween tween = GetTree().CreateTween();
-        tween.TweenProperty( this, vec_name, target, time );
+        tween_ref[vec_name]?.Kill();
 
-        tween.Finished += () => running_tween[vec_name] = false;
+        tween_ref[vec_name] = CreateTween();
+
+        tween_ref[vec_name].TweenProperty( this, vec_name, target, time );
+        tween_ref[vec_name].Finished += () => is_running_tween[vec_name] =
+            false;
     }
 }
