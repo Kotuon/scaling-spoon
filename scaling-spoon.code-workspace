@@ -8,6 +8,7 @@
         "godotTools.editorPath.godot4": "/usr/bin/godot-mono",
         "files.associations": {
             "list": "cpp"
-        }
+        },
+        "clang-format.assumeFilename": ".clang-format"
     }
 }

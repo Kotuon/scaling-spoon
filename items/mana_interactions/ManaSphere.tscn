@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7qgix8x70b30" path="res://src/items/ManaSphere.cs" id="1_llyp5"]
 [ext_resource type="Shader" uid="uid://bafiutklb4bh3" path="res://shaders/InfusibleKey.gdshader" id="1_pbj56"]
+[ext_resource type="AudioStream" uid="uid://r8pnmokye0e2" path="res://assets/audio/items/Fantasy_Game_Item_Collect_Magic_G.wav" id="3_tug5k"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_pbj56"]
 noise_type = 3
@@ -17,6 +18,7 @@ shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
 shader_parameter/speed = 0.65
 shader_parameter/alpha_scale = 1.0
+shader_parameter/pixelation_amount = 10.0000004275
 
 [sub_resource type="QuadMesh" id="QuadMesh_pbj56"]
 size = Vector2(20, 20)
@@ -27,10 +29,10 @@ shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
 shader_parameter/speed = 0.65
 shader_parameter/alpha_scale = 0.2
+shader_parameter/pixelation_amount = 20.0
 
-[sub_resource type="SphereMesh" id="SphereMesh_pbj56"]
-radius = 9.0
-height = 18.0
+[sub_resource type="QuadMesh" id="QuadMesh_rerfb"]
+size = Vector2(20, 20)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rerfb"]
 shader = ExtResource("1_pbj56")
@@ -38,6 +40,10 @@ shader_parameter/color = Color(1, 1, 1, 0)
 shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
 shader_parameter/speed = 0.65
 shader_parameter/alpha_scale = 0.26
+shader_parameter/pixelation_amount = 20.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_tug5k"]
+size = Vector2(20, 20)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2do5a"]
 
@@ -54,13 +60,16 @@ mesh = SubResource("QuadMesh_pbj56")
 [node name="MeshInstance2D2" type="MeshInstance2D" parent="." unique_id=273439607]
 modulate = Color(0.26, 0.85199976, 1, 1)
 material = SubResource("ShaderMaterial_tug5k")
-mesh = SubResource("SphereMesh_pbj56")
+mesh = SubResource("QuadMesh_rerfb")
 
 [node name="MeshInstance2D3" type="MeshInstance2D" parent="." unique_id=145559663]
 modulate = Color(0.26, 0.85199976, 1, 1)
 material = SubResource("ShaderMaterial_rerfb")
-mesh = SubResource("SphereMesh_pbj56")
+mesh = SubResource("QuadMesh_tug5k")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1879048778]
 visible = false
 shape = SubResource("CircleShape2D_2do5a")
+
+[node name="PickupSound" type="AudioStreamPlayer2D" parent="." unique_id=1349182277]
+stream = ExtResource("3_tug5k")

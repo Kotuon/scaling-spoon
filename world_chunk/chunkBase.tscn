@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b4p2b203ufvvb"]
+
+[ext_resource type="TileSet" uid="uid://bdu6qlhk1ohxy" path="res://tilesets/ancient_ruins_tileset.tres" id="1_hv6an"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hv6an"]
+size = Vector2(2048, 2048)
+
+[node name="ChunkBase" type="Area2D" unique_id=146455076]
+
+[node name="Ground" type="TileMapLayer" parent="." unique_id=868117445]
+tile_set = ExtResource("1_hv6an")
+
+[node name="VisiblityNotifier" type="VisibleOnScreenNotifier2D" parent="." unique_id=1523661883]
+visible = false
+rect = Rect2(-2048, -2048, 4096, 4096)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=588581732]
+shape = SubResource("RectangleShape2D_hv6an")

@@ -2,20 +2,24 @@ namespace Game.Entity;
 
 using Godot;
 
-public partial class ManaSphere : AreaTriggerItem
-{
+public
+partial class ManaSphere : AreaTriggerItem {
     [Export] float restore_amount = 10.0f;
-    protected override void ResolveCollisionEnter(Node node)
-    {
-        if (node is not Player)
-            return;
+protected
+    override void ResolveCollisionEnter( Node node ) {
+        if ( node is not Player ) return;
 
         Player player = node as Player;
 
-        Mana manaManager = player.GetComponent<Mana>();
-        manaManager.RestoreMana(restore_amount);
+        Mana manaManager = player.GetComponent< Mana >();
+        manaManager.RestoreMana( restore_amount );
+
+        var audio = GetNode< AudioStreamPlayer2D >( "PickupSound" );
+        RemoveChild( audio );
+        GetOwner().AddChild( audio );
+        audio.Finished += () => { audio.QueueFree(); };
+        audio.Play();
 
         QueueFree();
     }
-
 }
