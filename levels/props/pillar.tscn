@@ -1,7 +1,14 @@
 [gd_scene format=3 uid="uid://bhspg1m0gixv8"]
 
+[ext_resource type="Shader" uid="uid://uf48w1eylqnm" path="res://items/SeeThroughWall.gdshader" id="1_auxfo"]
 [ext_resource type="Texture2D" uid="uid://bkm8ilpxaoeej" path="res://assets/art/Environment/Props/animated/altar-front pillars.png" id="1_eysyl"]
 [ext_resource type="Texture2D" uid="uid://bsa61sq1sq3wb" path="res://assets/art/Environment/Props/animated/altar-aura fx.png" id="2_1vh5a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nod77"]
+shader = ExtResource("1_auxfo")
+shader_parameter/player_pos = Vector2(0, 0)
+shader_parameter/max_distance = 75.0
+shader_parameter/num = 0.0
 
 [sub_resource type="Animation" id="Animation_f8i2q"]
 length = 0.001
@@ -75,6 +82,7 @@ collision_mask = 25
 
 [node name="PillarSprite" type="Sprite2D" parent="." unique_id=844791374]
 visible = false
+material = SubResource("ShaderMaterial_nod77")
 position = Vector2(4, -44.444447)
 texture = ExtResource("1_eysyl")
 hframes = 78

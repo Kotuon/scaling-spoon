@@ -38,12 +38,25 @@ public partial class InfusibleKey : Entity.Key, IInteractable
             return _control;
         }
     }
+    private Sprite2D pillar_spr;
+    private Player player_ref;
 
     public override void _Ready()
     {
         base._Ready();
 
         control.Visible = false;
+
+        pillar_spr = GetNode<Sprite2D>("Pillar");
+        player_ref = GetTree().GetNodesInGroup("Player")[0] as Player;
+    }
+
+    public override void _Process(double delta)
+    {
+        base._Process(delta);
+
+        (pillar_spr.Material as ShaderMaterial).SetShaderParameter(
+            "player_pos", player_ref.GetGlobalTransformWithCanvas().Origin);
     }
 
 

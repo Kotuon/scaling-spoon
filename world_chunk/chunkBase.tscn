@@ -1,11 +1,14 @@
 [gd_scene format=3 uid="uid://b4p2b203ufvvb"]
 
+[ext_resource type="Script" uid="uid://6is6satvkwmd" path="res://src/world_creation/ChunkBase.cs" id="1_a50jh"]
 [ext_resource type="TileSet" uid="uid://bdu6qlhk1ohxy" path="res://tilesets/ancient_ruins_tileset.tres" id="1_hv6an"]
+[ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="3_qlt41"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hv6an"]
 size = Vector2(2048, 2048)
 
 [node name="ChunkBase" type="Area2D" unique_id=146455076]
+script = ExtResource("1_a50jh")
 
 [node name="Ground" type="TileMapLayer" parent="." unique_id=868117445]
 tile_set = ExtResource("1_hv6an")
@@ -16,3 +19,8 @@ rect = Rect2(-2048, -2048, 4096, 4096)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=588581732]
 shape = SubResource("RectangleShape2D_hv6an")
+
+[node name="Detail" type="TileMapLayer" parent="." unique_id=2128518848]
+z_index = 1
+y_sort_enabled = true
+tile_set = ExtResource("3_qlt41")

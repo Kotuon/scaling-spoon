@@ -5,8 +5,8 @@ uniform vec4 color : source_color;
 uniform sampler2D noise : repeat_enable, filter_nearest;
 
 uniform float speed = 0.5f;
-uniform float alpha_scale = 1.0f;
-uniform float pixelation_amount : hint_range(1.0, 100.0) = 20.0;
+uniform float alpha_scale : hint_range( 0.0, 2.0 ) = 1.0f;
+uniform float pixelation_amount : hint_range( 1.0, 100.0 ) = 20.0;
 
 float remap( float value, float inputA, float inputB, float outputA,
              float outputB ) {
@@ -24,7 +24,8 @@ void fragment() {
 
     vec2 grid_uv = round( UV * pixelation_amount ) / pixelation_amount;
 
-    float dist = distance( grid_uv, vec2( 0.5 ) );
+    float dist =
+        distance( vec2( grid_uv.x * 1.0, grid_uv.y ), vec2( 0.5, 0.5 ) );
 
     vec2 uv =
         grid_uv * vec2( remap( -cos( TIME * speed ), -1.0, 1.0, 0.50, 1.0 ),
@@ -32,8 +33,8 @@ void fragment() {
 
     COLOR.a = texture( noise, uv ).r * alpha_scale;
 
-    COLOR.a *= 1.0 - smoothstep( 0.3, 0.5, dist ) +
-               remap( sin( TIME ), -1.0, 1.0, -0.550, 0.025 );
+    COLOR.a *= 1.0 - smoothstep( 0.01, 0.60, dist ) +
+               remap( sin( TIME ), -1.0, 1.0, -0.350, 0.0025 );
 }
 
 // void light() {

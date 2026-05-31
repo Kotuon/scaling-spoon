@@ -1,11 +1,18 @@
 [gd_scene format=3 uid="uid://dos6ofyhnifsq"]
 
-[ext_resource type="Script" uid="uid://qfvaw22kbwgl" path="res://src/items/InfusibleKey.cs" id="1_j15mf"]
+[ext_resource type="Script" uid="uid://qfvaw22kbwgl" path="res://src/items/Interactable/InfusibleKey.cs" id="1_j15mf"]
 [ext_resource type="Shader" uid="uid://bafiutklb4bh3" path="res://shaders/InfusibleKey.gdshader" id="2_2ukul"]
+[ext_resource type="Shader" uid="uid://uf48w1eylqnm" path="res://items/SeeThroughWall.gdshader" id="2_syrrh"]
 [ext_resource type="Texture2D" uid="uid://bndtsge4r4vjd" path="res://assets/art/Environment/Props/atlas-props-individual sprites/Obelisk1-stand.png" id="3_51p8r"]
 [ext_resource type="Texture2D" uid="uid://cebpu2g075ah3" path="res://assets/art/Environment/Props/animated/Obelisk1-animation1-activating-70x150.png" id="4_t5bob"]
 [ext_resource type="Texture2D" uid="uid://b53qnh3rqguu2" path="res://assets/art/Environment/Props/animated/Obelisk1-animation2-activated-70x150.png" id="5_avecj"]
 [ext_resource type="FontFile" uid="uid://cnv5trghp6um2" path="res://assets/fonts/OpenDyslexic-Regular.otf" id="6_51p8r"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wssly"]
+shader = ExtResource("2_syrrh")
+shader_parameter/player_pos = Vector2(576, 324)
+shader_parameter/max_distance = 75.0
+shader_parameter/num = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_owh75"]
 radius = 120.0
@@ -19,6 +26,9 @@ noise = SubResource("FastNoiseLite_2ukul")
 shader = ExtResource("2_2ukul")
 shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
 shader_parameter/noise = SubResource("NoiseTexture2D_t5u5j")
+shader_parameter/speed = 0.5
+shader_parameter/alpha_scale = 1.0
+shader_parameter/pixelation_amount = 20.0
 
 [sub_resource type="QuadMesh" id="QuadMesh_j15mf"]
 
@@ -27,7 +37,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/path = NodePath("Pillar:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -39,7 +49,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/path = NodePath("Pillar:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -51,7 +61,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/path = NodePath("Pillar:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -63,7 +73,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/path = NodePath("Pillar:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -84,7 +94,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/path = NodePath("Pillar:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -96,7 +106,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/path = NodePath("Pillar:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -108,7 +118,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/path = NodePath("Pillar:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -120,7 +130,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/path = NodePath("Pillar:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -138,7 +148,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/path = NodePath("Pillar:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -150,7 +160,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/path = NodePath("Pillar:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -162,7 +172,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
+tracks/2/path = NodePath("Pillar:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -174,7 +184,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:frame")
+tracks/3/path = NodePath("Pillar:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -204,14 +214,16 @@ height = 38.0
 collision_layer = 4
 script = ExtResource("1_j15mf")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1704696261]
+[node name="Pillar" type="Sprite2D" parent="." unique_id=1704696261]
 z_index = 1
+material = SubResource("ShaderMaterial_wssly")
 position = Vector2(1, -91)
 scale = Vector2(2, 2)
 texture = ExtResource("4_t5bob")
 hframes = 17
 
 [node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1737885583]
+z_index = 1
 position = Vector2(0, 9)
 scale = Vector2(2, 2)
 texture = ExtResource("3_51p8r")
