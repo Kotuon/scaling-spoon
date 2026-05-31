@@ -17,7 +17,35 @@ public partial class DetailLayer : TileMapLayer
     {
         base._Process(delta);
 
-        (Material as ShaderMaterial).SetShaderParameter(
-            "player_pos", player_ref.GetGlobalTransformWithCanvas().Origin);
+        var cells = GetUsedCells();
+
+        foreach (var cell_id in cells)
+        {
+            var cell = GetCellTileData(cell_id);
+
+            (cell.Material as ShaderMaterial).SetShaderParameter(
+                "player_pos", player_ref.GetGlobalTransformWithCanvas().Origin);
+        }
+
+        // (Material as ShaderMaterial).SetShaderParameter(
+        //     "player_pos", player_ref.GetGlobalTransformWithCanvas().Origin);
+
+
+    }
+
+    public override void _Draw()
+    {
+        base._Draw();
+
+        // var cells = GetUsedCells();
+
+        // foreach (var cell_id in cells)
+        // {
+        //     var cell = GetCellTileData(cell_id);
+
+        //     var pos = MapToLocal(cell_id);
+
+        //     DrawCircle(new Vector2(pos.X, pos.Y + (float)cell.YSortOrigin), 5.0f, new Color(1.0f, 0.0f, 0.0f));
+        // }
     }
 }

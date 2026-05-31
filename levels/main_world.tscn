@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://kxjhpka47uu"]
 
 [ext_resource type="PackedScene" uid="uid://dtlre4up7j1t2" path="res://levels/main_world_tiles/0,0.tscn" id="1_3rllg"]
+[ext_resource type="Script" uid="uid://eptdpk0dadic" path="res://levels/ChunkPlacer.cs" id="1_8heh8"]
 [ext_resource type="PackedScene" uid="uid://j4ssssbtgg2r" path="res://levels/main_world_tiles/0,1.tscn" id="2_ewxwl"]
 [ext_resource type="PackedScene" uid="uid://3diay8dqys0x" path="res://levels/main_world_tiles/0,2.tscn" id="3_yylme"]
 [ext_resource type="PackedScene" uid="uid://8qunolmrdsle" path="res://levels/main_world_tiles/0,3.tscn" id="4_ewxwl"]
@@ -18,79 +19,103 @@
 [ext_resource type="PackedScene" uid="uid://o2vjtjhjqdfk" path="res://levels/main_world_tiles/_3,5.tscn" id="9_3qosh"]
 [ext_resource type="PackedScene" uid="uid://cgl6amwl41c47" path="res://levels/main_world_tiles/_4,3.tscn" id="10_y4sao"]
 [ext_resource type="PackedScene" uid="uid://dos6ofyhnifsq" path="res://items/InfusibleKey.tscn" id="18_y4sao"]
+[ext_resource type="PackedScene" uid="uid://djd0e3xe5dfjl" path="res://items/Portal.tscn" id="20_51bap"]
 
 [node name="Level" type="Node2D" unique_id=1597067820]
 y_sort_enabled = true
+texture_filter = 1
+script = ExtResource("1_8heh8")
 
 [node name="TileMaps" type="Node2D" parent="." unique_id=2077878477]
 y_sort_enabled = true
-scale = Vector2(1.5, 1.5)
 
 [node name="0,0" parent="TileMaps" unique_id=1808979389 instance=ExtResource("1_3rllg")]
+scale = Vector2(1.5, 1.5)
 
 [node name="0,1" parent="TileMaps" unique_id=442845912 instance=ExtResource("2_ewxwl")]
-position = Vector2(0, -2048)
+position = Vector2(0, -3072)
+scale = Vector2(1.5, 1.5)
 
 [node name="0,2" parent="TileMaps" unique_id=1182359033 instance=ExtResource("3_yylme")]
-position = Vector2(0, -4096)
+position = Vector2(0, -6144)
+scale = Vector2(1.5, 1.5)
 
 [node name="0,3" parent="TileMaps" unique_id=402999772 instance=ExtResource("4_ewxwl")]
-position = Vector2(0, -6144)
+position = Vector2(0, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="0,4" parent="TileMaps" unique_id=398694909 instance=ExtResource("4_ewxwl")]
-position = Vector2(0, -8192)
+position = Vector2(0, -12288)
+scale = Vector2(1.5, 1.5)
 
 [node name="1,3" parent="TileMaps" unique_id=528694369 instance=ExtResource("4_ewxwl")]
-position = Vector2(2048, -6144)
+position = Vector2(3072, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="2,3" parent="TileMaps" unique_id=9432023 instance=ExtResource("4_ewxwl")]
-position = Vector2(4096, -6144)
+position = Vector2(6144, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="3,3" parent="TileMaps" unique_id=325763102 instance=ExtResource("4_ewxwl")]
-position = Vector2(6144, -6144)
+position = Vector2(9216, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="4,3" parent="TileMaps" unique_id=1154844578 instance=ExtResource("5_3qosh")]
-position = Vector2(8192, -6144)
+position = Vector2(12288, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="4,2" parent="TileMaps" unique_id=701790499 instance=ExtResource("6_y4sao")]
-position = Vector2(8192, -4096)
+position = Vector2(12288, -6144)
+scale = Vector2(1.5, 1.5)
 
 [node name="4,1" parent="TileMaps" unique_id=136296986 instance=ExtResource("7_8heh8")]
-position = Vector2(8192, -2048)
+position = Vector2(12288, -3072)
+scale = Vector2(1.5, 1.5)
 
 [node name="4,0" parent="TileMaps" unique_id=1082329490 instance=ExtResource("8_51bap")]
-position = Vector2(8192, 0)
+position = Vector2(12288, 0)
+scale = Vector2(1.5, 1.5)
 
 [node name="-1,3" parent="TileMaps" unique_id=1840884646 instance=ExtResource("5_jpjmb")]
-position = Vector2(-2048, -6144)
+position = Vector2(-3072, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="-2,3" parent="TileMaps" unique_id=896568000 instance=ExtResource("6_tsf8b")]
-position = Vector2(-4096, -6144)
+position = Vector2(-6144, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="-3,3" parent="TileMaps" unique_id=909098825 instance=ExtResource("7_f23x1")]
-position = Vector2(-6144, -6144)
+position = Vector2(-9216, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="-3,4" parent="TileMaps" unique_id=1786246207 instance=ExtResource("8_oxek2")]
-position = Vector2(-6144, -8192)
+position = Vector2(-9216, -12288)
+scale = Vector2(1.5, 1.5)
 
 [node name="-3,5" parent="TileMaps" unique_id=884810219 instance=ExtResource("9_3qosh")]
-position = Vector2(-6144, -10240)
+position = Vector2(-9216, -15360)
+scale = Vector2(1.5, 1.5)
 
 [node name="-4,3" parent="TileMaps" unique_id=1708117061 instance=ExtResource("10_y4sao")]
-position = Vector2(-8192, -6144)
+position = Vector2(-12288, -9216)
+scale = Vector2(1.5, 1.5)
 
 [node name="1,0" parent="TileMaps" unique_id=1702524263 instance=ExtResource("4_y40ln")]
-position = Vector2(2048, 0)
+position = Vector2(3072, 0)
+scale = Vector2(1.5, 1.5)
 
 [node name="-1,0" parent="TileMaps" unique_id=84129794 instance=ExtResource("5_pusul")]
-position = Vector2(-2048, 0)
+position = Vector2(-3072, 0)
+scale = Vector2(1.5, 1.5)
 
 [node name="YSort" type="Node2D" parent="." unique_id=1474095499]
 y_sort_enabled = true
 
-[node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("6_cne4x")]
-y_sort_enabled = true
-position = Vector2(-630, -75)
-
-[node name="InfusibleKey" parent="." unique_id=927199951 instance=ExtResource("18_y4sao")]
+[node name="InfusibleKey" parent="YSort" unique_id=927199951 instance=ExtResource("18_y4sao")]
 position = Vector2(-4, -136)
+
+[node name="Portal" parent="YSort" unique_id=46178384 instance=ExtResource("20_51bap")]
+position = Vector2(0, -13496)
+
+[node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("6_cne4x")]
+position = Vector2(-630, -75)

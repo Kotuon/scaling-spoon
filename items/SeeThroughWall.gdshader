@@ -1,7 +1,9 @@
 shader_type canvas_item;
 
 uniform vec2 player_pos = vec2( 0, 0 );
-uniform float max_distance = 125.0;
+uniform float max_distance = 30.0;
+
+uniform sampler2D player_tex;
 
 float remap( float value, float inputA, float inputB, float outputA,
              float outputB ) {
@@ -15,13 +17,14 @@ void vertex() {
 
 void fragment() {
     // Called for every pixel the material is visible on.
-    if ( COLOR.a > 0.75 ) {
+    if ( COLOR.a > 0.75 && COLOR == texture( TEXTURE, UV ) ) {
         float distance_to_player = distance( FRAGCOORD.xy, player_pos );
-		//float dist = remap(distance_to_player - max_distance, 0.0, max_distance, 0.3, 1.0);
-		//COLOR.a = dist;
-        COLOR.a = clamp(
-            ( ( distance_to_player - max_distance ) / max_distance * 5.0 ), 0.3,
-            1 );
+        float dist = remap( distance_to_player, 0.0,
+                            max_distance, 0.1, 1.0 );
+        COLOR.a = dist;
+        // COLOR.a = clamp(
+        //     ( ( distance_to_player - max_distance ) / max_distance * 5.0 ),
+        //     0.3, 1 );
     }
 }
 

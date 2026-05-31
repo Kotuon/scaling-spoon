@@ -8,7 +8,6 @@
 shader = ExtResource("1_auxfo")
 shader_parameter/player_pos = Vector2(0, 0)
 shader_parameter/max_distance = 75.0
-shader_parameter/num = 0.0
 
 [sub_resource type="Animation" id="Animation_f8i2q"]
 length = 0.001
@@ -83,19 +82,21 @@ collision_mask = 25
 [node name="PillarSprite" type="Sprite2D" parent="." unique_id=844791374]
 visible = false
 material = SubResource("ShaderMaterial_nod77")
-position = Vector2(4, -44.444447)
 texture = ExtResource("1_eysyl")
+offset = Vector2(4.35, -47.934)
 hframes = 78
 
 [node name="Effect" type="Sprite2D" parent="." unique_id=1139535865]
-position = Vector2(1, -56.444447)
+position = Vector2(1, 0)
 texture = ExtResource("2_1vh5a")
+offset = Vector2(0, -58.705)
 hframes = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Effect" unique_id=438151240]
 libraries/ = SubResource("AnimationLibrary_dj3kb")
 
 [node name="Collider" type="CollisionShape2D" parent="." unique_id=894664874]
+visible = false
 position = Vector2(-5.9604645e-08, 3.555556)
 rotation = 0.7853982
 scale = Vector2(0.99999994, 0.99999994)

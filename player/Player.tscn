@@ -115,8 +115,8 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fmlfo"]
-radius = 11.0
-height = 24.0
+radius = 9.89
+height = 19.78
 
 [sub_resource type="AudioStream" id="AudioStream_uoipf"]
 
@@ -342,6 +342,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler") groups=["Characters", "Player"]]
 z_index = 1
+y_sort_enabled = true
 collision_mask = 30
 motion_mode = 1
 platform_on_leave = 2
@@ -350,6 +351,7 @@ move = NodePath("AbilityManager/Move")
 animationHandler = NodePath("PlayerAnimationHandler")
 
 [node name="AbilityManager" parent="." unique_id=346779894 instance=ExtResource("2_t7u8x")]
+position = Vector2(0, -27)
 
 [node name="Move" parent="AbilityManager" unique_id=655076870 node_paths=PackedStringArray("footstepPlayer") instance=ExtResource("2_v2pqu")]
 footstepSounds = Array[AudioStream]([ExtResource("3_e6io6"), ExtResource("4_ynqyi"), ExtResource("5_tveiy"), ExtResource("6_mtywo"), ExtResource("7_p6t8x"), ExtResource("8_ro7l0"), ExtResource("9_okfx0"), ExtResource("10_pa0na"), ExtResource("11_5pdkm"), ExtResource("12_f4gi0")])
@@ -373,6 +375,7 @@ thresholdPercent = 0.01
 cost = 0.0
 
 [node name="Combo" parent="AbilityManager" unique_id=848838239 instance=ExtResource("18_ddnt4")]
+visible = false
 position = Vector2(0, 50)
 
 [node name="Mouse" parent="." unique_id=1452754236 instance=ExtResource("30_ddnt4")]
@@ -394,10 +397,12 @@ texture_filter = 1
 material = SubResource("ShaderMaterial_7wro5")
 scale = Vector2(3, 3)
 texture = ExtResource("20_76mgg")
+offset = Vector2(0, -9.05)
 hframes = 6
 vframes = 5
 
 [node name="PlayerAnimationHandler" parent="." unique_id=806842331 instance=ExtResource("30_a0lmo")]
+position = Vector2(0, -27)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerAnimationHandler" unique_id=797888822]
 root_node = NodePath("../..")
@@ -406,6 +411,7 @@ libraries/CrimsonRed = ExtResource("22_8eyfg")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1710388725]
 top_level = true
+position = Vector2(0, -27)
 zoom = Vector2(0.8, 0.8)
 script = ExtResource("39_ayguc")
 shake_noise = SubResource("FastNoiseLite_y2u3w")
@@ -416,49 +422,58 @@ debug_draw = false
 [node name="Control" type="Control" parent="Camera2D" unique_id=221681312]
 z_index = 1
 layout_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
+anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 4.0
 offset_bottom = 4.0
-grow_vertical = 0
+grow_vertical = 2
 script = ExtResource("41_2q4k2")
+metadata/_edit_use_anchors_ = true
 
 [node name="ManaBar" type="ProgressBar" parent="Camera2D/Control" unique_id=67778431]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = -6.75
+anchor_bottom = -6.75
 offset_left = -40.0
 offset_top = 38.0
 offset_right = 40.0
 offset_bottom = 48.0
 theme = ExtResource("43_7tnb4")
 show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="Locked" type="CanvasLayer" parent="Camera2D/Control" unique_id=497301667]
 
 [node name="HealthBar" type="ProgressBar" parent="Camera2D/Control/Locked" unique_id=1737805377]
 offset_left = 24.0
-offset_top = 668.0
+offset_top = 641.0
 offset_right = 224.0
-offset_bottom = 696.0
+offset_bottom = 669.0
 theme = ExtResource("43_7tnb4")
 theme_override_styles/fill = SubResource("StyleBoxFlat_w36ex")
 value = 62.19
+metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=195966125]
-visible = false
+z_index = 2
 y_sort_enabled = true
-position = Vector2(0, 21)
+position = Vector2(0, -3.89)
 shape = SubResource("CapsuleShape2D_fmlfo")
 script = ExtResource("29_uyl0s")
 
 [node name="Footsteps" type="AudioStreamPlayer2D" parent="." unique_id=1087268395]
+position = Vector2(0, -27)
 stream = SubResource("AudioStream_uoipf")
 
 [node name="PlayerController" parent="." unique_id=726150015 instance=ExtResource("39_610ub")]
+position = Vector2(0, -27)
 
 [node name="Mana" parent="." unique_id=1548554336 instance=ExtResource("42_lnwue")]
+position = Vector2(0, -27)
 
 [node name="Health" parent="." unique_id=629662058 instance=ExtResource("46_7wro5")]
+position = Vector2(0, -27)
 
 [node name="Spren" type="CharacterBody2D" parent="." unique_id=378260796]
 visible = false

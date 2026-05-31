@@ -57,6 +57,6 @@ public partial class ChunkBase : Area2D
         id.Y = y.ToInt();
 
         Position =
-            new Vector2((float)id.X * tile_size, -(float)id.Y * tile_size);
+            new Vector2((float)id.X * tile_size * Scale.X, -(float)id.Y * tile_size * Scale.Y);
     }
 }
