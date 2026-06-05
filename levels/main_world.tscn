@@ -1,33 +1,41 @@
 [gd_scene format=3 uid="uid://kxjhpka47uu"]
 
-[ext_resource type="PackedScene" uid="uid://dtlre4up7j1t2" path="res://levels/main_world_tiles/0,0.tscn" id="1_3rllg"]
+[ext_resource type="PackedScene" uid="uid://dtlre4up7j1t2" path="res://levels/main_world/0,0.tscn" id="1_3rllg"]
 [ext_resource type="Script" uid="uid://eptdpk0dadic" path="res://levels/ChunkPlacer.cs" id="1_8heh8"]
-[ext_resource type="PackedScene" uid="uid://j4ssssbtgg2r" path="res://levels/main_world_tiles/0,1.tscn" id="2_ewxwl"]
-[ext_resource type="PackedScene" uid="uid://3diay8dqys0x" path="res://levels/main_world_tiles/0,2.tscn" id="3_yylme"]
-[ext_resource type="PackedScene" uid="uid://8qunolmrdsle" path="res://levels/main_world_tiles/0,3.tscn" id="4_ewxwl"]
-[ext_resource type="PackedScene" uid="uid://bxpdejst6ubhl" path="res://levels/main_world_tiles/1,0.tscn" id="4_y40ln"]
-[ext_resource type="PackedScene" uid="uid://rey2x78iludc" path="res://levels/main_world_tiles/4,3.tscn" id="5_3qosh"]
-[ext_resource type="PackedScene" uid="uid://btluh70f7p18p" path="res://levels/main_world_tiles/_1,3.tscn" id="5_jpjmb"]
-[ext_resource type="PackedScene" uid="uid://d1mih0gcyfnvr" path="res://levels/main_world_tiles/_1,0.tscn" id="5_pusul"]
+[ext_resource type="PackedScene" uid="uid://j4ssssbtgg2r" path="res://levels/main_world/0,1.tscn" id="2_ewxwl"]
+[ext_resource type="Script" uid="uid://bhjevbi20fseu" path="res://levels/ChildNodeSave.cs" id="2_th4h4"]
+[ext_resource type="PackedScene" uid="uid://3diay8dqys0x" path="res://levels/main_world/0,2.tscn" id="3_yylme"]
+[ext_resource type="PackedScene" uid="uid://8qunolmrdsle" path="res://levels/main_world/0,3.tscn" id="4_ewxwl"]
+[ext_resource type="PackedScene" uid="uid://bxpdejst6ubhl" path="res://levels/main_world/1,0.tscn" id="4_y40ln"]
+[ext_resource type="PackedScene" uid="uid://rey2x78iludc" path="res://levels/main_world/4,3.tscn" id="5_3qosh"]
+[ext_resource type="PackedScene" uid="uid://btluh70f7p18p" path="res://levels/main_world/_1,3.tscn" id="5_jpjmb"]
+[ext_resource type="PackedScene" uid="uid://d1mih0gcyfnvr" path="res://levels/main_world/_1,0.tscn" id="5_pusul"]
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="6_cne4x"]
-[ext_resource type="PackedScene" uid="uid://5tqsbegiyq1o" path="res://levels/main_world_tiles/_2,3.tscn" id="6_tsf8b"]
-[ext_resource type="PackedScene" uid="uid://rbxeqc53kokt" path="res://levels/main_world_tiles/4,2.tscn" id="6_y4sao"]
-[ext_resource type="PackedScene" uid="uid://6gu2mjxx5d7i" path="res://levels/main_world_tiles/4,1.tscn" id="7_8heh8"]
-[ext_resource type="PackedScene" uid="uid://dqixnbt5oknkn" path="res://levels/main_world_tiles/_3,3.tscn" id="7_f23x1"]
-[ext_resource type="PackedScene" uid="uid://nq760msxs3v0" path="res://levels/main_world_tiles/4,0.tscn" id="8_51bap"]
-[ext_resource type="PackedScene" uid="uid://dg2o3a2ylx3af" path="res://levels/main_world_tiles/_3,4.tscn" id="8_oxek2"]
-[ext_resource type="PackedScene" uid="uid://o2vjtjhjqdfk" path="res://levels/main_world_tiles/_3,5.tscn" id="9_3qosh"]
-[ext_resource type="PackedScene" uid="uid://cgl6amwl41c47" path="res://levels/main_world_tiles/_4,3.tscn" id="10_y4sao"]
+[ext_resource type="PackedScene" uid="uid://5tqsbegiyq1o" path="res://levels/main_world/_2,3.tscn" id="6_tsf8b"]
+[ext_resource type="PackedScene" uid="uid://rbxeqc53kokt" path="res://levels/main_world/4,2.tscn" id="6_y4sao"]
+[ext_resource type="PackedScene" uid="uid://6gu2mjxx5d7i" path="res://levels/main_world/4,1.tscn" id="7_8heh8"]
+[ext_resource type="PackedScene" uid="uid://dqixnbt5oknkn" path="res://levels/main_world/_3,3.tscn" id="7_f23x1"]
+[ext_resource type="PackedScene" uid="uid://nq760msxs3v0" path="res://levels/main_world/4,0.tscn" id="8_51bap"]
+[ext_resource type="PackedScene" uid="uid://dg2o3a2ylx3af" path="res://levels/main_world/_3,4.tscn" id="8_oxek2"]
+[ext_resource type="PackedScene" uid="uid://o2vjtjhjqdfk" path="res://levels/main_world/_3,5.tscn" id="9_3qosh"]
+[ext_resource type="PackedScene" uid="uid://cgl6amwl41c47" path="res://levels/main_world/_4,3.tscn" id="10_y4sao"]
 [ext_resource type="PackedScene" uid="uid://dos6ofyhnifsq" path="res://items/InfusibleKey.tscn" id="18_y4sao"]
+[ext_resource type="PackedScene" uid="uid://d2ft65dtrliyt" path="res://items/temple.tscn" id="20_0dxp3"]
 [ext_resource type="PackedScene" uid="uid://djd0e3xe5dfjl" path="res://items/Portal.tscn" id="20_51bap"]
+[ext_resource type="PackedScene" uid="uid://dktxtqf3s4mjq" path="res://levels/main_world/-4,4.tscn" id="23_bbpd5"]
+[ext_resource type="PackedScene" uid="uid://diod4d1k3drf3" path="res://levels/main_world/-4,5.tscn" id="24_ibtvf"]
+[ext_resource type="PackedScene" uid="uid://b3cm1oj1lk4cu" path="res://levels/main_world/-5,3.tscn" id="25_pshcn"]
+[ext_resource type="PackedScene" uid="uid://da3o4416t8qlv" path="res://levels/main_world/-5,4.tscn" id="26_mdf73"]
+[ext_resource type="PackedScene" uid="uid://tiy26ty5xl2q" path="res://levels/main_world/-5,5.tscn" id="27_iasjs"]
 
-[node name="Level" type="Node2D" unique_id=1597067820]
+[node name="main_world" type="Node2D" unique_id=1597067820]
 y_sort_enabled = true
 texture_filter = 1
 script = ExtResource("1_8heh8")
 
 [node name="TileMaps" type="Node2D" parent="." unique_id=2077878477]
 y_sort_enabled = true
+script = ExtResource("2_th4h4")
 
 [node name="0,0" parent="TileMaps" unique_id=1808979389 instance=ExtResource("1_3rllg")]
 scale = Vector2(1.5, 1.5)
@@ -108,14 +116,34 @@ scale = Vector2(1.5, 1.5)
 position = Vector2(-3072, 0)
 scale = Vector2(1.5, 1.5)
 
+[node name="-5,5" parent="TileMaps" unique_id=818021310 instance=ExtResource("27_iasjs")]
+position = Vector2(-15360, -15360)
+
+[node name="-4,4" parent="TileMaps" unique_id=1656343454 instance=ExtResource("23_bbpd5")]
+
+[node name="-4,5" parent="TileMaps" unique_id=1685666498 instance=ExtResource("24_ibtvf")]
+position = Vector2(-12288, -15360)
+
+[node name="-5,3" parent="TileMaps" unique_id=1099738821 instance=ExtResource("25_pshcn")]
+position = Vector2(-15360, -9216)
+
+[node name="-5,4" parent="TileMaps" unique_id=1060345857 instance=ExtResource("26_mdf73")]
+position = Vector2(-15360, -12288)
+
 [node name="YSort" type="Node2D" parent="." unique_id=1474095499]
 y_sort_enabled = true
 
 [node name="InfusibleKey" parent="YSort" unique_id=927199951 instance=ExtResource("18_y4sao")]
 position = Vector2(-4, -136)
 
+[node name="InfusibleKey3" parent="YSort" unique_id=1818421228 instance=ExtResource("18_y4sao")]
+position = Vector2(12362, 1076)
+
 [node name="Portal" parent="YSort" unique_id=46178384 instance=ExtResource("20_51bap")]
 position = Vector2(0, -13496)
 
+[node name="Temple" parent="YSort" unique_id=2078355681 instance=ExtResource("20_0dxp3")]
+position = Vector2(-12373, -15496)
+
 [node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("6_cne4x")]
-position = Vector2(-630, -75)
+position = Vector2(-12341, -4842)

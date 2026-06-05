@@ -22,6 +22,22 @@ public partial class ChunkPlacer : Node2D
 
             detail.GlobalPosition = chunk.GlobalPosition;
             detail.Scale *= Scale * chunk.Scale;
+
+            if (!tilemap.HasNode("YSort")) continue;
+            var child_ysort = tilemap.GetNode<Node2D>("YSort");
+
+            var ysort_children = child_ysort.GetChildren();
+            foreach(var child in ysort_children)
+            {
+                var global_pos = (child as Node2D).GlobalPosition;
+                var global_scale = (child as Node2D).GlobalScale;
+
+                child_ysort.RemoveChild(child);
+                sort.AddChild(child);
+
+                (child as Node2D).GlobalPosition = global_pos;
+                (child as Node2D).GlobalScale = global_scale;
+            }
         }
     }
 

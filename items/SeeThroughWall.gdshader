@@ -20,7 +20,7 @@ void fragment() {
     if ( COLOR.a > 0.75 && COLOR == texture( TEXTURE, UV ) ) {
         float distance_to_player = distance( FRAGCOORD.xy, player_pos );
         float dist = remap( distance_to_player, 0.0,
-                            max_distance, 0.1, 1.0 );
+                            max_distance, 0.05, 1.0 );
         COLOR.a = dist;
         // COLOR.a = clamp(
         //     ( ( distance_to_player - max_distance ) / max_distance * 5.0 ),
