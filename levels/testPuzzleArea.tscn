@@ -112,7 +112,6 @@ scale = Vector2(2, 2)
 texture = ExtResource("6_4xs3d")
 
 [node name="ObstacleBase4" parent="Obstacles/MovingPlatform" unique_id=344280903 instance=ExtResource("1_qaqhw")]
-visible = false
 position = Vector2(0, -292.32996)
 scale = Vector2(3.8, 6)
 

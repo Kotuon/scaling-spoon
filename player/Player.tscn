@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://c6h4sa3coyrp4" path="res://items/projectiles/SpearProjectile.tscn" id="16_8eyfg"]
 [ext_resource type="PackedScene" uid="uid://cy20yp5ktv4xe" path="res://components/abilities/Dash.tscn" id="17_ayguc"]
 [ext_resource type="PackedScene" uid="uid://cf7fmwdpsr8kx" path="res://components/abilities/Combo.tscn" id="18_ddnt4"]
+[ext_resource type="PackedScene" uid="uid://v40fjs68dot8" path="res://components/abilities/Roll.tscn" id="19_uyl0s"]
 [ext_resource type="Shader" uid="uid://smdmcyt21hsa" path="res://shaders/bloom.gdshader" id="19_w36ex"]
 [ext_resource type="Texture2D" uid="uid://c58rc15tgrkw3" path="res://assets/art/PlayerCrimsonRed/Idle Default.png" id="20_76mgg"]
 [ext_resource type="AnimationLibrary" uid="uid://bgrso2rsp1hwf" path="res://animation_libraries/LegacyPlayer.res" id="21_y617q"]
@@ -35,6 +36,11 @@
 [ext_resource type="PackedScene" uid="uid://dcp0vyruqx8xr" path="res://components/attributes/Mana.tscn" id="42_lnwue"]
 [ext_resource type="Theme" uid="uid://clercpxyi78aa" path="res://themes/UIThemes.tres" id="43_7tnb4"]
 [ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="46_7wro5"]
+
+[sub_resource type="Curve" id="Curve_uyl0s"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.1, 1.75), 0.0, 0.0, 0, 0, Vector2(1, 0.75), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="Curve" id="Curve_8eyfg"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -362,7 +368,6 @@ cost = 0.0
 [node name="Shield" parent="AbilityManager" unique_id=647591326 instance=ExtResource("14_76mgg")]
 cooldown = 5.0
 cost = 0.0
-Enabled = false
 
 [node name="Throw" parent="AbilityManager" unique_id=2083118973 instance=ExtResource("32_234y4")]
 proj = ExtResource("16_8eyfg")
@@ -373,10 +378,14 @@ cost = 80.0
 updateCost = 15.0
 thresholdPercent = 0.01
 cost = 0.0
+Enabled = false
 
 [node name="Combo" parent="AbilityManager" unique_id=848838239 instance=ExtResource("18_ddnt4")]
 visible = false
 position = Vector2(0, 50)
+
+[node name="Roll" parent="AbilityManager" unique_id=925073885 instance=ExtResource("19_uyl0s")]
+RollSpeedCurve = SubResource("Curve_uyl0s")
 
 [node name="Mouse" parent="." unique_id=1452754236 instance=ExtResource("30_ddnt4")]
 visible = false

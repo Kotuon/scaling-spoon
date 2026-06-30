@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://djc70ojfcqyav"]
+
+[ext_resource type="Script" uid="uid://b1hmd24mcha87" path="res://src/obstacles/components/MoveToOffsetOnInfuse.cs" id="1_j00hn"]
+
+[node name="MoveToOffsetOnInfuse" type="Node2D" unique_id=1072628385]
+script = ExtResource("1_j00hn")
+enabled = false

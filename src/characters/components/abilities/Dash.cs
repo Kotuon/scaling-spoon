@@ -41,6 +41,8 @@ public partial class Dash : Ability {
     }
 
     public override void _Input( InputEvent @event ) {
+        if (!Enabled) return;
+
         base._Input( @event );
 
         if ( !isActive && !onCooldown &&

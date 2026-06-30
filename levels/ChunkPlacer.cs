@@ -13,9 +13,11 @@ public partial class ChunkPlacer : Node2D
             if (tilemap is not Area2D) continue;
 
             var chunk = tilemap as Area2D;
-            // var ground = tilemap.GetNode<TileMapLayer>("Ground");
+            var ground = tilemap.GetNode<TileMapLayer>("Ground");
             var detail = tilemap.GetNode<TileMapLayer>("Detail");
             detail.Name += chunk.Name;
+
+            ground.ZIndex = -1;
 
             chunk.RemoveChild(detail);
             sort.AddChild(detail);

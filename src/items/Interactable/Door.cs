@@ -36,6 +36,7 @@ public partial class Door : AreaTriggerItem, IInteractable {
     public override void _Ready() {
         base._Ready();
 
+        // Manually set in editor now
         // var children = GetChildren();
 
         // foreach ( var child in children ) {

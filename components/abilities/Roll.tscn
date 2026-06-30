@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://v40fjs68dot8"]
+
+[ext_resource type="Script" uid="uid://l25kyl8bdi5v" path="res://src/characters/components/abilities/Roll.cs" id="1_qysrl"]
+
+[node name="Roll" type="Node2D" unique_id=925073885]
+script = ExtResource("1_qysrl")
+cost = 0.0

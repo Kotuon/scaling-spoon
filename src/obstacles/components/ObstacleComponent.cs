@@ -5,8 +5,8 @@ using Godot;
 
 public partial class ObstacleComponent : Node2D, IAutoDoor
 {
-    protected Godot.Collections.Array<Entity.Key> keys =
-        new Godot.Collections.Array<Entity.Key>();
+    [Export]
+    protected Godot.Collections.Array<Area2D> keys = [];
 
     protected Obstacle _parent = null;
 
@@ -35,19 +35,6 @@ public partial class ObstacleComponent : Node2D, IAutoDoor
 
         GetParent<Area2D>().BodyEntered += ResolveCollisionEnter;
         GetParent<Area2D>().BodyExited += ResolveCollisionExit;
-
-        var children = GetChildren();
-
-        foreach (var child in children)
-        {
-            if (child is not Entity.Key)
-            {
-                continue;
-            }
-
-            keys.Add(child as Entity.Key);
-            GD.Print(Name + " Keys: " + keys.Count);
-        }
     }
 
     public override void _Process(double delta)
@@ -71,8 +58,10 @@ public partial class ObstacleComponent : Node2D, IAutoDoor
 
     public bool CheckIfShouldActivate()
     {
-        foreach (var key in keys)
+        foreach (var akey in keys)
         {
+            if (akey is not Entity.Key key) continue;
+
             if (!key.completed) return false;
         }
 

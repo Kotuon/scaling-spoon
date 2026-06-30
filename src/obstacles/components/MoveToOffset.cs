@@ -25,13 +25,16 @@ public partial class MoveToOffset : ObstacleComponent
 
     public override void _Ready()
     {
-        base._Ready();
+        if (!Engine.IsEditorHint())
+        {
+            base._Ready();
 
-        startPosition = GetParent<Node2D>().Position;
-        targetPosition =
-            (Position * parent.GlobalScale).Rotated(parent.Rotation);
+            startPosition = GetParent<Node2D>().Position;
+            targetPosition =
+                (Position * parent.GlobalScale).Rotated(parent.Rotation);
 
-        totalTime = -startDelay;
+            totalTime = -startDelay;
+        }
     }
 
     public override void _Draw()
@@ -40,12 +43,11 @@ public partial class MoveToOffset : ObstacleComponent
 
         if (Engine.IsEditorHint())
         {
+            if (GetParent() is not Area2D) return;
             MeshInstance2D c = GetNode<MeshInstance2D>("../MeshInstance2D");
             Vector2 size = (c.Mesh as QuadMesh).Size;
 
 
-            // DrawLine(GetParent<Node2D>().Position, Position,
-            //     new Color(0.0f, 1.0f, 1.0f));
             DrawLine(Vector2.Zero, -Position,
                 new Color(0.0f, 1.0f, 1.0f));
             DrawRect(new Rect2(-size / 2.0f, size / 1.0f),

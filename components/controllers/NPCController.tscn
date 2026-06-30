@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bebl2khmjo6t1"]
+
+[ext_resource type="Script" uid="uid://d3j788lp1bx8u" path="res://src/characters/components/controllers/Controller.cs" id="1_i6sck"]
+
+[node name="NpcController" type="Node2D" unique_id=1260092571]
+script = ExtResource("1_i6sck")

@@ -36,6 +36,9 @@ public partial class PlayerController : Controller {
 
         foreach ( Node action in actions ) {
             Ability ability = action as Ability;
+
+            if (!ability.Enabled) continue;
+
             actionMap.Add( ability.abilityName, ability );
         }
     }
