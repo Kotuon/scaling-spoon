@@ -15,6 +15,7 @@ offsets = PackedFloat32Array(0, 0.6747573, 1)
 colors = PackedColorArray(0, 1, 0.9764706, 1, 0, 1, 0.9764706, 1, 0, 1, 0.98333335, 0)
 
 [node name="Projectile" type="CharacterBody2D" unique_id=2066999989]
+z_index = 2
 scale = Vector2(3, 3)
 collision_layer = 8
 collision_mask = 3

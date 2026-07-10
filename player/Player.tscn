@@ -26,10 +26,8 @@
 [ext_resource type="PackedScene" uid="uid://cw7edttgohtsy" path="res://components/PlayerAnimationHandler.tscn" id="30_a0lmo"]
 [ext_resource type="PackedScene" uid="uid://b8jg7bg0n8mvb" path="res://player/Mouse.tscn" id="30_ddnt4"]
 [ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="32_234y4"]
-[ext_resource type="Texture2D" uid="uid://cwfhbcqgsufs6" path="res://assets/art/Spren/silly luck creature-idle.png" id="32_u8vxv"]
 [ext_resource type="Script" uid="uid://by3vun7pgjv72" path="res://src/Spren.cs" id="32_y2u3w"]
 [ext_resource type="Texture2D" uid="uid://ds31kaor43csw" path="res://assets/art/Spren/Fairy 1.png" id="33_lhjxl"]
-[ext_resource type="Texture2D" uid="uid://h5ah5ngnu4go" path="res://assets/art/Spren/silly luck creature-run.png" id="33_u8vxv"]
 [ext_resource type="PackedScene" uid="uid://buaimtv2t6n7p" path="res://components/controllers/PlayerController.tscn" id="39_610ub"]
 [ext_resource type="Script" uid="uid://dj1gtcuvugsr1" path="res://src/characters/components/OffsetCamera.cs" id="39_ayguc"]
 [ext_resource type="Script" uid="uid://dg0ycdc5l4eej" path="res://src/MainUI.cs" id="41_2q4k2"]
@@ -152,199 +150,69 @@ scale_curve = SubResource("CurveTexture_uyl0s")
 color = Color(0.47843137, 0.9843137, 0.972549, 1)
 alpha_curve = SubResource("CurveTexture_y2u3w")
 
-[sub_resource type="Animation" id="Animation_234y4"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("32_u8vxv")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [4]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:offset")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-8.475, -2.755)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite2D:frame")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [0]
-}
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhjxl"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_u8vxv"]
-_data = {
-&"RESET": SubResource("Animation_234y4")
-}
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2u3w"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="Animation" id="Animation_lhjxl"]
-resource_name = "idle"
-length = 0.8
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("33_lhjxl")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [8]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7]
-}
+[sub_resource type="AtlasTexture" id="AtlasTexture_uyl0s"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="Animation" id="Animation_y2u3w"]
-resource_name = "run"
-length = 0.6
-loop_mode = 1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("33_u8vxv")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [6]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:vframes")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [1]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D:offset")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-8.475, -2.755)]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Sprite2D:frame")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [0, 1, 2, 3, 4, 5]
-}
+[sub_resource type="AtlasTexture" id="AtlasTexture_vud74"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_y2u3w"]
-_data = {
-&"idle": SubResource("Animation_lhjxl"),
-&"run": SubResource("Animation_y2u3w")
-}
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cy8x"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_610ub"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ayguc"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7u8x"]
+atlas = ExtResource("33_lhjxl")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y10a3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhjxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2u3w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uyl0s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vud74")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cy8x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_610ub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ayguc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7u8x")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
 
 [node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler") groups=["Characters", "Player"]]
 z_index = 1
@@ -502,11 +370,5 @@ fixed_fps = 0
 draw_order = 0
 process_material = SubResource("ParticleProcessMaterial_lhjxl")
 
-[node name="Sprite2D" type="Sprite2D" parent="Spren" unique_id=398677153]
-texture = ExtResource("32_u8vxv")
-offset = Vector2(-8.475, -2.755)
-hframes = 4
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Spren" unique_id=173777360]
-libraries/ = SubResource("AnimationLibrary_u8vxv")
-libraries/Spren = SubResource("AnimationLibrary_y2u3w")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Spren" unique_id=102778248]
+sprite_frames = SubResource("SpriteFrames_y10a3")

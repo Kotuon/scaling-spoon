@@ -10,6 +10,7 @@ public partial class ProjectileKey : Key
 
         if (node is Projectile && (node as Projectile).owner is Player) {
             completed = true;
+            (node as Projectile).HandleCollision();
         }
     }
 }

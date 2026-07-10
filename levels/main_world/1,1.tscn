@@ -61,7 +61,7 @@ point_count = 2
 size = Vector2(100, 100)
 
 [sub_resource type="QuadMesh" id="QuadMesh_y10a3"]
-size = Vector2(100, 100)
+size = Vector2(50, 50)
 
 [node name="1,1" type="Area2D" unique_id=195362646]
 scale = Vector2(1.5, 1.5)
@@ -360,29 +360,23 @@ scale = Vector2(4, 1)
 mesh = SubResource("QuadMesh_2704r")
 
 [node name="ProjectileKey" parent="." unique_id=761416147 instance=ExtResource("16_4vqwo")]
-position = Vector2(-812, -808.6667)
-
-[node name="MeshInstance2D" type="MeshInstance2D" parent="ProjectileKey" unique_id=1820766345]
-mesh = SubResource("QuadMesh_y10a3")
-
-[node name="Label" type="Label" parent="ProjectileKey/MeshInstance2D" unique_id=631864191]
-offset_left = -114.66667
-offset_top = -89.333336
-offset_right = 134.33333
-offset_bottom = -40.333336
-text = "Button to trigger platform move
-"
+position = Vector2(-810, -787.3334)
 
 [node name="ProjectileKey2" parent="." unique_id=1144774839 instance=ExtResource("16_4vqwo")]
 position = Vector2(601.3334, -394.6667)
 
-[node name="MeshInstance2D2" type="MeshInstance2D" parent="ProjectileKey2" unique_id=219208457]
+[node name="Collectable" type="MeshInstance2D" parent="." unique_id=1868997458]
+modulate = Color(0, 1, 0.58431375, 1)
+z_index = 3
+position = Vector2(426.00003, 916.6667)
+rotation = 0.7853982
 mesh = SubResource("QuadMesh_y10a3")
 
-[node name="Label" type="Label" parent="ProjectileKey2/MeshInstance2D2" unique_id=17688989]
-offset_left = -114.66667
-offset_top = -89.333336
-offset_right = 134.33333
-offset_bottom = -40.333336
-text = "Button to trigger platform move
-"
+[node name="Label" type="Label" parent="Collectable" unique_id=140188933]
+offset_left = -38.183796
+offset_top = -55.1543
+offset_right = 47.816204
+offset_bottom = -32.1543
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+text = "Collectable"

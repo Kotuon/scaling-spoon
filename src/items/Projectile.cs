@@ -34,25 +34,35 @@ public partial class Projectile : CharacterBody2D {
         Rotation = Velocity.Angle();
     }
 
-    public override void _PhysicsProcess( double delta ) {
-        base._PhysicsProcess( delta );
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
 
-        if ( !hasLaunched ) {
+        if (!hasLaunched)
+        {
             Tween tween = GetTree().CreateTween();
-            tween.TweenProperty( this, "currSpeed", finalSpeed,
-                                 timeToAccelerate );
+            tween.TweenProperty(this, "currSpeed", finalSpeed,
+                                 timeToAccelerate);
             hasLaunched = true;
-        } else {
+        }
+        else
+        {
             Velocity = launchDir * currSpeed;
         }
 
-        var collision = MoveAndCollide( Velocity * ( float )delta );
+        var collision = MoveAndCollide(Velocity * (float)delta);
 
-        HandleCollision( collision );
+        HandleCollision(collision);
+    }
+
+    public void HandleCollision() {
+        DestroyProjectile();
+        _ = Timeout();
     }
 
     protected void HandleCollision( KinematicCollision2D collision ) {
         if ( collision != null && collision.GetCollider() != owner ) {
+
             DestroyProjectile();
 
             if ( collision.GetCollider() is IDamageable ) {
@@ -73,7 +83,7 @@ public partial class Projectile : CharacterBody2D {
         sprite.Visible = false;
 
         var collider = GetNode< CollisionShape2D >( "Hitbox" );
-        collider.Disabled = true;
+        collider.CallDeferred("set_disabled", true);
     }
 
     public async Task Timeout() {

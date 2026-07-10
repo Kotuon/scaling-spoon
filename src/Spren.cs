@@ -5,15 +5,15 @@ using System;
 
 public partial class Spren : CharacterBase
 {
-    private AnimationPlayer _animPlayer;
-    public AnimationPlayer animPlayer
+    private AnimatedSprite2D _animPlayer;
+    public AnimatedSprite2D animPlayer
     {
         private set => _animPlayer = value;
 
         get
         {
             if (_animPlayer == null)
-                _animPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+                _animPlayer = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
             return _animPlayer;
         }
     }
@@ -21,7 +21,8 @@ public partial class Spren : CharacterBase
     {
         base._Ready();
 
-        animPlayer.Play("Spren/idle");
+        animPlayer.Play("default");
+        // animPlayer.Play("Spren/idle");
     }
 
 }
