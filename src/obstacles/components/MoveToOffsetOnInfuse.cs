@@ -1,4 +1,3 @@
-
 namespace Game.Component;
 
 using Godot;
@@ -19,7 +18,8 @@ public partial class MoveToOffsetOnInfuse : MoveToOffset
     {
         base._Process(delta);
 
-        if (!enabled) return;
+        if (!enabled)
+            return;
     }
 
     public override void _Draw()

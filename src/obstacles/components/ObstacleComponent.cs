@@ -8,6 +8,9 @@ public partial class ObstacleComponent : Node2D, IAutoDoor
     [Export]
     protected Godot.Collections.Array<Area2D> keys = [];
 
+    [Export]
+    protected bool singleKey = false;
+
     protected Obstacle _parent = null;
 
     protected Obstacle parent
@@ -22,6 +25,7 @@ public partial class ObstacleComponent : Node2D, IAutoDoor
     }
 
     private bool _enabled = true;
+
     [Export]
     public bool enabled
     {
@@ -45,35 +49,36 @@ public partial class ObstacleComponent : Node2D, IAutoDoor
             enabled = CheckIfShouldActivate();
     }
 
+    protected virtual void ResolveCollisionEnter(Node node) { }
 
-    protected virtual void ResolveCollisionEnter(Node node)
-    {
-
-    }
-
-    protected virtual void ResolveCollisionExit(Node node)
-    {
-
-    }
+    protected virtual void ResolveCollisionExit(Node node) { }
 
     public bool CheckIfShouldActivate()
     {
         foreach (var akey in keys)
         {
-            if (akey is not Entity.Key key) continue;
+            if (akey is not Entity.Key key)
+                continue;
 
-            if (!key.completed) return false;
+            if (!key.completed && !singleKey)
+                return false;
+
+            if (key.completed && singleKey)
+                return true;
         }
 
-        GD.Print("Checked");
-        return true;
+        if (singleKey)
+            return false;
+        else
+            return true;
     }
 
     protected void ResetKeys()
     {
         foreach (var akey in keys)
         {
-            if (akey is not Entity.Key key) continue;
+            if (akey is not Entity.Key key)
+                continue;
 
             key.completed = false;
         }

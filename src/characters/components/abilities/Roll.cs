@@ -1,15 +1,22 @@
 namespace Game.Component;
 
-using Godot;
 using Game.Entity;
+using Godot;
 
 public partial class Roll : Ability
 {
-    [Export] protected Curve RollSpeedCurve;
+    [Export]
+    protected Curve RollSpeedCurve;
+
+    [Export]
+    protected float MinSpeed = 200.0f;
     private Vector2 roll_dir = Vector2.Zero;
     private float speed_buffer = 0.0f;
+
     ////////////////////////////////////////////////////////////////////////////////
-    public Roll() : base("roll") { }
+    public Roll()
+        : base("roll") { }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -29,12 +36,15 @@ public partial class Roll : Ability
     {
         base._Process(delta);
 
-        if (!isActive) return;
+        if (!isActive)
+            return;
 
-        float percentToUse =
-            RollSpeedCurve.Sample(animHandler.CurrentFinishPercentage());
+        float percentToUse = RollSpeedCurve.Sample(
+            animHandler.CurrentFinishPercentage()
+        );
 
-        parent.Velocity = roll_dir * speed_buffer * percentToUse;
+        parent.Velocity =
+            roll_dir * Mathf.Max(speed_buffer, MinSpeed) * percentToUse;
 
         var collision = parent.MoveAndCollide(parent.Velocity * (float)delta);
         if (collision != null)
@@ -43,8 +53,9 @@ public partial class Roll : Ability
 
             if (collision.GetCollider() is CharacterBase)
             {
-                (collision.GetCollider() as CharacterBase)
-                    .EmitSignal(CharacterBase.SignalName.Collision);
+                (collision.GetCollider() as CharacterBase).EmitSignal(
+                    CharacterBase.SignalName.Collision
+                );
             }
         }
     }
@@ -53,9 +64,15 @@ public partial class Roll : Ability
     {
         base.Trigger();
 
-        if (!isActive) return;
+        if (!isActive)
+            return;
 
         roll_dir = parent.Velocity.Normalized();
+        if (Mathf.IsZeroApprox(roll_dir.LengthSquared()))
+        {
+            roll_dir = parent.GetComponent<Controller>().lastInput;
+        }
+
         speed_buffer = move.currWalkSpeed;
 
         animHandler.PlayAnimation("roll", roll_dir);
@@ -63,9 +80,7 @@ public partial class Roll : Ability
         move.movementOverride = true;
     }
 
-    public override void Released()
-    {
-    }
+    public override void Released() { }
 
     public override void End()
     {

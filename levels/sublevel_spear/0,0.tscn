@@ -17,7 +17,7 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_raxmr"]
-size = Vector2(315.91815, 100)
+size = Vector2(361.8266, 100)
 
 [node name="0,0" type="Area2D" unique_id=572080498]
 texture_filter = 1
@@ -48,6 +48,10 @@ script = ExtResource("4_luolr")
 position = Vector2(-273.33334, -288)
 scale = Vector2(0.334, 0.334)
 
+[node name="ProjectileKey3" parent="." unique_id=1343169850 instance=ExtResource("5_ioa6o")]
+position = Vector2(-121.33335, -533.3333)
+scale = Vector2(0.334, 0.334)
+
 [node name="ManaSphere" parent="." unique_id=1015641084 instance=ExtResource("10_duo3u")]
 position = Vector2(257.3333, -106)
 scale = Vector2(2.667, 2.667)
@@ -62,6 +66,7 @@ position = Vector2(360, 0)
 tCurveStart = SubResource("Curve_51ffo")
 needTriggerEachRun = true
 keys = [NodePath("../../ProjectileKey2")]
+singleKey = true
 enabled = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="ObstacleBase" unique_id=100995414]
@@ -71,4 +76,44 @@ collision_layer = 2
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="ObstacleBase/StaticBody2D" unique_id=2126658001]
 position = Vector2(49.62567, 0)
 scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_raxmr")
+
+[node name="ObstacleBase2" parent="." unique_id=862886045 instance=ExtResource("11_qiofj")]
+position = Vector2(57.33333, -574.6667)
+scale = Vector2(0.334, 0.334)
+
+[node name="MoveToOffsetOnInfuse" parent="ObstacleBase2" unique_id=547663142 node_paths=PackedStringArray("keys") instance=ExtResource("12_nhqh3")]
+position = Vector2(-373.2534, 0)
+tCurveStart = SubResource("Curve_51ffo")
+needTriggerEachRun = true
+keys = [NodePath("../../ProjectileKey3")]
+singleKey = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ObstacleBase2" unique_id=432884581]
+position = Vector2(57.884186, 0)
+collision_layer = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ObstacleBase2/StaticBody2D" unique_id=79961550]
+position = Vector2(72.57988, 0)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_raxmr")
+
+[node name="ObstacleBase3" parent="." unique_id=25995034 instance=ExtResource("11_qiofj")]
+position = Vector2(-67.333336, -495.33334)
+scale = Vector2(0.334, 0.334)
+
+[node name="MoveToOffsetOnInfuse" parent="ObstacleBase3" unique_id=1340779506 node_paths=PackedStringArray("keys") instance=ExtResource("12_nhqh3")]
+position = Vector2(371.2576, -0.000121826655)
+tCurveStart = SubResource("Curve_51ffo")
+needTriggerEachRun = true
+keys = [NodePath("../../ProjectileKey3")]
+singleKey = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="ObstacleBase3" unique_id=694423130]
+position = Vector2(57.884186, 0)
+collision_layer = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ObstacleBase3/StaticBody2D" unique_id=239473413]
+position = Vector2(72.57988, 0)
+scale = Vector2(0.9999998, 0.9999998)
 shape = SubResource("RectangleShape2D_raxmr")

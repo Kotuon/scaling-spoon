@@ -11,16 +11,18 @@
 [ext_resource type="PackedScene" uid="uid://ua751p45hudl" path="res://components/controllers/behavior_tree/tasks/FindTarget.tscn" id="9_4rh40"]
 [ext_resource type="PackedScene" uid="uid://c1ohvq2fpfhtv" path="res://components/controllers/behavior_tree/tasks/MoveToTarget.tscn" id="10_rrd6m"]
 [ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/tasks/Wait.tscn" id="11_303ht"]
-[ext_resource type="PackedScene" uid="uid://busqgtqfhsinf" path="res://components/controllers/behavior_tree/tasks/FireProjectile.tscn" id="11_iv83c"]
-[ext_resource type="PackedScene" uid="uid://c6nwwnsg6du8f" path="res://items/projectiles/GolemProjectile.tscn" id="12_f6yug"]
+[ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="12_iv83c"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5cky"]
 size = Vector2(100, 100)
 
-[node name="EnemyBase" type="CharacterBody2D" unique_id=1265510272]
+[node name="EnemyBase" type="CharacterBody2D" unique_id=1265510272 node_paths=PackedStringArray("move")]
+collision_layer = 16
+collision_mask = 43
 script = ExtResource("1_o5cky")
+move = NodePath("AbilityManager/Move")
 
 [node name="AbilityManager" parent="." unique_id=782651209 instance=ExtResource("2_5d2fm")]
 position = Vector2(93.97739, -42.386307)
@@ -32,10 +34,12 @@ maxWalkSpeed = 100.0
 proj = ExtResource("5_sub67")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2035412392]
+modulate = Color(1, 0.708, 0.26999998, 1)
 scale = Vector2(100, 100)
 mesh = SubResource("QuadMesh_o5cky")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=316593584]
+visible = false
 shape = SubResource("RectangleShape2D_o5cky")
 
 [node name="EnemyBaseController" parent="." unique_id=1880682395 instance=ExtResource("4_uu2uj")]
@@ -48,9 +52,7 @@ shape = SubResource("RectangleShape2D_o5cky")
 
 [node name="MoveToTarget" parent="BehaviorTree/SequenceNode" unique_id=1211423973 instance=ExtResource("10_rrd6m")]
 
-[node name="FireProjectile" parent="BehaviorTree/SequenceNode" unique_id=92826978 instance=ExtResource("11_iv83c")]
-proj = ExtResource("12_f6yug")
-damage = 1.0
-
 [node name="Wait" parent="BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("11_303ht")]
 wait_time = 5.0
+
+[node name="Health" parent="." unique_id=842163972 instance=ExtResource("12_iv83c")]
