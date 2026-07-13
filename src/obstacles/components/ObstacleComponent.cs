@@ -68,4 +68,14 @@ public partial class ObstacleComponent : Node2D, IAutoDoor
         GD.Print("Checked");
         return true;
     }
+
+    protected void ResetKeys()
+    {
+        foreach (var akey in keys)
+        {
+            if (akey is not Entity.Key key) continue;
+
+            key.completed = false;
+        }
+    }
 }

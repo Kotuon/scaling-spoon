@@ -19,9 +19,12 @@ public partial class MoveToOffset : ObstacleComponent
     }
     private Vector2 startPosition;
     private float totalTime;
+    private bool returnPass = false;
     [Export] private Curve tCurveStart;
     [Export] private Curve tCurveReturn;
     [Export] private float startDelay = 0.0f;
+    [Export] private bool runOnce = false;
+    [Export] private bool needTriggerEachRun = false;
 
     public override void _Ready()
     {
@@ -29,9 +32,28 @@ public partial class MoveToOffset : ObstacleComponent
         {
             base._Ready();
 
+            if (tCurveReturn == null)
+            {
+                tCurveReturn = tCurveStart.Duplicate() as Curve;
+
+                int count = tCurveReturn.PointCount;
+                for (int i = 0; i < count; ++i)
+                {
+                    var pos = tCurveStart.GetPointPosition(count - i - 1);
+                    tCurveReturn.SetPointOffset(i, pos.X);
+                    tCurveReturn.SetPointValue(i, pos.Y);
+                }
+            }
+
+            var tpar = GetParent<Node2D>();
+
             startPosition = GetParent<Node2D>().Position;
             targetPosition =
-                (Position * parent.GlobalScale).Rotated(parent.Rotation);
+                (Position / tpar.GetParent<Node2D>().GlobalScale * GlobalScale).Rotated(tpar.Rotation);
+
+            GD.Print(tpar.GlobalScale);
+            GD.Print(startPosition);
+            GD.Print(targetPosition);
 
             totalTime = -startDelay;
         }
@@ -46,7 +68,6 @@ public partial class MoveToOffset : ObstacleComponent
             if (GetParent() is not Area2D) return;
             MeshInstance2D c = GetNode<MeshInstance2D>("../MeshInstance2D");
             Vector2 size = (c.Mesh as QuadMesh).Size;
-
 
             DrawLine(Vector2.Zero, -Position,
                 new Color(0.0f, 1.0f, 1.0f));
@@ -75,8 +96,11 @@ public partial class MoveToOffset : ObstacleComponent
             {
                 t = tCurveStart.Sample(totalTime);
             }
-            else if (tCurveReturn == null)
+            else if (runOnce || (needTriggerEachRun && !returnPass)/* tCurveReturn == null */)
             {
+                ResetKeys();
+                enabled = false;
+                returnPass = true;
                 return;
             }
             else if (totalTime < tCurveStart.MaxDomain + tCurveReturn.MaxDomain)
@@ -86,9 +110,13 @@ public partial class MoveToOffset : ObstacleComponent
             else
             {
                 totalTime = 0.0f;
+
+                ResetKeys();
+                enabled = false;
+                returnPass = false;
             }
 
-            Vector2 lastPosition = parent.GlobalPosition;
+            Vector2 lastPosition = parent.Position;
             parent.Position = startPosition.Lerp(
                 startPosition + targetPosition, t);
 

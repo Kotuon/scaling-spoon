@@ -217,7 +217,7 @@ animations = [{
 [node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler") groups=["Characters", "Player"]]
 z_index = 1
 y_sort_enabled = true
-collision_mask = 30
+collision_mask = 62
 motion_mode = 1
 platform_on_leave = 2
 script = ExtResource("1_dnad5")
@@ -240,7 +240,7 @@ cost = 0.0
 [node name="Throw" parent="AbilityManager" unique_id=2083118973 instance=ExtResource("32_234y4")]
 proj = ExtResource("16_8eyfg")
 damage = 90.0
-cost = 80.0
+cost = 0.0
 
 [node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]
 updateCost = 15.0

@@ -3,7 +3,23 @@
 [ext_resource type="Script" uid="uid://eptdpk0dadic" path="res://levels/ChunkPlacer.cs" id="1_mk2ju"]
 [ext_resource type="Script" uid="uid://bhjevbi20fseu" path="res://levels/ChildNodeSave.cs" id="2_eqqqf"]
 [ext_resource type="PackedScene" uid="uid://dto34tjg68xog" path="res://levels/sublevel_spear/0,0.tscn" id="3_xdd07"]
+[ext_resource type="PackedScene" uid="uid://svh8wfat6dnb" path="res://levels/sublevel_spear/0,1.tscn" id="4_311dg"]
+[ext_resource type="Shader" uid="uid://bcgh7v660yvfy" path="res://levels/sublevel_spear_screen.gdshader" id="6_m5hxy"]
 [ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="6_pwqf4"]
+[ext_resource type="PackedScene" uid="uid://y8cg5ma1vyn1" path="res://obstacles/ObstacleBase.tscn" id="7_vcso1"]
+[ext_resource type="PackedScene" uid="uid://djc70ojfcqyav" path="res://obstacles/components/MoveToOffsetOnInfuse.tscn" id="8_s5yh3"]
+[ext_resource type="PackedScene" uid="uid://4cn7famr8bbe" path="res://items/ProjectileKey.tscn" id="9_s5yh3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_311dg"]
+shader = ExtResource("6_m5hxy")
+shader_parameter/saturation = 0.5000000074506
+
+[sub_resource type="Curve" id="Curve_nprlt"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pwqf4"]
+size = Vector2(315.91815, 100)
 
 [node name="sublevel_spear" type="Node2D" unique_id=1597067820]
 script = ExtResource("1_mk2ju")
@@ -14,8 +30,49 @@ script = ExtResource("2_eqqqf")
 
 [node name="0,0" parent="TileMaps" unique_id=572080498 instance=ExtResource("3_xdd07")]
 
+[node name="0,1" parent="TileMaps" unique_id=1841081121 instance=ExtResource("4_311dg")]
+position = Vector2(0, -3072)
+
 [node name="YSort" type="Node2D" parent="." unique_id=1474095499]
 y_sort_enabled = true
 
 [node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("6_pwqf4")]
-position = Vector2(0, 250.775)
+position = Vector2(-343, -520)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1128543297]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=113338]
+material = SubResource("ShaderMaterial_311dg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ProjectileKey2" parent="." unique_id=761416147 instance=ExtResource("9_s5yh3")]
+position = Vector2(-594, -514)
+scale = Vector2(0.62437814, 0.52681524)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=65062283]
+scale = Vector2(2, 2)
+
+[node name="ObstacleBase" parent="Node2D" unique_id=108340260 instance=ExtResource("7_vcso1")]
+position = Vector2(-272.5, -373.5)
+scale = Vector2(0.5, 0.5)
+
+[node name="MoveToOffsetOnInfuse" parent="Node2D/ObstacleBase" unique_id=1072628385 node_paths=PackedStringArray("keys") instance=ExtResource("8_s5yh3")]
+position = Vector2(360, 0)
+tCurveStart = SubResource("Curve_nprlt")
+needTriggerEachRun = true
+keys = [NodePath("../../../ProjectileKey2")]
+enabled = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node2D/ObstacleBase" unique_id=1261978753]
+position = Vector2(57.884186, 0)
+collision_layer = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node2D/ObstacleBase/StaticBody2D" unique_id=1704376951]
+position = Vector2(49.62567, 0)
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("RectangleShape2D_pwqf4")
