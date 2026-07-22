@@ -3,7 +3,8 @@ using Godot.Collections;
 
 public partial class FindTarget : BehaviorNode
 {
-    [Export] public StringName target_name = "Player";
+    [Export]
+    public StringName target_name = "Player";
 
     public override BehaviorNode.Status evaluate(Dictionary context)
     {
@@ -16,4 +17,3 @@ public partial class FindTarget : BehaviorNode
         return BehaviorNode.Status.SUCCESS;
     }
 }
-

@@ -26894,6 +26894,9 @@ texture = ExtResource("8_dcbk1")
 5:33/0 = 0
 6:32/0 = 0
 6:33/0 = 0
+10:27/0 = 0
+16:40/0 = 0
+16:41/0 = 0
 
 [resource]
 physics_layer_0/collision_layer = 32

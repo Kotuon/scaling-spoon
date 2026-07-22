@@ -1,17 +1,21 @@
 namespace Game.Component;
 
+using Game.Entity;
 using Godot;
 using Godot.Collections;
-using Game.Entity;
-using System.Security.Cryptography.X509Certificates;
-
 
 public partial class MoveToTarget : BehaviorNode
 {
-    [Export] public StringName target_name = "Player";
-    [Export] public float reach_distance = 400.0f;
-    [Export] public float timeout = 10.0f;
+    [Export]
+    public StringName target_name = "Player";
+
+    [Export]
+    public float reach_distance = 400.0f;
+
+    [Export]
+    public float timeout = 10.0f;
     protected float counter = 0.0f;
+
     public override BehaviorNode.Status evaluate(Dictionary context)
     {
         if (!context.ContainsKey(target_name))
@@ -20,25 +24,25 @@ public partial class MoveToTarget : BehaviorNode
             return BehaviorNode.Status.ERROR;
         }
 
-        Node target = (Node)context[target_name];
+        Node target = context[target_name].As<Node>();
         if (target is not Node2D)
         {
             GD.PushError("Target is not node 2d, got %s", target);
             return BehaviorNode.Status.ERROR;
         }
 
-        CharacterBase parent = (CharacterBase)context["parent"];
+        CharacterBase parent = context["parent"].As<CharacterBase>();
 
         Controller controller = parent.GetComponent<Controller>();
 
-        Vector2 target_position = (target as Node2D).Position;
-        if (has_reached_target(target_position, parent.Position))
+        Vector2 target_position = (target as Node2D).GlobalPosition;
+        if (has_reached_target(target_position, parent.GlobalPosition))
         {
             controller.moveInput = Vector2.Zero;
             return BehaviorNode.Status.SUCCESS;
         }
 
-        controller.moveInput = target_position - parent.Position;
+        controller.moveInput = target_position - parent.GlobalPosition;
 
         return BehaviorNode.Status.RUNNING;
     }

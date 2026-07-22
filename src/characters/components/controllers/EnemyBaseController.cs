@@ -1,8 +1,8 @@
 namespace Game.Component;
 
+using System;
 using Game.Entity;
 using Godot;
-using System;
 
 public partial class EnemyBaseController : Controller
 {
@@ -10,7 +10,6 @@ public partial class EnemyBaseController : Controller
     protected CharacterBase player
     {
         private set => _player = value;
-
         get
         {
             if (_player == null)
@@ -23,14 +22,23 @@ public partial class EnemyBaseController : Controller
             return _player;
         }
     }
+
     public override void _Ready()
     {
         base._Ready();
     }
 
+    public override void _Draw()
+    {
+        base._Draw();
+
+        DrawLine(Vector2.Zero, moveInput * 100.0f, new Color(0.0f, 0.0f, 1.0f));
+    }
+
     public override void _Process(double delta)
     {
         base._Process(delta);
-    }
 
+        QueueRedraw();
+    }
 }

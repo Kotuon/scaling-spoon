@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://beqqyvufmvcnf" path="res://src/obstacles/components/CausePlayerDeath.cs" id="7_6ji6h"]
 [ext_resource type="Script" uid="uid://b1hmd24mcha87" path="res://src/obstacles/components/MoveToOffsetOnInfuse.cs" id="7_7x6q0"]
 [ext_resource type="PackedScene" uid="uid://4cn7famr8bbe" path="res://items/ProjectileKey.tscn" id="9_fo2ua"]
-[ext_resource type="PackedScene" uid="uid://cbcy37x26g6yq" path="res://enemies/EnemySmallChase.tscn" id="10_7x6q0"]
+[ext_resource type="PackedScene" uid="uid://fnl6275xu5jy" path="res://enemies/EnemySmallFlyOffset.tscn" id="10_7x6q0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hv6an"]
 size = Vector2(2048, 2048)
@@ -31,15 +31,6 @@ point_count = 2
 
 [sub_resource type="QuadMesh" id="QuadMesh_t1355"]
 size = Vector2(100, 100)
-
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_6ji6h"]
-vertices = PackedVector2Array(272.77344, 35.34375, -221.61719, 35.34375, -123.203125, 32.132813, -36.65625, 32.132813, -196, 32.132813, -255.10938, 98.77344, -336.75, 99.21875, -337.2422, -5.2421875, -318.89844, -4.578125, -255.8125, 68.22656, 273.22656, -52, 181.46875, 32.132813, 181.46875, -45.070313, -288.65625, -52, 108.65625, -45.070313, -288.65625, -37.773438, -222.27344, 68.921875, -319.57813, -37.09375, 108.65625, 32.132813, 36.132813, 32.132813, 36.132813, -45.070313, -36.65625, -45.070313, -196, -45.070313, -123.203125, -45.070313)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1), PackedInt32Array(5, 6, 7, 8, 9), PackedInt32Array(10, 0, 11, 12), PackedInt32Array(13, 10, 12, 14), PackedInt32Array(15, 1, 16, 9, 8, 17), PackedInt32Array(14, 18, 19, 20), PackedInt32Array(13, 14, 20), PackedInt32Array(13, 20, 21), PackedInt32Array(22, 4, 1, 15, 13), PackedInt32Array(23, 22, 13), PackedInt32Array(23, 13, 21), PackedInt32Array(23, 21, 3, 2), PackedInt32Array(0, 3, 19), PackedInt32Array(0, 19, 18), PackedInt32Array(0, 18, 11)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-308.6667, -72, 293.33334, -72, 292.6667, 55.333313, -202.00002, 55.333313, -202.66667, 89.33331, -235.33333, 88.666626, -234.66667, 118.666626, -356.6667, 119.33331, -357.3333, -26, -339.3333, -25.333374, -340, -56.666687, -308.6667, -57.333374)])
-agent_radius = 20.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_y10a3"]
-size = Vector2(54.666664, 62)
 
 [node name="0,1" type="Area2D" unique_id=1841081121]
 texture_filter = 1
@@ -193,37 +184,6 @@ mesh = SubResource("QuadMesh_t1355")
 position = Vector2(-498, 987.3333)
 scale = Vector2(0.334, 0.334)
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1465161187]
-position = Vector2(-80.666664, 701.3334)
-navigation_polygon = SubResource("NavigationPolygon_6ji6h")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="NavigationRegion2D" unique_id=1932829404]
-position = Vector2(-160, -4.666687)
-scale = Vector2(0.6, 0.6)
-collision_layer = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D" unique_id=591634571]
-position = Vector2(0.66667175, -3)
-shape = SubResource("RectangleShape2D_y10a3")
-
-[node name="StaticBody2D2" type="StaticBody2D" parent="NavigationRegion2D" unique_id=1108892496]
-position = Vector2(-0.6666565, -4.666687)
-scale = Vector2(0.6, 0.6)
-collision_layer = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D2" unique_id=1080501954]
-position = Vector2(0.66667175, -3)
-shape = SubResource("RectangleShape2D_y10a3")
-
-[node name="StaticBody2D3" type="StaticBody2D" parent="NavigationRegion2D" unique_id=1127262188]
-position = Vector2(144.66669, -4.666687)
-scale = Vector2(0.6, 0.6)
-collision_layer = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="NavigationRegion2D/StaticBody2D3" unique_id=1050635487]
-position = Vector2(0.66667175, -3)
-shape = SubResource("RectangleShape2D_y10a3")
-
 [node name="EnemyBase" parent="." unique_id=1265510272 instance=ExtResource("10_7x6q0")]
-position = Vector2(-154.66667, 692.6667)
+position = Vector2(-160, 740)
 scale = Vector2(0.25, 0.25)
