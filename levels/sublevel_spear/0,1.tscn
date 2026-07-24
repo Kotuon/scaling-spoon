@@ -10,6 +10,19 @@
 [ext_resource type="Script" uid="uid://b1hmd24mcha87" path="res://src/obstacles/components/MoveToOffsetOnInfuse.cs" id="7_7x6q0"]
 [ext_resource type="PackedScene" uid="uid://4cn7famr8bbe" path="res://items/ProjectileKey.tscn" id="9_fo2ua"]
 [ext_resource type="PackedScene" uid="uid://fnl6275xu5jy" path="res://enemies/EnemySmallFlyOffset.tscn" id="10_7x6q0"]
+[ext_resource type="Script" uid="uid://dflmrwqkm5m3e" path="res://src/characters/EnemyBase.cs" id="11_k5hve"]
+[ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="12_rjqbb"]
+[ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="13_5a2y3"]
+[ext_resource type="PackedScene" uid="uid://cv4e3gh3noq3e" path="res://components/abilities/Throw.tscn" id="14_82ny7"]
+[ext_resource type="PackedScene" uid="uid://bwv0smc80566w" path="res://items/projectiles/projectile.tscn" id="15_aqjop"]
+[ext_resource type="PackedScene" uid="uid://bmy8hqpux8elx" path="res://components/controllers/EnemyBaseController.tscn" id="16_sf7u8"]
+[ext_resource type="PackedScene" uid="uid://bvbut14c1803" path="res://components/controllers/behavior_tree/BehaviorTree.tscn" id="17_dg076"]
+[ext_resource type="PackedScene" uid="uid://cu8i6jnyok2qy" path="res://components/controllers/behavior_tree/SequenceNode.tscn" id="18_5kkxa"]
+[ext_resource type="PackedScene" uid="uid://2x6vsfxgxtoe" path="res://components/controllers/behavior_tree/tasks/MoveDistance.tscn" id="19_0wpn8"]
+[ext_resource type="PackedScene" uid="uid://c6c2g4sr1qf3n" path="res://components/controllers/behavior_tree/tasks/Wait.tscn" id="20_ce245"]
+[ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="21_fcmeo"]
+[ext_resource type="PackedScene" uid="uid://c17cmqwob481a" path="res://assets/audio/items/Alter.tscn" id="22_82ny7"]
+[ext_resource type="Script" uid="uid://cigahxbfxjjlf" path="res://src/LevelChange.cs" id="23_aqjop"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hv6an"]
 size = Vector2(2048, 2048)
@@ -30,6 +43,12 @@ _data = [Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(1.75, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="QuadMesh" id="QuadMesh_t1355"]
+size = Vector2(100, 100)
+
+[sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
+size = Vector2(100, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5cky"]
 size = Vector2(100, 100)
 
 [node name="0,1" type="Area2D" unique_id=1841081121]
@@ -187,3 +206,59 @@ scale = Vector2(0.334, 0.334)
 [node name="EnemyBase" parent="." unique_id=1265510272 instance=ExtResource("10_7x6q0")]
 position = Vector2(-160, 740)
 scale = Vector2(0.25, 0.25)
+
+[node name="EnemyBase2" type="CharacterBody2D" parent="." unique_id=1796951402 node_paths=PackedStringArray("move")]
+position = Vector2(-4.666667, 740)
+scale = Vector2(0.25, 0.25)
+collision_layer = 16
+collision_mask = 43
+script = ExtResource("11_k5hve")
+move = NodePath("AbilityManager/Move")
+
+[node name="AbilityManager" parent="EnemyBase2" unique_id=782651209 instance=ExtResource("12_rjqbb")]
+
+[node name="Move" parent="EnemyBase2/AbilityManager" unique_id=578487199 instance=ExtResource("13_5a2y3")]
+maxWalkSpeed = 200.0
+
+[node name="Throw" parent="EnemyBase2/AbilityManager" unique_id=54411854 instance=ExtResource("14_82ny7")]
+proj = ExtResource("15_aqjop")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="EnemyBase2" unique_id=2035412392]
+modulate = Color(1, 0.708, 0.26999998, 1)
+mesh = SubResource("QuadMesh_o5cky")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBase2" unique_id=316593584]
+visible = false
+shape = SubResource("RectangleShape2D_o5cky")
+
+[node name="EnemyBaseController" parent="EnemyBase2" unique_id=1880682395 instance=ExtResource("16_sf7u8")]
+
+[node name="BehaviorTree" parent="EnemyBase2" unique_id=1657930568 instance=ExtResource("17_dg076")]
+
+[node name="SequenceNode" parent="EnemyBase2/BehaviorTree" unique_id=243264643 instance=ExtResource("18_5kkxa")]
+
+[node name="MoveDistance" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=323743966 instance=ExtResource("19_0wpn8")]
+offset = Vector2(-20, -45)
+
+[node name="MoveDistance2" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=1900045152 instance=ExtResource("19_0wpn8")]
+offset = Vector2(20, -45)
+
+[node name="Wait2" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=1468860412 instance=ExtResource("20_ce245")]
+wait_time = 0.25
+
+[node name="MoveDistance3" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=206920647 instance=ExtResource("19_0wpn8")]
+offset = Vector2(20, 45)
+
+[node name="MoveDistance4" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=1673195993 instance=ExtResource("19_0wpn8")]
+offset = Vector2(-20, 45)
+
+[node name="Wait4" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=2069388327 instance=ExtResource("20_ce245")]
+wait_time = 0.25
+
+[node name="Health" parent="EnemyBase2" unique_id=842163972 instance=ExtResource("21_fcmeo")]
+
+[node name="Area2D" parent="." unique_id=1536141012 instance=ExtResource("22_82ny7")]
+position = Vector2(343.33334, 694.0001)
+scale = Vector2(0.223, 0.223)
+script = ExtResource("23_aqjop")
+new_level = "res://levels/main_world.tscn"

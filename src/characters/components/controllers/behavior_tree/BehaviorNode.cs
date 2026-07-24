@@ -1,7 +1,7 @@
+using System;
 using Game.Component;
 using Godot;
 using Godot.Collections;
-using System;
 
 public partial class BehaviorNode : Node
 {
@@ -9,10 +9,10 @@ public partial class BehaviorNode : Node
     {
         RUNNING,
         SUCCESS,
-        ERROR
+        ERROR,
     }
 
-    virtual public Status evaluate(Dictionary context)
+    public virtual Status evaluate(Dictionary context)
     {
         GD.PushError("Not implemented evaluate in behavior tree, " + Name);
         return Status.ERROR;

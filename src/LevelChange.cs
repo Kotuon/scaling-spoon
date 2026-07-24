@@ -2,18 +2,16 @@ namespace Game.Entity;
 
 using Godot;
 
-public partial class DefusibleObject : Entity.Key, IInteractable
+public partial class LevelChange : Entity.Key, IInteractable
 {
     [Export]
-    public float startingMana = 100.0f;
+    protected string new_level = null;
 
-    [Export]
-    public float timeToInfuse = 1.0f;
-    private float currMana = 0.0f;
     private CharacterBase playerRef;
     private bool playerInArea = false;
+
     private Control _control;
-    protected Control control
+    protected Control Prompt
     {
         private set => _control = value;
         get
@@ -25,7 +23,7 @@ public partial class DefusibleObject : Entity.Key, IInteractable
     }
     private Player player_ref;
     private AnimatedSprite2D _anim;
-    public AnimatedSprite2D anim
+    public AnimatedSprite2D Anim
     {
         private set => _anim = value;
         get
@@ -41,36 +39,24 @@ public partial class DefusibleObject : Entity.Key, IInteractable
         base._Ready();
 
         player_ref = GetTree().GetNodesInGroup("Player")[0] as Player;
-        anim.Play("loop");
-
-        currMana = startingMana;
+        Anim.Play("loop");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process(double delta) { }
+    public override void _Process(double delta)
+    {
+        // GetTree().ChangeSceneToPacked(new_level);
+    }
 
     public void Interact(CharacterBase @base)
     {
-        if (currMana <= 0.0f)
+        if (@base is not Player)
             return;
 
-        Mana mana = @base.GetComponent<Mana>();
-        if (mana == null)
+        if (new_level == null)
             return;
 
-        mana.RestoreMana(currMana);
-        Infuse();
-    }
-
-    private void Infuse()
-    {
-        Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "currMana", 0.0f, 1.7f);
-
-        completed = true;
-        control.Visible = false;
-
-        anim.Play("out");
+        Global.Instance.GotoScene(new_level);
     }
 
     public override void _Input(InputEvent @event)
@@ -96,7 +82,7 @@ public partial class DefusibleObject : Entity.Key, IInteractable
         playerInArea = true;
 
         if (!completed)
-            control.Visible = true;
+            Prompt.Visible = true;
     }
 
     protected override void ResolveCollisionExit(Node node)
@@ -108,6 +94,6 @@ public partial class DefusibleObject : Entity.Key, IInteractable
         playerInArea = false;
 
         if (!completed)
-            control.Visible = false;
+            Prompt.Visible = false;
     }
 }

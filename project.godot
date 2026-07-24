@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="scaling-spoon"
-run/main_scene="uid://b4c0w8a6cu0do"
+run/main_scene="uid://kxjhpka47uu"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*uid://cp8nwiflkmf6h"
 
 [display]
 

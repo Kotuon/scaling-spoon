@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://csxfmhxe6b3gu" path="res://src/characters/components/controllers/behavior_tree/tasks/MoveDistance.cs" id="1_uu2s2"]
 
-[node name="MoveDistance" type="Node" unique_id=323743966]
+[node name="MoveDistance" type="Node" unique_id=206920647]
 script = ExtResource("1_uu2s2")

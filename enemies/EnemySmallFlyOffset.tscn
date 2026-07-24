@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://ufnx6gvematg" path="res://components/attributes/Health.tscn" id="12_5307u"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_o5cky"]
+size = Vector2(100, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5cky"]
 size = Vector2(100, 100)
@@ -26,14 +27,13 @@ move = NodePath("AbilityManager/Move")
 [node name="AbilityManager" parent="." unique_id=782651209 instance=ExtResource("2_67fwr")]
 
 [node name="Move" parent="AbilityManager" unique_id=578487199 instance=ExtResource("3_s7536")]
-maxWalkSpeed = 100.0
+acceleration = 1200.0
 
 [node name="Throw" parent="AbilityManager" unique_id=54411854 instance=ExtResource("4_1amrh")]
 proj = ExtResource("5_onbyt")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=2035412392]
 modulate = Color(1, 0.708, 0.26999998, 1)
-scale = Vector2(100, 100)
 mesh = SubResource("QuadMesh_o5cky")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=316593584]
@@ -47,14 +47,12 @@ shape = SubResource("RectangleShape2D_o5cky")
 [node name="SequenceNode" parent="BehaviorTree" unique_id=243264643 instance=ExtResource("8_aubry")]
 
 [node name="MoveDistance" parent="BehaviorTree/SequenceNode" unique_id=323743966 instance=ExtResource("10_aoeec")]
-offset = Vector2(0, -80)
-reach_distance = 0.1
+offset = Vector2(0, -90)
 
 [node name="Wait" parent="BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("11_2ctm8")]
 
 [node name="MoveDistance2" parent="BehaviorTree/SequenceNode" unique_id=1900045152 instance=ExtResource("10_aoeec")]
-offset = Vector2(0, 80)
-reach_distance = 0.1
+offset = Vector2(0, 90)
 
 [node name="Wait2" parent="BehaviorTree/SequenceNode" unique_id=1468860412 instance=ExtResource("11_2ctm8")]
 

@@ -10,7 +10,7 @@ public partial class MoveDistance : BehaviorNode
     protected Vector2 offset = Vector2.Zero;
 
     [Export]
-    protected float reach_distance = 10.0f;
+    protected float reach_distance = 1.0f;
 
     private Vector2 target = Vector2.Zero;
     private bool started = false;
@@ -24,19 +24,18 @@ public partial class MoveDistance : BehaviorNode
         {
             started = true;
 
-            target = parent.GlobalPosition + offset / parent.GlobalScale;
-            GD.Print(parent.GlobalScale);
+            target = parent.Position + offset;
         }
 
         Controller controller = parent.GetComponent<Controller>();
-        if (HasReachedTarget(parent.GlobalPosition, target))
+        if (HasReachedTarget(parent.Position, target))
         {
             started = false;
             controller.moveInput = Vector2.Zero;
             return BehaviorNode.Status.SUCCESS;
         }
 
-        controller.moveInput = target - parent.GlobalPosition;
+        controller.moveInput = target - parent.Position;
 
         return BehaviorNode.Status.RUNNING;
     }

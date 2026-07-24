@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://sp2quu88a50l" path="res://levels/main_world/DetailLayer.cs" id="4_5qo1w"]
 [ext_resource type="Texture2D" uid="uid://b3wsw3y7wwn6i" path="res://assets/art/Environment/Props/animated/Ritual site.png" id="4_xr1jj"]
 [ext_resource type="PackedScene" uid="uid://c17cmqwob481a" path="res://assets/audio/items/Alter.tscn" id="5_tcbj3"]
+[ext_resource type="Script" uid="uid://cigahxbfxjjlf" path="res://src/LevelChange.cs" id="7_t0pln"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hv6an"]
 size = Vector2(2048, 2048)
@@ -48,3 +49,5 @@ scale = Vector2(3, 3)
 texture = ExtResource("4_xr1jj")
 
 [node name="Area2D" parent="YSort/Altar" unique_id=1536141012 instance=ExtResource("5_tcbj3")]
+script = ExtResource("7_t0pln")
+new_level = "res://levels/sublevel_spear.tscn"
