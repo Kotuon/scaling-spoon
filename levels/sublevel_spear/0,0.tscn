@@ -5,9 +5,13 @@
 [ext_resource type="TileSet" uid="uid://6vwxurn7vkq1" path="res://tilesets/default_ancient_ruins_props.tres" id="3_l8o6s"]
 [ext_resource type="Script" uid="uid://sp2quu88a50l" path="res://levels/main_world/DetailLayer.cs" id="4_luolr"]
 [ext_resource type="PackedScene" uid="uid://4cn7famr8bbe" path="res://items/ProjectileKey.tscn" id="5_ioa6o"]
+[ext_resource type="Script" uid="uid://bqhdr83o8em75" path="res://levels/sublevel_spear/FloatingItem.cs" id="9_7atot"]
+[ext_resource type="Texture2D" uid="uid://dtrg6gxenftfw" path="res://assets/art/Environment/Props/animated/Ritual site-anim3-in.png" id="9_ioa6o"]
+[ext_resource type="Texture2D" uid="uid://gcv7dybucrco" path="res://assets/art/Player/New/Side Throw-1.png.png" id="10_7atot"]
 [ext_resource type="PackedScene" uid="uid://2s7pvqrw0cuh" path="res://items/mana_interactions/ManaSphere.tscn" id="10_duo3u"]
 [ext_resource type="PackedScene" uid="uid://y8cg5ma1vyn1" path="res://obstacles/ObstacleBase.tscn" id="11_qiofj"]
 [ext_resource type="PackedScene" uid="uid://djc70ojfcqyav" path="res://obstacles/components/MoveToOffsetOnInfuse.tscn" id="12_nhqh3"]
+[ext_resource type="FontFile" uid="uid://cnv5trghp6um2" path="res://assets/fonts/OpenDyslexic-Regular.otf" id="12_qiofj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hv6an"]
 size = Vector2(2048, 2048)
@@ -18,6 +22,15 @@ point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_raxmr"]
 size = Vector2(361.8266, 100)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y10a3"]
+radius = 45.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_nhqh3"]
+font = ExtResource("12_qiofj")
+font_size = 24
+outline_size = 8
+outline_color = Color(0.0253638, 0.0253638, 0.025363795, 1)
 
 [node name="0,0" type="Area2D" unique_id=572080498]
 texture_filter = 1
@@ -116,3 +129,59 @@ collision_layer = 2
 position = Vector2(72.57988, 0)
 scale = Vector2(0.9999998, 0.9999998)
 shape = SubResource("RectangleShape2D_raxmr")
+
+[node name="YSort" type="Node2D" parent="." unique_id=18309188]
+y_sort_enabled = true
+
+[node name="Area2D" type="Area2D" parent="YSort" unique_id=836980976]
+z_index = 1
+y_sort_enabled = true
+position = Vector2(0, 50)
+script = ExtResource("9_7atot")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Area2D" unique_id=193143205]
+shape = SubResource("CircleShape2D_y10a3")
+
+[node name="BaseSprite" type="Sprite2D" parent="YSort/Area2D" unique_id=562610097]
+position = Vector2(-2, 0)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_ioa6o")
+hframes = 5
+
+[node name="SpearSprite" type="Sprite2D" parent="YSort/Area2D" unique_id=830962023]
+z_index = 1
+position = Vector2(0.66666657, -13.333334)
+rotation = -0.5449784
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("10_7atot")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="YSort/Area2D" unique_id=2040789576]
+collision_layer = 2
+collision_mask = 57
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="YSort/Area2D/StaticBody2D" unique_id=493687403]
+position = Vector2(0, 4)
+polygon = PackedVector2Array(-13.333334, 4.666668, 0.6666667, 10.666672, 14, 4.666668, 0, 0.66666794)
+
+[node name="Control" type="Control" parent="YSort/Area2D" unique_id=1659652504]
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = -62.0
+offset_top = -89.0
+offset_right = -62.0
+offset_bottom = -89.0
+
+[node name="ColorRect" type="ColorRect" parent="YSort/Area2D/Control" unique_id=153844334]
+layout_mode = 0
+offset_right = 130.775
+offset_bottom = 42.0
+color = Color(0.14, 0.14, 0.14, 0.40784314)
+
+[node name="Label" type="Label" parent="YSort/Area2D/Control" unique_id=1565802013]
+layout_mode = 0
+offset_right = 117.0
+offset_bottom = 42.0
+text = "(F) Defuse"
+label_settings = SubResource("LabelSettings_nhqh3")

@@ -108,20 +108,23 @@ public partial class LevelChange : Entity.Key, IInteractable
         if (node is not Player)
             return;
 
+        var levels = Global.Instance.Levels;
+
         var can_level_change = Global.Instance.CanLevelChange;
         if (
             can_level_change.ContainsKey(new_level)
             && can_level_change[new_level] == false
         )
         {
+            if (levels.ContainsKey(new_level))
+            {
+                levels.Remove(new_level);
+            }
             return;
         }
 
-        var levels = Global.Instance.Levels;
         if (!levels.ContainsKey(new_level))
         {
-            // levels.Add(new_level, GD.Load<PackedScene>(new_level));
-
             ResourceLoader.LoadThreadedRequest(new_level);
         }
 

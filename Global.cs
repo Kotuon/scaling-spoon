@@ -26,10 +26,6 @@ public partial class Global : Node
             "res://levels/main_world.tscn",
             GD.Load<PackedScene>("res://levels/main_world.tscn")
         );
-        // Levels.Add(
-        //     "res://levels/sublevel_spear.tscn",
-        //     GD.Load<PackedScene>("res://levels/sublevel_spear.tscn")
-        // );
     }
 
     public void GotoScene(

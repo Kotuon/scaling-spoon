@@ -1,14 +1,15 @@
-
 namespace Game.Component;
 
-using Godot;
 using Game.Math;
+using Godot;
 
 public partial class Mouse : Component
 {
+    [Export]
+    public float offsetPercent = 0.25f;
 
-    [Export] public float offsetPercent = 0.25f;
-    [Export] public float maxRadius = 250.0f;
+    [Export]
+    public float maxRadius = 250.0f;
 
     private bool _useMouseDirection;
 
@@ -22,20 +23,18 @@ public partial class Mouse : Component
 
                 Vector2 newPosition = GetViewportRect().Size / 2.0f;
 
-                Input.WarpMouse(newPosition + new Vector2(0.0f, 20.0f));
+                Input.WarpMouse(newPosition + new Vector2(0.0f, 1.0f));
             }
             else
             {
                 icon.Visible = false;
 
                 var camera = parent.GetComponent<OffsetCamera>();
-                if (camera != null)
-                    camera.CancelOffset();
+                camera?.CancelOffset();
             }
 
             _useMouseDirection = value;
         }
-
         get => _useMouseDirection;
     }
 
@@ -65,22 +64,33 @@ public partial class Mouse : Component
         Visible = true;
         icon.Visible = false;
     }
+
     public override void _Process(double delta)
     {
         base._Process(delta);
 
-        var joystick = Input.GetVector("mouse_left", "mouse_right", "mouse_up",
-            "mouse_down");
+        var joystick = Input.GetVector(
+            "mouse_left",
+            "mouse_right",
+            "mouse_up",
+            "mouse_down"
+        );
 
-        joystick = Curves.CubicBezier(Vector2.Zero, Vector2.Zero,
-            joystick * 0.25f, joystick, joystick.Length());
+        joystick = Curves.CubicBezier(
+            Vector2.Zero,
+            Vector2.Zero,
+            joystick * 0.25f,
+            joystick,
+            joystick.Length()
+        );
 
         joystick *= maxRadius;
 
         var mousePos = GetGlobalMousePosition() + joystick;
 
         var dir = mousePos - parent.GlobalPosition;
-        if (dir.Length() > maxRadius)
+
+        if (dir.Length() > maxRadius * 2.0f)
             dir = dir.Normalized() * maxRadius;
 
         mousePos = parent.GlobalPosition + dir;
@@ -91,12 +101,14 @@ public partial class Mouse : Component
 
         if (useMouseDirection)
         {
-            parent.GetComponent<OffsetCamera>().TriggerOffset(
-                (GlobalPosition - parent.GlobalPosition).Normalized()
-                * maxRadius * offsetPercent, 0.25f
-            );
+            parent
+                .GetComponent<OffsetCamera>()
+                .TriggerOffset(
+                    (GlobalPosition - parent.GlobalPosition).Normalized()
+                        * maxRadius
+                        * offsetPercent,
+                    0.25f
+                );
         }
     }
-
-
 }
