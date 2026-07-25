@@ -1,18 +1,20 @@
 namespace Game.Component;
 
-using Godot;
 using System;
+using Godot;
 
 public partial class Heal : Ability
 {
-    [Export] public float healAmount = 1.0f;
-    [Export] public float timeBetweenHeals = 0.25f;
+    [Export]
+    public float healAmount = 1.0f;
+
+    [Export]
+    public float timeBetweenHeals = 0.25f;
     private float counter;
     private Health _health;
     protected Health health
     {
-        private set=> _health = value;
-
+        private set => _health = value;
         get
         {
             if (_health == null)
@@ -22,10 +24,8 @@ public partial class Heal : Ability
         }
     }
 
-    public Heal() : base("heal")
-    {
-
-    }
+    public Heal()
+        : base("heal") { }
 
     public override void _Ready()
     {
@@ -37,16 +37,16 @@ public partial class Heal : Ability
     public override void Trigger()
     {
         base.Trigger();
-        GD.Print("TRIGGER");
+        // GD.Print("TRIGGER");
         counter = 0.0f;
     }
-
 
     public override void Update(double delta)
     {
         base.Update(delta);
 
-        if (!isActive) return;
+        if (!isActive)
+            return;
 
         counter -= (float)delta;
 
@@ -56,5 +56,4 @@ public partial class Heal : Ability
             counter = timeBetweenHeals;
         }
     }
-
 }

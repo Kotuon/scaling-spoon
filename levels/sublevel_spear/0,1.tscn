@@ -258,7 +258,8 @@ wait_time = 0.25
 [node name="Health" parent="EnemyBase2" unique_id=842163972 instance=ExtResource("21_fcmeo")]
 
 [node name="Area2D" parent="." unique_id=1536141012 instance=ExtResource("22_82ny7")]
-position = Vector2(343.33334, 694.0001)
+position = Vector2(343.33337, 697.99994)
 scale = Vector2(0.223, 0.223)
 script = ExtResource("23_aqjop")
 new_level = "res://levels/main_world.tscn"
+single_use = false

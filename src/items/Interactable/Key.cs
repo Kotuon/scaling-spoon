@@ -1,7 +1,7 @@
 namespace Game.Entity;
 
-using Godot;
 using System;
+using Godot;
 
 public partial class Key : AreaTriggerItem
 {
@@ -9,6 +9,6 @@ public partial class Key : AreaTriggerItem
 
     public void Here()
     {
-        GD.Print("HERE");
+        // GD.Print("HERE");
     }
 }

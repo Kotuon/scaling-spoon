@@ -88,7 +88,7 @@ public partial class DefusibleObject : Entity.Key, IInteractable
 
     protected override void ResolveCollisionEnter(Node node)
     {
-        GD.Print(node.Name);
+        // GD.Print(node.Name);
         if (node is not Player)
             return;
 

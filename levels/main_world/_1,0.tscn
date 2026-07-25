@@ -51,3 +51,4 @@ texture = ExtResource("4_xr1jj")
 [node name="Area2D" parent="YSort/Altar" unique_id=1536141012 instance=ExtResource("5_tcbj3")]
 script = ExtResource("7_t0pln")
 new_level = "res://levels/sublevel_spear.tscn"
+single_use = true

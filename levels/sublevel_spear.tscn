@@ -27,6 +27,9 @@ position = Vector2(0, -3072)
 y_sort_enabled = true
 
 [node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("6_pwqf4")]
+position = Vector2(632, -3036)
+
+[node name="PlayerStartPosition" type="Node2D" parent="YSort" unique_id=631361281]
 position = Vector2(0, 520)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1128543297]

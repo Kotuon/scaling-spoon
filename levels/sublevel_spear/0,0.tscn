@@ -67,7 +67,6 @@ tCurveStart = SubResource("Curve_51ffo")
 needTriggerEachRun = true
 keys = [NodePath("../../ProjectileKey2")]
 singleKey = true
-enabled = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="ObstacleBase" unique_id=100995414]
 position = Vector2(57.884186, 0)

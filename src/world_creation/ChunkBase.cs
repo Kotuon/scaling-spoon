@@ -3,23 +3,20 @@ using Godot;
 [Tool]
 public partial class ChunkBase : Area2D
 {
-    private
-      Vector2I id;
+    private Vector2I id;
 
     private float tile_size = 2048;
     private StringName lastName;
 
     // Called when the node enters the scene tree for the first time.
-    public
-      override void _Ready()
+    public override void _Ready()
     {
         lastName = Name;
         UpdatePositionFromId();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public
-      override void _Process(double delta)
+    public override void _Process(double delta)
     {
         if (Engine.IsEditorHint())
         {
@@ -30,16 +27,14 @@ public partial class ChunkBase : Area2D
             }
             else if (lastName != Name)
             {
-                GD.Print(GetOwner().Name);
+                // GD.Print(GetOwner().Name);
                 UpdatePositionFromId();
                 lastName = Name;
-
             }
         }
     }
 
-    protected
-      void UpdatePositionFromId()
+    protected void UpdatePositionFromId()
     {
         var name = Name.ToString();
 
@@ -56,7 +51,9 @@ public partial class ChunkBase : Area2D
         id.X = x.ToInt();
         id.Y = y.ToInt();
 
-        Position =
-            new Vector2((float)id.X * tile_size * Scale.X, -(float)id.Y * tile_size * Scale.Y);
+        Position = new Vector2(
+            (float)id.X * tile_size * Scale.X,
+            -(float)id.Y * tile_size * Scale.Y
+        );
     }
 }

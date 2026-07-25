@@ -7,6 +7,9 @@ public partial class LevelChange : Entity.Key, IInteractable
     [Export]
     protected string new_level = null;
 
+    [Export]
+    protected bool single_use = false;
+
     private CharacterBase playerRef;
     private bool playerInArea = false;
 
@@ -56,7 +59,35 @@ public partial class LevelChange : Entity.Key, IInteractable
         if (new_level == null)
             return;
 
-        Global.Instance.GotoScene(new_level);
+        var can_level_change = Global.Instance.CanLevelChange;
+        if (can_level_change.ContainsKey(new_level))
+        {
+            if (can_level_change[new_level] == false)
+            {
+                return;
+            }
+        }
+        else
+        {
+            can_level_change.Add(new_level, !single_use);
+        }
+
+        var levels = Global.Instance.Levels;
+        if (!levels.ContainsKey(new_level))
+        {
+            while (
+                ResourceLoader.LoadThreadedGetStatus(new_level)
+                != ResourceLoader.ThreadLoadStatus.Loaded
+            )
+            {
+                levels.Add(
+                    new_level,
+                    (PackedScene)ResourceLoader.LoadThreadedGet(new_level)
+                );
+            }
+        }
+
+        Global.Instance.GotoScene(new_level, @base);
     }
 
     public override void _Input(InputEvent @event)
@@ -74,9 +105,25 @@ public partial class LevelChange : Entity.Key, IInteractable
 
     protected override void ResolveCollisionEnter(Node node)
     {
-        GD.Print(node.Name);
         if (node is not Player)
             return;
+
+        var can_level_change = Global.Instance.CanLevelChange;
+        if (
+            can_level_change.ContainsKey(new_level)
+            && can_level_change[new_level] == false
+        )
+        {
+            return;
+        }
+
+        var levels = Global.Instance.Levels;
+        if (!levels.ContainsKey(new_level))
+        {
+            // levels.Add(new_level, GD.Load<PackedScene>(new_level));
+
+            ResourceLoader.LoadThreadedRequest(new_level);
+        }
 
         playerRef = node as CharacterBase;
         playerInArea = true;

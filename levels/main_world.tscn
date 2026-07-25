@@ -149,4 +149,7 @@ position = Vector2(0, -13496)
 position = Vector2(-12373, -15496)
 
 [node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("6_cne4x")]
+position = Vector2(-2441, 620)
+
+[node name="PlayerStartPosition" type="Node2D" parent="YSort" unique_id=1295854618]
 position = Vector2(-58, 1288)

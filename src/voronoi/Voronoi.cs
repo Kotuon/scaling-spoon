@@ -1,11 +1,10 @@
 namespace Voronoi;
 
-using Godot;
 using System;
 using System.Collections.Generic;
-
-using Verticies = System.Collections.Generic.LinkedList<Godot.Vector2>;
+using Godot;
 using Edges = System.Collections.Generic.LinkedList<Edge>;
+using Verticies = System.Collections.Generic.LinkedList<Godot.Vector2>;
 
 public partial class Voronoi : Node2D
 {
@@ -21,15 +20,21 @@ public partial class Voronoi : Node2D
 
     private HashSet<Event> deleted = new HashSet<Event>();
     private LinkedList<Vector2> points = new LinkedList<Vector2>();
-    private PriorityQueue<Event, float> queue = new PriorityQueue<Event, float>();
+    private PriorityQueue<Event, float> queue =
+        new PriorityQueue<Event, float>();
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 
     private float _scale = 1000.0f;
+
     [Export]
     public float scale
     {
         get { return _scale; }
-        set { _scale = value; QueueRedraw(); }
+        set
+        {
+            _scale = value;
+            QueueRedraw();
+        }
     }
 
     public Voronoi()
@@ -44,9 +49,12 @@ public partial class Voronoi : Node2D
 
         for (int i = 0; i < 10; ++i)
         {
-            ver.AddLast(new Godot.Vector2(rng.Randf() * scale, rng.Randf() * scale));
-            dir.AddLast(new Godot.Vector2(
-                rng.Randf() - 0.5f, rng.Randf() - 0.05f));
+            ver.AddLast(
+                new Godot.Vector2(rng.Randf() * scale, rng.Randf() * scale)
+            );
+            dir.AddLast(
+                new Godot.Vector2(rng.Randf() - 0.5f, rng.Randf() - 0.05f)
+            );
         }
 
         edges = GetEdges((int)scale, (int)scale);
@@ -96,7 +104,7 @@ public partial class Voronoi : Node2D
                 //    new Vector2(-1 + 2 * i.X / scale + 0.01f, -1 + 2 * i.Y / scale - 0.01f),
                 //    new Vector2(-1 + 2 * i.X / scale + 0.01f, -1 + 2 * i.Y / scale + 0.01f),
                 //    new Vector2(-1 + 2 * i.X / scale - 0.01f, -1 + 2 * i.Y / scale + 0.01f),
-                
+
                 new Vector2(i.X - offset, i.Y - offset),
                 new Vector2(i.X + offset, i.Y - offset),
                 new Vector2(i.X + offset, i.Y + offset),
@@ -107,11 +115,9 @@ public partial class Voronoi : Node2D
             {
                 GD.Print(point.X.ToString() + ", " + point.Y.ToString());
             }
-            GD.Print("----------------------");
+            // GD.Print("----------------------");
 
-            DrawPolygon(
-                points, colors
-            );
+            DrawPolygon(points, colors);
         }
 
         foreach (var edge in edges)
@@ -254,8 +260,8 @@ public partial class Voronoi : Node2D
         var p0 = xl.GetLeftChild();
         var p2 = xr.GetRightChild();
 
-        if (p0 == p2)
-            GD.Print("Bad stuff");
+        // if (p0 == p2)
+        // GD.Print("Bad stuff");
 
         if (p0.cEvent != null)
         {

@@ -1,7 +1,7 @@
 namespace Game.Entity;
 
-using Godot;
 using Game.Component;
+using Godot;
 
 public partial class Player : CharacterBase
 {
@@ -33,6 +33,6 @@ public partial class Player : CharacterBase
     public override void Dies()
     {
         GetTree().CallDeferred(SceneTree.MethodName.ReloadCurrentScene);
-        GD.Print("Dies");
+        // GD.Print("Dies");
     }
 }
