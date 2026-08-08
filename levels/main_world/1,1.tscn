@@ -363,7 +363,7 @@ mesh = SubResource("QuadMesh_2704r")
 position = Vector2(-810, -787.3334)
 
 [node name="ProjectileKey2" parent="." unique_id=1144774839 instance=ExtResource("16_4vqwo")]
-position = Vector2(601.3334, -394.6667)
+position = Vector2(698, -394.6667)
 
 [node name="Collectable" type="MeshInstance2D" parent="." unique_id=1868997458]
 modulate = Color(0, 1, 0.58431375, 1)

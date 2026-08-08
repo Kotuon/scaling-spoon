@@ -37,7 +37,7 @@
 
 [sub_resource type="Curve" id="Curve_uyl0s"]
 _limits = [0.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.1, 1.75), 0.0, 0.0, 0, 0, Vector2(1, 0.75), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.1, 1.5), 0.0, 0.0, 0, 0, Vector2(1, 0.75), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="Curve" id="Curve_8eyfg"]
@@ -214,7 +214,7 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler") groups=["Characters", "Player"]]
+[node name="Player" type="CharacterBody2D" unique_id=422873383 node_paths=PackedStringArray("move", "animationHandler") groups=["Characters", "Persist", "Player"]]
 z_index = 1
 y_sort_enabled = true
 collision_mask = 62
@@ -239,7 +239,7 @@ cost = 0.0
 
 [node name="Throw" parent="AbilityManager" unique_id=2083118973 instance=ExtResource("32_234y4")]
 proj = ExtResource("16_8eyfg")
-damage = 90.0
+damage = 110.0
 cost = 0.0
 
 [node name="Dash" parent="AbilityManager" unique_id=503890185 instance=ExtResource("17_ayguc")]
@@ -259,7 +259,6 @@ RollSpeedCurve = SubResource("Curve_uyl0s")
 visible = false
 z_index = 1
 offsetPercent = 1.0
-metadata/_edit_lock_ = true
 
 [node name="AuraParticles" type="GPUParticles2D" parent="." unique_id=494178671]
 visible = false

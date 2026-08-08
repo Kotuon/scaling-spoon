@@ -1,9 +1,70 @@
 root = true
 
 [*.cs]
+# BasedOnStyle: LLVM & Tab Rules
 indent_style = space
 indent_size = 4
-trim_trailing_whitespace = true
-insert_final_newline = true
+tab_width = 4
+
+# ColumnLimit: 80
+# (Note: Roslyn checks this for wrapping long lines, though it is not strictly binding for every layout token)
+# Core constraint
 max_line_length = 80
-use_tabs = false
+
+# Direct Roslyn to aggressively wrap expressions wrapping past 80 columns
+csharp_preserve_wrapper_lines = false
+csharp_wrap_before_binary_operators = true
+
+# Wrapping rules for long chains and blocks
+csharp_wrap_expression_bodied_members = when_on_multiple_lines
+csharp_wrap_chained_binary_expressions = wrap_if_long
+csharp_wrap_method_call_arguments = wrap_if_long
+csharp_wrap_method_declaration_parameters = wrap_if_long
+
+# BreakBeforeBraces: Attach
+csharp_new_line_before_open_brace = none
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+csharp_new_line_before_finally = false
+csharp_new_line_before_members_in_object_initializer = false
+csharp_new_line_before_members_in_anonymous_types = false
+
+# AllowShortIfStatementsOnASingleLine: WithoutElse
+csharp_preserve_single_line_blocks = true
+csharp_preserve_single_line_statements = true
+
+# IndentCaseLabels: false
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = false
+
+# SpacesInParentheses: true / SpacesInConditionalStatement: true
+# (Adds padding spaces inside standard parentheses and control flow statements)
+csharp_space_between_parentheses = true
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+
+# SpacesInCStyleCastParentheses: true
+csharp_space_between_cast_parentheses = true
+
+# SpacesInAngles: true (C# Generics)
+# (Roslyn does not have an exact 1:1 match for padding generic '<' and '>' tokens,
+# but we can prevent it from aggressively crunching them)
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_after_comma = true
+
+# SpacesInContainerLiterals: true (C# Collection Expressions / Initializers)
+csharp_space_after_opening_and_before_closing_empty_square_brackets = false
+csharp_space_between_square_brackets = true
+
+# SortIncludes: Never
+# (Prevents Roslyn from automatically reordering your using directives on save)
+dotnet_sort_system_directives_first = false
+
+# PointerAlignment: Left (int* ptr)
+# (C# syntax naturally pins the pointer asterisk/array bracket directly to the type, e.g., int* x)
+
+# Use comma-separated flags instead of true/false
+csharp_space_between_parentheses = control_flow_statements, expressions, type_casts
+
+# Ensure spaces around operators (e.g., a + b instead of a+b)
+csharp_space_around_binary_operators = before_and_after

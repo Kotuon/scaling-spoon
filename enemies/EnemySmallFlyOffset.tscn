@@ -26,7 +26,7 @@ move = NodePath("AbilityManager/Move")
 
 [node name="AbilityManager" parent="." unique_id=782651209 instance=ExtResource("2_67fwr")]
 
-[node name="Move" parent="AbilityManager" unique_id=578487199 instance=ExtResource("3_s7536")]
+[node name="Move" parent="AbilityManager" unique_id=578487199 groups=["Enemies"] instance=ExtResource("3_s7536")]
 acceleration = 1200.0
 
 [node name="Throw" parent="AbilityManager" unique_id=54411854 instance=ExtResource("4_1amrh")]

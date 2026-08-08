@@ -1,36 +1,49 @@
 namespace Game.Entity;
 
+using System;
+using System.Runtime.InteropServices;
 using Game.Component;
 using Godot;
 using Microsoft.VisualBasic;
-using System;
-using System.Runtime.InteropServices;
 
-public partial class CharacterBase : CharacterBody2D, IDamageable {
+public partial class CharacterBase : CharacterBody2D, IDamageable
+{
     [Signal]
     public delegate void CollisionEventHandler();
+
     [Signal]
-    public delegate void DamagedEventHandler( float damageAmount );
+    public delegate void DamagedEventHandler(float damageAmount);
+
     [Signal]
     public delegate void DeathEventHandler();
+
     // [Export] protected Godot.Collections.Dictionary attributes;
 
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready() { AddToGroup( "Characters", true ); }
-
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
-    public override void _Process( double delta ) {}
-
-    public override void _PhysicsProcess( double delta ) {
-        base._PhysicsProcess( delta );
+    public override void _Ready()
+    {
+        AddToGroup("Characters", true);
     }
 
-    public T GetComponent< T >()
-        where T : class {
-        foreach ( Node child in GetChildren() ) {
-            if ( child is T ) return child as T;
-            foreach ( Node subChild in child.GetChildren() ) {
-                if ( subChild is T ) return subChild as T;
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta) { }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+    }
+
+    public T GetComponent<T>()
+        where T : class
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is T)
+                return child as T;
+            foreach (Node subChild in child.GetChildren())
+            {
+                if (subChild is T)
+                    return subChild as T;
             }
         }
 
@@ -38,12 +51,16 @@ public partial class CharacterBase : CharacterBody2D, IDamageable {
         return null;
     }
 
-    public T GetComponent< T >( string name )
-        where T : class {
-        foreach ( Node child in GetChildren() ) {
-            if ( child is T && child.Name.Equals( name ) ) return child as T;
-            foreach ( Node subChild in child.GetChildren() ) {
-                if ( subChild is T && subChild.Name.Equals( name ) )
+    public T GetComponent<T>(string name)
+        where T : class
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is T && child.Name.Equals(name))
+                return child as T;
+            foreach (Node subChild in child.GetChildren())
+            {
+                if (subChild is T && subChild.Name.Equals(name))
                     return subChild as T;
             }
         }
@@ -51,18 +68,21 @@ public partial class CharacterBase : CharacterBody2D, IDamageable {
         return null;
     }
 
-    public virtual void Damage( float amount ) {
-        Health health = GetComponent< Health >();
-        if ( health == null ) return;
+    public virtual void Damage(float amount)
+    {
+        Health health = GetComponent<Health>();
+        if (health == null)
+            return;
 
-        if ( !health.Use( amount ) )
-            EmitSignal( SignalName.Damaged, amount );
+        if (!health.Use(amount))
+            EmitSignal(SignalName.Damaged, amount);
         else
             Dies();
     }
 
-    public virtual void Dies() {
+    public virtual void Dies()
+    {
         // Visible = false;
-        EmitSignal( SignalName.Death );
+        EmitSignal(SignalName.Death);
     }
 }

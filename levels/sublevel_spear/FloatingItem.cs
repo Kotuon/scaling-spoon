@@ -1,4 +1,4 @@
-using System.Diagnostics;
+using Game.Component;
 using Game.Entity;
 using Godot;
 
@@ -86,5 +86,17 @@ public partial class FloatingItem : Area2D, IInteractable
         }
     }
 
-    public void Interact(CharacterBase @base) { }
+    public void Interact(CharacterBase @base)
+    {
+        if (@base is not Player)
+            return;
+
+        var player = @base as Player;
+        var throw_ability = player.GetComponent<Throw>();
+
+        throw_ability.Enabled = true;
+
+        var spear = GetNode<Node2D>("SpearSprite");
+        spear.QueueFree();
+    }
 }

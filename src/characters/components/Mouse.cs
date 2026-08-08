@@ -11,6 +11,9 @@ public partial class Mouse : Component
     [Export]
     public float maxRadius = 250.0f;
 
+    [Export]
+    protected float distanceBeforeCameraMove = 50.0f;
+
     private bool _useMouseDirection;
 
     public bool useMouseDirection
@@ -24,6 +27,7 @@ public partial class Mouse : Component
                 Vector2 newPosition = GetViewportRect().Size / 2.0f;
 
                 Input.WarpMouse(newPosition + new Vector2(0.0f, 1.0f));
+                Input.WarpMouse(newPosition);
             }
             else
             {
@@ -89,8 +93,9 @@ public partial class Mouse : Component
         var mousePos = GetGlobalMousePosition() + joystick;
 
         var dir = mousePos - parent.GlobalPosition;
+        dir /= 4.0f;
 
-        if (dir.Length() > maxRadius * 2.0f)
+        if (dir.Length() > maxRadius)
             dir = dir.Normalized() * maxRadius;
 
         mousePos = parent.GlobalPosition + dir;
@@ -99,14 +104,17 @@ public partial class Mouse : Component
 
         GlobalPosition = mousePos;
 
-        if (useMouseDirection)
+        Vector2 globalDirection = GlobalPosition - parent.GlobalPosition;
+
+        if (
+            useMouseDirection
+            && globalDirection.Length() > distanceBeforeCameraMove
+        )
         {
             parent
                 .GetComponent<OffsetCamera>()
                 .TriggerOffset(
-                    (GlobalPosition - parent.GlobalPosition).Normalized()
-                        * maxRadius
-                        * offsetPercent,
+                    globalDirection.Normalized() * maxRadius * offsetPercent,
                     0.25f
                 );
         }

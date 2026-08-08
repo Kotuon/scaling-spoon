@@ -89,6 +89,10 @@ public partial class EnemyBase : CharacterBase
                         EmitSignal(SignalName.EndStun);
                 };
         }
+        else
+        {
+            canTakeDamage = true;
+        }
 
         GetComponent<Health>().health_changed += UpdateHealth;
 
@@ -98,7 +102,8 @@ public partial class EnemyBase : CharacterBase
 
     private void UpdateHealth(float newAmount)
     {
-        healthBar.Value = newAmount;
+        if (healthBar != null)
+            healthBar.Value = newAmount;
     }
 
     private void PlaySpawnAudio()
@@ -116,14 +121,14 @@ public partial class EnemyBase : CharacterBase
 
     private void TakenDamage(float amount)
     {
-        foreach (var action in unstunableActions)
-        {
-            if (animationHandler.IsCurrentAnimationPlaying(action))
-                return;
-        }
-
         if (animationHandler != null)
         {
+            foreach (var action in unstunableActions)
+            {
+                if (animationHandler.IsCurrentAnimationPlaying(action))
+                    return;
+            }
+
             animationHandler.PlayAnimation("hit", Vector2.Zero);
             animationHandler.canAdvance = false;
             move.currWalkSpeed = 0.0f;
@@ -137,7 +142,7 @@ public partial class EnemyBase : CharacterBase
 
     private void HasDied()
     {
-        animationHandler.PlayAnimation("death", Vector2.Zero);
+        animationHandler?.PlayAnimation("death", Vector2.Zero);
         move.movementOverride = true;
         MotionMode = MotionModeEnum.Floating;
     }

@@ -9,21 +9,41 @@ public partial class ProtectPlayer : ObstacleComponent
 
     protected override void ResolveCollisionEnter(Node node)
     {
-        if (!enabled || node is not Player) return;
+        if (!enabled || node is not Player)
+            return;
 
         playerRef = node as Player;
-        PlayerCollider collider =
-            playerRef.GetComponent<PlayerCollider>();
-        collider.ignoreObstacles = true;
+        PlayerCollider collider = playerRef.GetComponent<PlayerCollider>();
+        // collider.ignoreObstacles = true;
+
+        Global.Instance.PlayerObstacleProtection += 1;
+        if (Global.Instance.PlayerObstacleProtection > 0)
+        {
+            collider.ignoreObstacles = true;
+        }
+        else
+        {
+            collider.ignoreObstacles = false;
+        }
     }
 
     protected override void ResolveCollisionExit(Node node)
     {
-        if (!enabled || node is not Player) return;
+        if (!enabled || node is not Player)
+            return;
 
-        PlayerCollider collider =
-            playerRef.GetComponent<PlayerCollider>();
-        collider.ignoreObstacles = false;
+        PlayerCollider collider = playerRef.GetComponent<PlayerCollider>();
+        // collider.ignoreObstacles = false;
         playerRef = null;
+
+        Global.Instance.PlayerObstacleProtection -= 1;
+        if (Global.Instance.PlayerObstacleProtection > 0)
+        {
+            collider.ignoreObstacles = true;
+        }
+        else
+        {
+            collider.ignoreObstacles = false;
+        }
     }
 }

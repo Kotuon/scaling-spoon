@@ -38,6 +38,8 @@ Player=""
 Characters=""
 Boss=""
 Enemies=""
+Obstacles=""
+Persist=""
 
 [input]
 
@@ -131,4 +133,5 @@ roll={
 2d_physics/layer_3="mana_interaction"
 2d_physics/layer_4="projectiles"
 2d_physics/layer_5="enemies"
-2d_physics/layer_6="water"
+2d_physics/layer_6="water_walls"
+2d_physics/layer_7="water"

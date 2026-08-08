@@ -9,7 +9,6 @@
 [ext_resource type="Script" uid="uid://beqqyvufmvcnf" path="res://src/obstacles/components/CausePlayerDeath.cs" id="7_6ji6h"]
 [ext_resource type="Script" uid="uid://b1hmd24mcha87" path="res://src/obstacles/components/MoveToOffsetOnInfuse.cs" id="7_7x6q0"]
 [ext_resource type="PackedScene" uid="uid://4cn7famr8bbe" path="res://items/ProjectileKey.tscn" id="9_fo2ua"]
-[ext_resource type="PackedScene" uid="uid://fnl6275xu5jy" path="res://enemies/EnemySmallFlyOffset.tscn" id="10_7x6q0"]
 [ext_resource type="Script" uid="uid://dflmrwqkm5m3e" path="res://src/characters/EnemyBase.cs" id="11_k5hve"]
 [ext_resource type="PackedScene" uid="uid://b7mrgqxbrp16y" path="res://components/AbilityManager.tscn" id="12_rjqbb"]
 [ext_resource type="PackedScene" uid="uid://cj3fkw0agux0o" path="res://components/abilities/Move.tscn" id="13_5a2y3"]
@@ -51,6 +50,12 @@ size = Vector2(100, 100)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5cky"]
 size = Vector2(100, 100)
 
+[sub_resource type="QuadMesh" id="QuadMesh_rjqbb"]
+size = Vector2(100, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5a2y3"]
+size = Vector2(100, 100)
+
 [node name="0,1" type="Area2D" unique_id=1841081121]
 texture_filter = 1
 scale = Vector2(1.5, 1.5)
@@ -76,7 +81,7 @@ scale = Vector2(2, 2)
 tile_set = ExtResource("3_bhh11")
 script = ExtResource("4_64r24")
 
-[node name="ObstacleBase2" type="Area2D" parent="." unique_id=304808175]
+[node name="ObstacleBase2" type="Area2D" parent="." unique_id=304808175 groups=["Obstacles"]]
 position = Vector2(-360.66666, 968.6667)
 rotation = -3.1415925
 scale = Vector2(0.25, 0.15)
@@ -106,7 +111,7 @@ modulate = Color(1, 0.13999999, 0.13999999, 0.49019608)
 position = Vector2(-7.6293945e-06, 2.2888184e-05)
 mesh = SubResource("QuadMesh_t1355")
 
-[node name="ObstacleBase3" type="Area2D" parent="." unique_id=1570138587]
+[node name="ObstacleBase3" type="Area2D" parent="." unique_id=1570138587 groups=["Obstacles"]]
 position = Vector2(-360.66663, 923.3333)
 rotation = -3.1415925
 scale = Vector2(0.25, 0.15)
@@ -137,7 +142,7 @@ modulate = Color(1, 0.13999999, 0.13999999, 0.49019608)
 position = Vector2(-7.6293945e-06, 2.2888184e-05)
 mesh = SubResource("QuadMesh_t1355")
 
-[node name="ObstacleBase4" type="Area2D" parent="." unique_id=1683904712]
+[node name="ObstacleBase4" type="Area2D" parent="." unique_id=1683904712 groups=["Obstacles"]]
 position = Vector2(-360.66666, 875.33344)
 rotation = -3.1415925
 scale = Vector2(0.25, 0.15)
@@ -168,7 +173,7 @@ modulate = Color(1, 0.13999999, 0.13999999, 0.49019608)
 position = Vector2(-7.6293945e-06, 2.2888184e-05)
 mesh = SubResource("QuadMesh_t1355")
 
-[node name="ObstacleBase5" type="Area2D" parent="." unique_id=1486880083]
+[node name="ObstacleBase5" type="Area2D" parent="." unique_id=1486880083 groups=["Obstacles"]]
 position = Vector2(-360.66666, 832.6667)
 rotation = -3.1415925
 scale = Vector2(0.25, 0.15)
@@ -203,11 +208,48 @@ mesh = SubResource("QuadMesh_t1355")
 position = Vector2(-498, 987.3333)
 scale = Vector2(0.334, 0.334)
 
-[node name="EnemyBase" parent="." unique_id=1265510272 instance=ExtResource("10_7x6q0")]
+[node name="EnemyBase" type="CharacterBody2D" parent="." unique_id=1265510272 node_paths=PackedStringArray("move") groups=["Characters", "Enemies"]]
 position = Vector2(-160, 740)
 scale = Vector2(0.25, 0.25)
+collision_layer = 16
+collision_mask = 43
+script = ExtResource("11_k5hve")
+move = NodePath("AbilityManager/Move")
 
-[node name="EnemyBase2" type="CharacterBody2D" parent="." unique_id=1796951402 node_paths=PackedStringArray("move")]
+[node name="AbilityManager" parent="EnemyBase" unique_id=782651209 instance=ExtResource("12_rjqbb")]
+
+[node name="Move" parent="EnemyBase/AbilityManager" unique_id=578487199 groups=["Enemies"] instance=ExtResource("13_5a2y3")]
+acceleration = 1200.0
+
+[node name="Throw" parent="EnemyBase/AbilityManager" unique_id=54411854 instance=ExtResource("14_82ny7")]
+proj = ExtResource("15_aqjop")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="EnemyBase" unique_id=2035412392]
+modulate = Color(1, 0.708, 0.26999998, 1)
+mesh = SubResource("QuadMesh_o5cky")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBase" unique_id=316593584]
+shape = SubResource("RectangleShape2D_o5cky")
+
+[node name="EnemyBaseController" parent="EnemyBase" unique_id=1880682395 instance=ExtResource("16_sf7u8")]
+
+[node name="BehaviorTree" parent="EnemyBase" unique_id=1657930568 instance=ExtResource("17_dg076")]
+
+[node name="SequenceNode" parent="EnemyBase/BehaviorTree" unique_id=243264643 instance=ExtResource("18_5kkxa")]
+
+[node name="MoveDistance" parent="EnemyBase/BehaviorTree/SequenceNode" unique_id=323743966 instance=ExtResource("19_0wpn8")]
+offset = Vector2(0, -90)
+
+[node name="Wait" parent="EnemyBase/BehaviorTree/SequenceNode" unique_id=1253292137 instance=ExtResource("20_ce245")]
+
+[node name="MoveDistance2" parent="EnemyBase/BehaviorTree/SequenceNode" unique_id=1900045152 instance=ExtResource("19_0wpn8")]
+offset = Vector2(0, 90)
+
+[node name="Wait2" parent="EnemyBase/BehaviorTree/SequenceNode" unique_id=1468860412 instance=ExtResource("20_ce245")]
+
+[node name="Health" parent="EnemyBase" unique_id=842163972 instance=ExtResource("21_fcmeo")]
+
+[node name="EnemyBase2" type="CharacterBody2D" parent="." unique_id=1796951402 node_paths=PackedStringArray("move") groups=["Characters", "Enemies"]]
 position = Vector2(-4.666667, 740)
 scale = Vector2(0.25, 0.25)
 collision_layer = 16
@@ -215,35 +257,35 @@ collision_mask = 43
 script = ExtResource("11_k5hve")
 move = NodePath("AbilityManager/Move")
 
-[node name="AbilityManager" parent="EnemyBase2" unique_id=782651209 instance=ExtResource("12_rjqbb")]
+[node name="AbilityManager" parent="EnemyBase2" unique_id=1208974539 instance=ExtResource("12_rjqbb")]
 
-[node name="Move" parent="EnemyBase2/AbilityManager" unique_id=578487199 instance=ExtResource("13_5a2y3")]
+[node name="Move" parent="EnemyBase2/AbilityManager" unique_id=525703763 instance=ExtResource("13_5a2y3")]
 maxWalkSpeed = 200.0
 
-[node name="Throw" parent="EnemyBase2/AbilityManager" unique_id=54411854 instance=ExtResource("14_82ny7")]
+[node name="Throw" parent="EnemyBase2/AbilityManager" unique_id=149255845 instance=ExtResource("14_82ny7")]
 proj = ExtResource("15_aqjop")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="EnemyBase2" unique_id=2035412392]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="EnemyBase2" unique_id=1286191137]
 modulate = Color(1, 0.708, 0.26999998, 1)
-mesh = SubResource("QuadMesh_o5cky")
+mesh = SubResource("QuadMesh_rjqbb")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBase2" unique_id=316593584]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyBase2" unique_id=761319642]
 visible = false
-shape = SubResource("RectangleShape2D_o5cky")
+shape = SubResource("RectangleShape2D_5a2y3")
 
-[node name="EnemyBaseController" parent="EnemyBase2" unique_id=1880682395 instance=ExtResource("16_sf7u8")]
+[node name="EnemyBaseController" parent="EnemyBase2" unique_id=444975445 instance=ExtResource("16_sf7u8")]
 
-[node name="BehaviorTree" parent="EnemyBase2" unique_id=1657930568 instance=ExtResource("17_dg076")]
+[node name="BehaviorTree" parent="EnemyBase2" unique_id=1244405998 instance=ExtResource("17_dg076")]
 
-[node name="SequenceNode" parent="EnemyBase2/BehaviorTree" unique_id=243264643 instance=ExtResource("18_5kkxa")]
+[node name="SequenceNode" parent="EnemyBase2/BehaviorTree" unique_id=793423646 instance=ExtResource("18_5kkxa")]
 
-[node name="MoveDistance" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=323743966 instance=ExtResource("19_0wpn8")]
+[node name="MoveDistance" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=386999195 instance=ExtResource("19_0wpn8")]
 offset = Vector2(-20, -45)
 
-[node name="MoveDistance2" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=1900045152 instance=ExtResource("19_0wpn8")]
+[node name="MoveDistance2" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=1484298859 instance=ExtResource("19_0wpn8")]
 offset = Vector2(20, -45)
 
-[node name="Wait2" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=1468860412 instance=ExtResource("20_ce245")]
+[node name="Wait2" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=1445209446 instance=ExtResource("20_ce245")]
 wait_time = 0.25
 
 [node name="MoveDistance3" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=206920647 instance=ExtResource("19_0wpn8")]
@@ -255,7 +297,7 @@ offset = Vector2(-20, 45)
 [node name="Wait4" parent="EnemyBase2/BehaviorTree/SequenceNode" unique_id=2069388327 instance=ExtResource("20_ce245")]
 wait_time = 0.25
 
-[node name="Health" parent="EnemyBase2" unique_id=842163972 instance=ExtResource("21_fcmeo")]
+[node name="Health" parent="EnemyBase2" unique_id=572739031 instance=ExtResource("21_fcmeo")]
 
 [node name="Area2D" parent="." unique_id=1536141012 instance=ExtResource("22_82ny7")]
 position = Vector2(343.33337, 697.99994)

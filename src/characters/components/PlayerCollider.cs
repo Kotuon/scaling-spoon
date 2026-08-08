@@ -1,7 +1,7 @@
 namespace Game.Component;
 
-using Godot;
 using Game.Entity;
+using Godot;
 
 public partial class PlayerCollider : CollisionShape2D
 {
@@ -14,10 +14,10 @@ public partial class PlayerCollider : CollisionShape2D
             if (!ignoreObstacles && inObstacle)
             {
                 // Trigger collision
+                GD.Print("In obstacle");
                 obstacleRef.EffectPlayer(GetParent() as Player);
             }
         }
-
         get => _ignoreObstacles;
     }
     private bool inObstacle = false;
