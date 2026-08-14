@@ -1,7 +1,6 @@
 namespace Game.Component;
 
 using Game.Entity;
-using Godot;
 using Godot.Collections;
 
 public partial class BehaviorTree : BehaviorNode
@@ -35,7 +34,6 @@ public partial class BehaviorTree : BehaviorNode
         parent.Death += () =>
         {
             m_context["dead"] = true;
-            // GD.Print("Died");
         };
     }
 

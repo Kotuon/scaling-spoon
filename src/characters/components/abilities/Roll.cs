@@ -9,7 +9,7 @@ public partial class Roll : Ability
     protected Curve RollSpeedCurve;
 
     [Export]
-    protected float MinSpeed = 200.0f;
+    protected float MinSpeed = 125.0f;
     private Vector2 roll_dir = Vector2.Zero;
     private float speed_buffer = 0.0f;
 

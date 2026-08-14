@@ -1,10 +1,6 @@
 namespace Game.Entity;
 
-using System;
-using System.Runtime.InteropServices;
-using Game.Component;
 using Godot;
-using Microsoft.VisualBasic;
 
 public partial class CharacterBase : CharacterBody2D, IDamageable
 {

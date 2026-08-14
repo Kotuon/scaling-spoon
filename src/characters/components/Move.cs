@@ -1,9 +1,5 @@
-using System.Reflection.Metadata.Ecma335;
-
 namespace Game.Component;
 
-using System;
-using System.Numerics;
 using Game.Entity;
 using Godot;
 
@@ -83,7 +79,7 @@ public partial class Move : Ability
         }
         else
         {
-            UpdateWalk(slideBrakeSpeed, delta, Godot.Vector2.Zero);
+            UpdateWalk(slideBrakeSpeed, delta, Vector2.Zero);
         }
     }
 
@@ -92,15 +88,25 @@ public partial class Move : Ability
         float maxSpeed,
         float slowSpeed,
         double delta,
-        Godot.Vector2 direction
+        Vector2 direction
     )
     {
         if (direction.LengthSquared() > 0.0f)
         {
-            if (currSpeed < maxSpeed)
-                currSpeed += acceleration * (float)delta;
+            Vector2 normVel = parent.Velocity.Normalized();
+            float dot = normVel.Dot(direction);
+            if (dot < -0.7f)
+            {
+                GD.Print(dot);
+                currSpeed -= acceleration * (float)delta;
+            }
             else
-                currSpeed = maxSpeed;
+            {
+                if (currSpeed < maxSpeed)
+                    currSpeed += acceleration * (float)delta;
+                else
+                    currSpeed = maxSpeed;
+            }
         }
         else
         {
@@ -120,11 +126,7 @@ public partial class Move : Ability
         return currSpeed;
     }
 
-    private void UpdateSpeed(
-        float slowSpeed,
-        double delta,
-        Godot.Vector2 direction
-    )
+    private void UpdateSpeed(float slowSpeed, double delta, Vector2 direction)
     {
         currWalkSpeed = UpdateSpeed(
             currWalkSpeed,
@@ -135,18 +137,10 @@ public partial class Move : Ability
         );
     }
 
-    public Godot.Vector2 GetNewVelocity(
-        float currSpeed,
-        Godot.Vector2 direction
-    )
+    public Vector2 GetNewVelocity(float currSpeed, Vector2 direction)
     {
-        Godot.Vector2 newVelocity;
-        Godot.Vector2 currVelocity = parent.Velocity;
-
-        if (currVelocity.Normalized() == (direction.Normalized() * -1.0f))
-        {
-            direction += direction.Orthogonal() * turnSpeed;
-        }
+        Vector2 newVelocity;
+        Vector2 currVelocity = parent.Velocity;
 
         newVelocity =
             (currVelocity + (direction * turnSpeed)).Normalized() * currSpeed;
@@ -154,14 +148,10 @@ public partial class Move : Ability
         return newVelocity;
     }
 
-    private void UpdateWalk(
-        float slowSpeed,
-        double delta,
-        Godot.Vector2 direction
-    )
+    private void UpdateWalk(float slowSpeed, double delta, Vector2 direction)
     {
         UpdateSpeed(slowSpeed, delta, direction);
-        Godot.Vector2 newVelocity = GetNewVelocity(currWalkSpeed, direction);
+        Vector2 newVelocity = GetNewVelocity(currWalkSpeed, direction);
 
         if (
             playSound
@@ -172,7 +162,7 @@ public partial class Move : Ability
             playFootstepSound();
         }
 
-        parent.SetVelocity(newVelocity);
+        parent.SetVelocity(newVelocity.LimitLength(maxWalkSpeed));
 
         var collision = parent.MoveAndCollide(parent.Velocity * (float)delta);
         if (collision != null)
