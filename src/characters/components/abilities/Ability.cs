@@ -1,8 +1,7 @@
 namespace Game.Component;
 
-using Godot;
 using Game.Entity;
-
+using Godot;
 
 public partial class Ability : Component
 {
@@ -14,13 +13,12 @@ public partial class Ability : Component
     private Timer cooldownTimer;
     public bool onCooldown = false;
 
-    public bool isActive { private set; get; } = false;
+    public bool isActive { set; get; } = false;
 
     private AnimationHandler _animHandler;
     public AnimationHandler animHandler
     {
         private set => _animHandler = value;
-
         get
         {
             if (_animHandler == null)
@@ -33,7 +31,6 @@ public partial class Ability : Component
     public Move move
     {
         private set => _move = value;
-
         get
         {
             if (_move == null)
@@ -45,7 +42,6 @@ public partial class Ability : Component
     public new CharacterBase parent
     {
         protected set => _parent = value;
-
         get
         {
             if (_parent == null)
@@ -58,7 +54,6 @@ public partial class Ability : Component
     public AbilityManager ablManager
     {
         private set => _ablManager = value;
-
         get
         {
             if (_ablManager == null)
@@ -71,7 +66,6 @@ public partial class Ability : Component
     public Mana manaManager
     {
         private set => _manaManager = value;
-
         get
         {
             if (_manaManager == null)
@@ -80,7 +74,8 @@ public partial class Ability : Component
         }
     }
 
-    [Export] public float cost = 1.0f;
+    [Export]
+    public float cost = 1.0f;
 
     private AudioStreamPlayer2D _ability_audioplayer;
     protected AudioStreamPlayer2D ability_audioplayer
@@ -92,8 +87,9 @@ public partial class Ability : Component
             {
                 if (HasNode("Ability_AudioPlayer"))
                 {
-                    _ability_audioplayer =
-                        GetNode<AudioStreamPlayer2D>("Ability_AudioPlayer");
+                    _ability_audioplayer = GetNode<AudioStreamPlayer2D>(
+                        "Ability_AudioPlayer"
+                    );
                 }
             }
 
@@ -134,27 +130,28 @@ public partial class Ability : Component
 
     public virtual void Released()
     {
-        if (!isActive) return;
+        if (!isActive)
+            return;
 
-        StartCooldown();
         End();
     }
-
 
     public virtual void Trigger()
     {
         isActive = manaManager.CanUseMana(cost);
         manaManager.UseMana(cost);
+
+        parent.currAbility?.End();
+        parent.currAbility = this;
     }
 
-    public virtual void Update(double delta)
-    {
-
-    }
+    public virtual void Update(double delta) { }
 
     public virtual void End()
     {
+        StartCooldown();
         isActive = false;
+        parent.currAbility = null;
     }
 
     public void StartCooldown()

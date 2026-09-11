@@ -1,24 +1,23 @@
 namespace Game.Component;
 
 using Godot;
-using System;
-using Game.Entity;
 
 /// <summary>
 /// TODO: Create hit trigger/effect
 /// TODO: if using shield and hit by attack convert to mana (limited amount?)
 /// </summary>
-
 public partial class Shield : Ability
 {
     private bool tookDamage = false;
-    [Signal] public delegate void startShieldEventHandler();
-    [Signal] public delegate void endShieldEventHandler();
 
-    public Shield() : base("shield")
-    {
+    [Signal]
+    public delegate void startShieldEventHandler();
 
-    }
+    [Signal]
+    public delegate void endShieldEventHandler();
+
+    public Shield()
+        : base("shield") { }
 
     public override void _Ready()
     {
@@ -26,7 +25,6 @@ public partial class Shield : Ability
 
         parent.Damaged += WasDamaged;
     }
-
 
     public override void Trigger()
     {
@@ -43,13 +41,13 @@ public partial class Shield : Ability
 
     public override void Released()
     {
-        if (!isActive) return;
+        if (!isActive)
+            return;
 
         if (tookDamage)
             StartCooldown();
         End();
     }
-
 
     public override void Update(double delta)
     {
@@ -61,7 +59,8 @@ public partial class Shield : Ability
 
     public override void End()
     {
-        base.End();
+        isActive = false;
+        parent.currAbility = null;
 
         animHandler.PlayAnimation("shield_end", mouseRef.mouseDir);
         animHandler.canAdvance = false;
@@ -71,7 +70,8 @@ public partial class Shield : Ability
 
     private void WasDamaged(float damageAmount)
     {
-        if (!isActive) return;
+        if (!isActive)
+            return;
 
         Mana mana = parent.GetComponent<Mana>();
         mana.RestoreMana(10.0f * damageAmount);

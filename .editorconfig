@@ -1,5 +1,10 @@
 root = true
 
+[*.gd]
+max_line_length = 80
+indent_style = space
+indent_size = 4
+
 [*.cs]
 # BasedOnStyle: LLVM & Tab Rules
 indent_style = space

@@ -97,7 +97,6 @@ public partial class Move : Ability
             float dot = normVel.Dot(direction);
             if (dot < -0.7f)
             {
-                GD.Print(dot);
                 currSpeed -= acceleration * (float)delta;
             }
             else

@@ -105,7 +105,6 @@ public partial class Combo : Ability
             }
             else
             {
-                StartCooldown();
                 End();
             }
         }

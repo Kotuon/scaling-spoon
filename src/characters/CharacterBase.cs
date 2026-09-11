@@ -1,5 +1,6 @@
 namespace Game.Entity;
 
+using Game.Component;
 using Godot;
 
 public partial class CharacterBase : CharacterBody2D, IDamageable
@@ -12,6 +13,8 @@ public partial class CharacterBase : CharacterBody2D, IDamageable
 
     [Signal]
     public delegate void DeathEventHandler();
+
+    public Ability currAbility = null;
 
     // [Export] protected Godot.Collections.Dictionary attributes;
 

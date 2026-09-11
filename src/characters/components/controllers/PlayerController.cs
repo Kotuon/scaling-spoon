@@ -1,10 +1,6 @@
 namespace Game.Component;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Godot;
-using Godot.Collections;
 
 enum InputState : int
 {
