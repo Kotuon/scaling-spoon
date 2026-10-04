@@ -17,6 +17,8 @@ public partial class MoveToOffset : ObstacleComponent
     private float totalTime;
     private bool returnPass = false;
 
+    private bool defuseReturn = false;
+
     [Export]
     private Curve tCurveStart;
 
@@ -92,48 +94,76 @@ public partial class MoveToOffset : ObstacleComponent
         else
         {
             if (!enabled)
-                return;
-
-            totalTime += (float)delta;
-
-            float t = 0.0f;
-
-            if (totalTime < tCurveStart.MaxDomain)
             {
-                t = tCurveStart.Sample(totalTime);
-            }
-            else if (
-                runOnce || (needTriggerEachRun && !returnPass) /* tCurveReturn == null */
-            )
-            {
-                ResetKeys();
-                enabled = false;
-                returnPass = true;
-                return;
-            }
-            else if (totalTime < tCurveStart.MaxDomain + tCurveReturn.MaxDomain)
-            {
-                t = tCurveReturn.Sample(totalTime - tCurveStart.MaxDomain);
+                if (
+                    !defuseReturn
+                    && !parent.Position.IsEqualApprox(startPosition)
+                )
+                {
+                    defuseReturn = true;
+                    // interp back to start
+                    Tween tween = GetTree().CreateTween();
+                    tween.TweenProperty(
+                        parent,
+                        "position",
+                        startPosition,
+                        1.0f
+                    );
+                    totalTime = 0.0f;
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {
-                totalTime = 0.0f;
+                defuseReturn = false;
 
-                if (needTriggerEachRun)
+                totalTime += (float)delta;
+
+                float t = 0.0f;
+
+                if (totalTime < tCurveStart.MaxDomain)
+                {
+                    t = tCurveStart.Sample(totalTime);
+                }
+                else if (
+                    runOnce || (needTriggerEachRun && !returnPass) /* tCurveReturn == null */
+                )
                 {
                     ResetKeys();
                     enabled = false;
-                    returnPass = false;
+                    returnPass = true;
+                    return;
                 }
+                else if (
+                    totalTime
+                    < tCurveStart.MaxDomain + tCurveReturn.MaxDomain
+                )
+                {
+                    t = tCurveReturn.Sample(totalTime - tCurveStart.MaxDomain);
+                }
+                else
+                {
+                    totalTime = 0.0f;
+
+                    if (needTriggerEachRun)
+                    {
+                        ResetKeys();
+                        enabled = false;
+                        returnPass = false;
+                    }
+                }
+
+                Vector2 lastPosition = parent.Position;
+                parent.Position = startPosition.Lerp(
+                    startPosition + targetPosition,
+                    t
+                );
+
+                parent.EmitSignal(Obstacle.SignalName.moved, lastPosition);
             }
-
-            Vector2 lastPosition = parent.Position;
-            parent.Position = startPosition.Lerp(
-                startPosition + targetPosition,
-                t
-            );
-
-            parent.EmitSignal(Obstacle.SignalName.moved, lastPosition);
         }
     }
 }

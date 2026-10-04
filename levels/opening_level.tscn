@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://qx43v07wpu10"]
+
+[ext_resource type="Script" uid="uid://eptdpk0dadic" path="res://levels/ChunkPlacer.cs" id="1_e7lxf"]
+[ext_resource type="Script" uid="uid://bhjevbi20fseu" path="res://levels/ChildNodeSave.cs" id="2_kyo5s"]
+[ext_resource type="PackedScene" uid="uid://dg1kd7etfw7en" path="res://levels/opening_level/0,0.tscn" id="3_cnv6j"]
+[ext_resource type="PackedScene" uid="uid://bskcca4a7ivsi" path="res://levels/opening_level/0,1.tscn" id="4_cl0kk"]
+[ext_resource type="PackedScene" uid="uid://de271tm4kog24" path="res://player/Player.tscn" id="6_3w6w7"]
+
+[node name="opening_level" type="Node2D" unique_id=1597067820]
+texture_filter = 1
+script = ExtResource("1_e7lxf")
+
+[node name="TileMaps" type="Node2D" parent="." unique_id=2077878477]
+script = ExtResource("2_kyo5s")
+
+[node name="0,0" parent="TileMaps" unique_id=786464921 instance=ExtResource("3_cnv6j")]
+
+[node name="0,1" parent="TileMaps" unique_id=655357640 instance=ExtResource("4_cl0kk")]
+position = Vector2(0, -3072)
+
+[node name="YSort" type="Node2D" parent="." unique_id=1474095499]
+y_sort_enabled = true
+
+[node name="Player" parent="YSort" unique_id=442372263 instance=ExtResource("6_3w6w7")]
+position = Vector2(0, 1489)
+
+[node name="PlayerStartPosition" type="Node2D" parent="YSort" unique_id=1141285875]
+position = Vector2(0, 1489)

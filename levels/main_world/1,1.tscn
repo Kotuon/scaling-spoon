@@ -105,6 +105,7 @@ restore_amount = 100.0
 [node name="InfusibleKey" parent="." unique_id=927199951 instance=ExtResource("5_dhh10")]
 position = Vector2(-736.6667, 884.6667)
 scale = Vector2(0.667, 0.667)
+timeToDefuse = 2.0
 
 [node name="InfusibleKey2" parent="." unique_id=1082854787 instance=ExtResource("5_dhh10")]
 position = Vector2(-732, -130.00012)
@@ -360,7 +361,7 @@ scale = Vector2(4, 1)
 mesh = SubResource("QuadMesh_2704r")
 
 [node name="ProjectileKey" parent="." unique_id=761416147 instance=ExtResource("16_4vqwo")]
-position = Vector2(-810, -787.3334)
+position = Vector2(-666.6666, -787.3334)
 
 [node name="ProjectileKey2" parent="." unique_id=1144774839 instance=ExtResource("16_4vqwo")]
 position = Vector2(698, -394.6667)

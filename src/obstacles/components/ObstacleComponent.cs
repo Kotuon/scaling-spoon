@@ -45,7 +45,7 @@ public partial class ObstacleComponent : Node2D, IAutoDoor
     {
         base._Process(delta);
 
-        if (!enabled && keys.Count > 0)
+        if (keys.Count > 0)
             enabled = CheckIfShouldActivate();
     }
 

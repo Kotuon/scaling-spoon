@@ -1,0 +1,147 @@
+[gd_scene format=3 uid="uid://bkobawlg5382i"]
+
+[ext_resource type="Script" uid="uid://b7qgix8x70b30" path="res://src/items/ManaSphere.cs" id="1_i5b1y"]
+[ext_resource type="Texture2D" uid="uid://cuv1yevfk1ygl" path="res://assets/art/Environment/Props/animated/golden chalice 64x64-no spirits-less shiny.png" id="2_1dfh0"]
+[ext_resource type="Shader" uid="uid://bafiutklb4bh3" path="res://shaders/InfusibleKey.gdshader" id="2_fkgji"]
+[ext_resource type="AudioStream" uid="uid://r8pnmokye0e2" path="res://assets/audio/items/Fantasy_Game_Item_Collect_Magic_G.wav" id="3_1dfh0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nj8n4"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o06ul"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yt31n"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5yrcl"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ls6i"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_skarv"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fwsn"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g46ak"]
+atlas = ExtResource("2_1dfh0")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y10a3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nj8n4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o06ul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yt31n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5yrcl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ls6i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_skarv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fwsn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g46ak")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_pbj56"]
+noise_type = 3
+frequency = 0.005
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tug5k"]
+noise = SubResource("FastNoiseLite_pbj56")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pbj56"]
+shader = ExtResource("2_fkgji")
+shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
+shader_parameter/speed = 0.65
+shader_parameter/alpha_scale = 1.0
+shader_parameter/pixelation_amount = 10.0000004275
+
+[sub_resource type="QuadMesh" id="QuadMesh_pbj56"]
+size = Vector2(20, 20)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tug5k"]
+shader = ExtResource("2_fkgji")
+shader_parameter/color = Color(0.25882354, 0.8509804, 1, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
+shader_parameter/speed = 0.65
+shader_parameter/alpha_scale = 2.0
+shader_parameter/pixelation_amount = 15.000000665
+
+[sub_resource type="QuadMesh" id="QuadMesh_rerfb"]
+size = Vector2(20, 20)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rerfb"]
+shader = ExtResource("2_fkgji")
+shader_parameter/color = Color(1, 1, 1, 0)
+shader_parameter/noise = SubResource("NoiseTexture2D_tug5k")
+shader_parameter/speed = 0.65
+shader_parameter/alpha_scale = 0.26
+shader_parameter/pixelation_amount = 15.000000665
+
+[sub_resource type="QuadMesh" id="QuadMesh_tug5k"]
+size = Vector2(20, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2do5a"]
+
+[node name="ManaSphere" type="Area2D" unique_id=1015641084]
+scale = Vector2(4, 4)
+collision_layer = 4
+script = ExtResource("1_i5b1y")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=864924027]
+texture_filter = 1
+position = Vector2(0, -4.25)
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_y10a3")
+frame_progress = 0.20953123
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1474011876]
+modulate = Color(0.26, 0.85199976, 1, 1)
+material = SubResource("ShaderMaterial_pbj56")
+mesh = SubResource("QuadMesh_pbj56")
+
+[node name="MeshInstance2D2" type="MeshInstance2D" parent="." unique_id=273439607]
+modulate = Color(0.26, 0.85199976, 1, 1)
+material = SubResource("ShaderMaterial_tug5k")
+mesh = SubResource("QuadMesh_rerfb")
+
+[node name="MeshInstance2D3" type="MeshInstance2D" parent="." unique_id=145559663]
+modulate = Color(0.26, 0.85199976, 1, 1)
+material = SubResource("ShaderMaterial_rerfb")
+mesh = SubResource("QuadMesh_tug5k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1879048778]
+visible = false
+shape = SubResource("CircleShape2D_2do5a")
+
+[node name="PickupSound" type="AudioStreamPlayer2D" parent="." unique_id=1349182277]
+stream = ExtResource("3_1dfh0")

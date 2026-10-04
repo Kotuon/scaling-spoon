@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cebpu2g075ah3" path="res://assets/art/Environment/Props/animated/Obelisk1-animation1-activating-70x150.png" id="4_t5bob"]
 [ext_resource type="Texture2D" uid="uid://b53qnh3rqguu2" path="res://assets/art/Environment/Props/animated/Obelisk1-animation2-activated-70x150.png" id="5_avecj"]
 [ext_resource type="FontFile" uid="uid://cnv5trghp6um2" path="res://assets/fonts/OpenDyslexic-Regular.otf" id="6_51p8r"]
+[ext_resource type="Theme" uid="uid://clercpxyi78aa" path="res://themes/UIThemes.tres" id="8_wssly"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wssly"]
 shader = ExtResource("2_syrrh")
@@ -251,22 +252,30 @@ libraries/ = SubResource("AnimationLibrary_t5bob")
 libraries/Obelisk = SubResource("AnimationLibrary_avecj")
 
 [node name="Control" type="Control" parent="." unique_id=1831388088]
-visible = false
 z_index = 2
 layout_mode = 3
 anchors_preset = 0
-offset_left = -58.0
-offset_right = -58.0
 
 [node name="ColorRect" type="ColorRect" parent="Control" unique_id=317323176]
+visible = false
 layout_mode = 0
-offset_right = 117.0
+offset_left = -58.0
+offset_right = 59.0
 offset_bottom = 42.0
 color = Color(0.14, 0.14, 0.14, 0.40784314)
 
-[node name="Label" type="Label" parent="Control" unique_id=1837446379]
+[node name="Label" type="Label" parent="Control/ColorRect" unique_id=1837446379]
 layout_mode = 0
 offset_right = 117.0
 offset_bottom = 42.0
 text = "(F) Infuse"
 label_settings = SubResource("LabelSettings_syrrh")
+
+[node name="ManaBar" type="ProgressBar" parent="Control" unique_id=982201104]
+layout_mode = 0
+offset_left = -40.0
+offset_top = -245.0
+offset_right = 40.0
+offset_bottom = -235.0
+theme = ExtResource("8_wssly")
+show_percentage = false
