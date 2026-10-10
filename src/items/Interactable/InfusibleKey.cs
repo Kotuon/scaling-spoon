@@ -92,9 +92,7 @@ public partial class InfusibleKey : Key, IInteractable
             currMana -= neededMana / timeToDefuse * (float)delta;
             if (currMana < 0.0f)
             {
-                currMana = 0.0f;
-                completed = false;
-                shouldDrain = false;
+                Defuse();
             }
         }
 
@@ -131,6 +129,18 @@ public partial class InfusibleKey : Key, IInteractable
 
         animPlayer.AnimationSetNext("Obelisk/activate", "Obelisk/idle");
         animPlayer.Play("Obelisk/activate");
+    }
+
+    private void Defuse()
+    {
+        Tween tween = GetTree().CreateTween();
+        tween.TweenProperty(this, "currMana", 0.0f, timeToDefuse);
+
+        completed = false;
+        label.Visible = false;
+        shouldDrain = false;
+
+        animPlayer.Play("Obelisk/deactivate");
     }
 
     public override void _Input(InputEvent @event)
